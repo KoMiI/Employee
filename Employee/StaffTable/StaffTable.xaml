@@ -1,0 +1,26 @@
+﻿<Window x:Class="Employee.StaffTable.StaffTable"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Employee.StaffTable"
+        mc:Ignorable="d"
+        Title="StaffTable" Height="423" Width="823.333">
+    <Grid Margin="0,0,2,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Дата" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="33" Width="44"/>
+        <DatePicker HorizontalAlignment="Left" Margin="74,10,0,0" VerticalAlignment="Top" Height="26" Width="190"/>
+        <Button Content="Печать" HorizontalAlignment="Left" Margin="652,10,0,0" VerticalAlignment="Top" Width="151" Click="Button_Click" Height="26"/>
+        <Button Content="Добавить позицию" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="158" Height="26" Click="Button_Click"/>
+        <Button Content="Удалить" HorizontalAlignment="Left" Margin="195,69,0,0" VerticalAlignment="Top" Width="127" Height="26"/>
+        <Button Content="Упорядочить" HorizontalAlignment="Left" Margin="372,69,0,0" VerticalAlignment="Top" Width="164" Height="26"/>
+        <Label Content="Фильтр" HorizontalAlignment="Left" Margin="564,65,0,0" VerticalAlignment="Top" Height="34" Width="63"/>
+        <DataGrid HorizontalAlignment="Left" Height="266" Margin="10,116,-155,-69" VerticalAlignment="Top" Width="796" Grid.ColumnSpan="3"/>
+        <ComboBox HorizontalAlignment="Left" Margin="633,66,-155,0" VerticalAlignment="Top" Width="173" Grid.ColumnSpan="3" Height="29"/>
+
+    </Grid>
+</Window>

@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="StaffTable\AddStaffTableItem.xaml.cs" />
+    <Compile Include="StaffTable\StaffTable.xaml.cs" />
     <Page Include="Login\LoginFormWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

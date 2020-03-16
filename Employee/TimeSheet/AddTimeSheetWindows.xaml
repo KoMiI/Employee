@@ -1,0 +1,35 @@
+﻿<Window x:Class="Employee.TimeSheet.AddTimeSheetWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Employee.TimeSheet"
+        mc:Ignorable="d"
+        Title="AddTimeSheetWindows" Height="300" Width="400">
+    <Grid x:Name="Data" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Отчетный период" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"/>
+        <Label Content="С" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
+        <Label Content="По" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3"/>
+        <DatePicker Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left"/>
+        <DatePicker Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left"/>
+        <ComboBox Grid.Column="1" Grid.Row="0">
+            <TextBlock>Хиругрия</TextBlock>
+            <TextBlock>Терапия</TextBlock>
+            <TextBlock>Реанимация</TextBlock>
+        </ComboBox>
+        <Label Grid.Row="0" Grid.Column="0" Content="Подразделение"/>
+        <Button Grid.Row="3" Grid.ColumnSpan="4" Content="Добавить" Height="30" Width="100" ></Button>
+    </Grid>
+</Window>

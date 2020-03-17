@@ -23,5 +23,15 @@ namespace Employee.PersonalCard
         {
             InitializeComponent();
         }
+
+        private void richTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void comboBox_Copy6_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

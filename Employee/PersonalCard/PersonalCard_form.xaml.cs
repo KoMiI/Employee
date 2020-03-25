@@ -24,6 +24,34 @@ namespace Employee.PersonalCard
             InitializeComponent();
         }
 
+        private void RecruitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Recruitment_form winR = new Recruitment_form();
+            winR.Closed += Window_Closed;
+            winR.Show();
+        }
+
+        private void EducationBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Window1 winE = new Window1();
+            winE.Closed += Window_Closed;
+            winE.Show();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            try
+            {
+               Window win = ((Window)sender);
+               win.Closed -= Window_Closed;
+               this.Show();
+            }
+            catch (Exception) { this.Close(); }
+
+        }
+
         private void richTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -33,5 +61,6 @@ namespace Employee.PersonalCard
         {
 
         }
+
     }
 }

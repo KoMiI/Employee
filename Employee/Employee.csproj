@@ -74,14 +74,28 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PersonalCard\PersonalCard_RW.xaml">
+    <Page Include="PersonalCard\PersonalCard_form.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PersonalCard\Recruitment_form.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PersonalCard\Education_form.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PersonalCard\PersonalCard_RW.xaml.cs">
-      <DependentUpon>PersonalCard_RW.xaml</DependentUpon>
+    <Compile Include="PersonalCard\PersonalCard_form.xaml.cs">
+      <DependentUpon>PersonalCard_form.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PersonalCard\Recruitment_form.xaml.cs">
+      <DependentUpon>Recruitment_form.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PersonalCard\Education_form.xaml.cs">
+      <DependentUpon>Education_form.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

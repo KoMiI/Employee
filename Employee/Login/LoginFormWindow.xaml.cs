@@ -25,7 +25,7 @@ namespace Employee.Login
         }
 
         private void LoginButton_OnClick(object sender, RoutedEventArgs e) {
-            
+
         }
     }
 }

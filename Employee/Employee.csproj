@@ -55,8 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TimeSheet\AddTimeSheetWindows.xaml.cs">
-      <DependentUpon>AddTimeSheetWindows.xaml</DependentUpon>
+    <Compile Include="TimeSheet\CreateTimeSheetWindow.xaml.cs">
+      <DependentUpon>CreateTimeSheetWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeSheet\TimeSheetWindows.xaml.cs">
       <DependentUpon>TimeSheetWindows.xaml</DependentUpon>
@@ -80,7 +80,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TimeSheet\AddTimeSheetWindows.xaml">
+    <Page Include="TimeSheet\CreateTimeSheetWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

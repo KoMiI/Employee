@@ -58,9 +58,14 @@
     <Compile Include="TimeSheet\CreateTimeSheetWindow.xaml.cs">
       <DependentUpon>CreateTimeSheetWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheet\DayViewModel.cs" />
+    <Compile Include="TimeSheet\FactViewModel.cs" />
+    <Compile Include="TimeSheet\ResultViewModel.cs" />
+    <Compile Include="TimeSheet\StringTimeTrackingViewModel.cs" />
     <Compile Include="TimeSheet\TimeSheetWindows.xaml.cs">
       <DependentUpon>TimeSheetWindows.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheet\TimeTrackingViewModel.cs" />
     <Page Include="Login\LoginFormWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

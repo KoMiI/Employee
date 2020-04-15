@@ -25,10 +25,10 @@
             </Grid.ColumnDefinitions>
 
             <Menu Grid.Row="0" Grid.ColumnSpan="4" Height="25" VerticalAlignment="Top">
-                <MenuItem Header="Добавить табель"/>
-                <MenuItem Header="Добавить позицию"/>
-                <MenuItem Header="Фильтр"/>
-                <MenuItem Header="Печать" ></MenuItem>
+                <MenuItem Header="Добавить табель" Click="AddTabelMenuItem_Click"/>
+                <MenuItem Header="Добавить позицию" Click="AddStringMenuItem_OnClick"/>
+                <MenuItem Header="Фильтр" Click="FilterMenuItem_OnClick"/>
+                <MenuItem Header="Печать" Click="PrintMenuItem_OnClick"></MenuItem>
                 <MenuItem Header="Справка" ></MenuItem>
             </Menu>
 

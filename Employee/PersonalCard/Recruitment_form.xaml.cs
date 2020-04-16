@@ -15,12 +15,11 @@ using System.Windows.Shapes;
 
 namespace Employee.PersonalCard
 {
-    /// <summary>
-    /// Логика взаимодействия для Recruitment_form.xaml
-    /// </summary>
+    ///Основная форма для сведений о приеме/переводе////
     public partial class Recruitment_form : Window
     {
 
+        /*Класс, отвечающий за информацию о рабочем месте*/
         public class WorkPlace
         {
             public DateTime DateRecruit { get; set; }
@@ -32,6 +31,7 @@ namespace Employee.PersonalCard
             public string Base { get; set; }
         }
 
+        /*Конструктор формы*/
         public Recruitment_form()
         {
             InitializeComponent();
@@ -53,6 +53,7 @@ namespace Employee.PersonalCard
             WorksGrid.ItemsSource = places;
         }
 
+        /*Нажатие на кнопку сохранения*/
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

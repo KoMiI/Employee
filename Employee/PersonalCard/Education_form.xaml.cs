@@ -14,9 +14,10 @@ using System.Windows.Shapes;
 
 namespace Employee.PersonalCard
 {
-
-    public partial class Window1 : Window
+    ///Основная форма для сведений об образовании////
+    public partial class Education_form : Window
     {
+        /*Класс, отвечающий за информацию о рабочем месте*/
         public class EducationMem
         {
             public string EduName { get; set; }
@@ -27,7 +28,8 @@ namespace Employee.PersonalCard
             public DateTime DateFinal { get; set; }
         }
 
-        public Window1()
+        /*Конструктор формы*/
+        public Education_form()
         {
             InitializeComponent();
 
@@ -48,6 +50,7 @@ namespace Employee.PersonalCard
             EduGrid.ItemsSource = places;
         }
 
+        /*Нажатие на кнопку сохранения*/
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

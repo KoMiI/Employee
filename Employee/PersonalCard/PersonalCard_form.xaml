@@ -8,77 +8,77 @@
         Title="Личная карта работника" Height="606.5" Width="800" Closed="Window_Closed" ResizeMode="NoResize">
     <Grid HorizontalAlignment="Left" Height="577" VerticalAlignment="Top" Width="792">
         <Label x:Name="label_name" Content="Личная карта работника" HorizontalAlignment="Center" Margin="276,3,253,0" VerticalAlignment="Top" Height="32" Width="263" FontSize="16" FontWeight="Bold" FontStyle="Italic" FontFamily="Bookman Old Style"/>
-        <Label Content="Дата составления:" HorizontalAlignment="Left" Margin="29,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <Label Content="Табельный номер:" HorizontalAlignment="Left" Margin="336,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <DatePicker HorizontalAlignment="Left" Margin="232,42,0,0" VerticalAlignment="Top" Width="100"/>
-        <RichTextBox x:Name="richTextBox" HorizontalAlignment="Left" Height="21" Margin="539,45,0,0" VerticalAlignment="Top" Width="223" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="DatePreparationL" Content="Дата составления:" HorizontalAlignment="Left" Margin="29,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <Label x:Name="TablelNumberL" Content="Табельный номер:" HorizontalAlignment="Left" Margin="336,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" Margin="232,42,0,0" VerticalAlignment="Top" Width="100"/>
+        <RichTextBox x:Name="TablelNumberRB" HorizontalAlignment="Left" Height="21" Margin="539,45,0,0" VerticalAlignment="Top" Width="223">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label Content="ИНН:" HorizontalAlignment="Left" Margin="29,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="richTextBox_Copy" HorizontalAlignment="Left" Height="21" Margin="68,71,0,0" VerticalAlignment="Top" Width="264" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="INNL" Content="ИНН:" HorizontalAlignment="Left" Margin="29,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <RichTextBox x:Name="INNRB" HorizontalAlignment="Left" Height="21" Margin="68,71,0,0" VerticalAlignment="Top" Width="264">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label Content="Ноомер страхового свидетельства:" HorizontalAlignment="Left" Margin="337,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="richTextBox_Copy1" HorizontalAlignment="Left" Height="21" Margin="539,72,0,0" VerticalAlignment="Top" Width="223" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="InsuranceCertificateL" Content="Ноомер страхового свидетельства:" HorizontalAlignment="Left" Margin="337,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <RichTextBox x:Name="InsuranceCertificateRB" HorizontalAlignment="Left" Height="21" Margin="539,72,0,0" VerticalAlignment="Top" Width="223" TextChanged="richTextBox_TextChanged">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label Content="ФИО:" HorizontalAlignment="Left" Margin="29,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="richTextBox_Copy2" HorizontalAlignment="Left" Height="21" Margin="68,98,0,0" VerticalAlignment="Top" Width="264" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="FIOL" Content="ФИО:" HorizontalAlignment="Left" Margin="29,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <RichTextBox x:Name="FIORB" HorizontalAlignment="Left" Height="21" Margin="68,98,0,0" VerticalAlignment="Top" Width="264" TextChanged="richTextBox_TextChanged">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label Content="Пол:" HorizontalAlignment="Left" Margin="337,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="539,98,0,0" VerticalAlignment="Top" Width="223"/>
-        <Label Content="Дата рождения:" HorizontalAlignment="Left" Margin="30,125,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <DatePicker HorizontalAlignment="Left" Margin="125,126,0,0" VerticalAlignment="Top" Width="100"/>
-        <Label Content="Место рождения:" HorizontalAlignment="Left" Margin="229,124,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <ComboBox x:Name="comboBox_Copy2" HorizontalAlignment="Left" Margin="337,127,0,0" VerticalAlignment="Top" Width="191"/>
-        <Label Content="Гражданство:" HorizontalAlignment="Left" Margin="536,124,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <ComboBox x:Name="comboBox_Copy3" HorizontalAlignment="Left" Margin="618,128,0,0" VerticalAlignment="Top" Width="144"/>
-        <Label Content="Образование:" HorizontalAlignment="Left" Margin="29,318,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <ComboBox x:Name="comboBox_Copy6" HorizontalAlignment="Left" Margin="116,322,0,0" VerticalAlignment="Top" Width="219" SelectionChanged="comboBox_Copy6_SelectionChanged"/>
-        <Label Content="Номер:" HorizontalAlignment="Left" Margin="29,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="richTextBox_Copy3" HorizontalAlignment="Left" Height="25" Margin="77,253,0,0" VerticalAlignment="Top" Width="60" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="GenderL" Content="Пол:" HorizontalAlignment="Left" Margin="337,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="539,98,0,0" VerticalAlignment="Top" Width="223"/>
+        <Label x:Name="DateBirthL" Content="Дата рождения:" HorizontalAlignment="Left" Margin="30,125,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <DatePicker x:Name="DateBirthDP" HorizontalAlignment="Left" Margin="125,126,0,0" VerticalAlignment="Top" Width="100"/>
+        <Label x:Name="PlaceBirthL" Content="Место рождения:" HorizontalAlignment="Left" Margin="229,124,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <ComboBox x:Name="PlaceBirthCB" HorizontalAlignment="Left" Margin="337,127,0,0" VerticalAlignment="Top" Width="191"/>
+        <Label x:Name="CitizenshipL" Content="Гражданство:" HorizontalAlignment="Left" Margin="536,124,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <ComboBox x:Name="CitizenshipCB" HorizontalAlignment="Left" Margin="618,128,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="TypeEducationL" Content="Образование:" HorizontalAlignment="Left" Margin="29,318,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <ComboBox x:Name="TypeEducationCB" HorizontalAlignment="Left" Margin="116,322,0,0" VerticalAlignment="Top" Width="219" SelectionChanged="comboBox_Copy6_SelectionChanged"/>
+        <Label x:Name="PassportNumnerL" Content="Номер:" HorizontalAlignment="Left" Margin="29,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <RichTextBox x:Name="PassportNumnerRB" HorizontalAlignment="Left" Height="25" Margin="77,253,0,0" VerticalAlignment="Top" Width="60" TextChanged="richTextBox_TextChanged">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label Content="Серия:" HorizontalAlignment="Left" Margin="145,252,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="richTextBox_Copy4" HorizontalAlignment="Left" Height="25" Margin="191,252,0,0" VerticalAlignment="Top" Width="60" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="PassportSerialL" Content="Серия:" HorizontalAlignment="Left" Margin="145,252,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <RichTextBox x:Name="PassportSerialRB" HorizontalAlignment="Left" Height="25" Margin="191,252,0,0" VerticalAlignment="Top" Width="60" TextChanged="richTextBox_TextChanged">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label Content="Дата выдачи:" HorizontalAlignment="Left" Margin="254,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <DatePicker HorizontalAlignment="Left" Margin="342,254,0,0" VerticalAlignment="Top" Width="101" Height="25"/>
-        <Label Content="Кем выдан:" HorizontalAlignment="Left" Margin="456,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="richTextBox_Copy5" HorizontalAlignment="Left" Height="25" Margin="526,252,0,0" VerticalAlignment="Top" Width="236" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="PassportDateL" Content="Дата выдачи:" HorizontalAlignment="Left" Margin="254,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <DatePicker x:Name="PassportDateDP" HorizontalAlignment="Left" Margin="342,254,0,0" VerticalAlignment="Top" Width="101" Height="25"/>
+        <Label x:Name="PassportIssuedL" Content="Кем выдан:" HorizontalAlignment="Left" Margin="456,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <RichTextBox x:Name="PassportIssuedRB" HorizontalAlignment="Left" Height="25" Margin="526,252,0,0" VerticalAlignment="Top" Width="236" TextChanged="richTextBox_TextChanged">
             <FlowDocument/>
         </RichTextBox>
-        <Label x:Name="UnWorkL" Content="Увольнение" HorizontalAlignment="Left" Margin="29,427,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
-        <Label x:Name="DateUnWorkL" Content="Дата увольнения:" HorizontalAlignment="Left" Margin="29,457,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontFamily="Arial"/>
-        <DatePicker x:Name="UnWorkDP" HorizontalAlignment="Left" Margin="33,483,0,0" VerticalAlignment="Top" Width="109"/>
-        <Label x:Name="BaseUnWorkL" Content="Основание:" HorizontalAlignment="Left" Margin="418,449,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontFamily="Arial"/>
-        <RichTextBox x:Name="BaseTB" HorizontalAlignment="Left" Height="74" Margin="154,483,0,0" VerticalAlignment="Top" Width="608" TextChanged="richTextBox_TextChanged">
+        <Label x:Name="DismissalL" Content="Увольнение" HorizontalAlignment="Left" Margin="29,427,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="DismissalL1" Content="Дата увольнения:" HorizontalAlignment="Left" Margin="29,457,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontFamily="Arial"/>
+        <DatePicker x:Name="DismissalDP" HorizontalAlignment="Left" Margin="33,483,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label x:Name="ReasonDismissalL" Content="Основание:" HorizontalAlignment="Left" Margin="418,449,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontFamily="Arial"/>
+        <RichTextBox x:Name="ReasonDismissalRB" HorizontalAlignment="Left" Height="74" Margin="154,483,0,0" VerticalAlignment="Top" Width="608" TextChanged="richTextBox_TextChanged">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -87,11 +87,11 @@
         </RichTextBox>
         <Label x:Name="RecruitL" Content="Приём / перевод на работу" HorizontalAlignment="Left" Margin="29,355,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
         <Button x:Name="RecruitBtn" Content="Открыть таблицу перевода/ приёма" HorizontalAlignment="Left" Margin="34,384,0,0" VerticalAlignment="Top" Width="257" Height="30" FontFamily="Constantia" FontStyle="Italic" FontSize="14" Click="RecruitBtn_Click"/>
-        <Label x:Name="RecruitL_Copy" Content="Сведения об образовании:" HorizontalAlignment="Left" Margin="344,319,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
+        <Label x:Name="EducationsL1" Content="Сведения об образовании:" HorizontalAlignment="Left" Margin="344,319,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
         <Button x:Name="EducationBtn" Content="Открыть таблицу об образовании" HorizontalAlignment="Left" Margin="505,318,0,0" VerticalAlignment="Top" Width="257" Height="30" FontFamily="Constantia" FontStyle="Italic" FontSize="14" Click="EducationBtn_Click"/>
-        <Label x:Name="RecruitL_Copy1" Content="Образование" HorizontalAlignment="Left" Margin="29,289,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
-        <Label x:Name="RecruitL_Copy2" Content="Паспортные данные" HorizontalAlignment="Left" Margin="29,221,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
-        <Label x:Name="RecruitL_Copy3" Content="Знание языков" HorizontalAlignment="Left" Margin="29,159,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="EducationsL" Content="Образование" HorizontalAlignment="Left" Margin="29,289,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="PassportL" Content="Паспортные данные" HorizontalAlignment="Left" Margin="29,221,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="LanguagesL" Content="Знание языков" HorizontalAlignment="Left" Margin="29,159,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
         <Button x:Name="LanguageBtn" Content="Открыть таблицу знания языков" HorizontalAlignment="Left" Margin="33,187,0,0" VerticalAlignment="Top" Width="257" Height="30" FontFamily="Constantia" FontStyle="Italic" FontSize="14" Click="LanguageBtn_Click"/>
     </Grid>
 </Window>

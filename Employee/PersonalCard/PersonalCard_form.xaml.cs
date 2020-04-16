@@ -13,34 +13,41 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Employee.PersonalCard
-{
-    /// <summary>
-    /// Логика взаимодействия для PersonalCard_RW.xaml
-    /// </summary>
+{ 
+
+    ///Основная форма для личной карты////
     public partial class PersonalCard_RW : Window
     {
+        /*Класс, отвечающий за информацию одной личной карты*/
+        public class PersonalCard {
+            public DateTime DatePreparation { get; set; }                   // Дата составления
+            public string TablelNumber { get; set; }                        // Табельный номер
+            public string INN { get; set; }                                 // ИНН
+            public string InsuranceCertificate{ get; set; }                 // Номер страхового свидетельства
+            public string FIO { get; set; }                                 // ФИО сотрудника
+            public char Gender { get; set; }                                // Пол сотрудника
+            public DateTime DateBirth { get; set; }                         // Дата рождения
+            public string PlaceBirth { get; set; }                          // Место рождения
+            public string Citizenship { get; set; }                         // Гражданство
+            public Language_form.Lang Languages { get; set; }               // Знание языков
+            public int PassportNumner { get; set; }                         // Номер паспорта
+            public string PassportSerial { get; set; }                      // Серия паспорта
+            public DateTime PassportDate { get; set; }                      // Дата выдачи паспорта
+            public string PassportIssued { get; set; }                      // Кем выдан паспорт
+            public string TypeEducation { get; set; }                       // Образование
+            public Education_form.EducationMem Educations { get; set; }     // Сведения об образованиях
+            public Recruitment_form.WorkPlace WorkPlaces { get; set; }      // Сведения о приеме / переводе
+            public DateTime DateDismissal { get; set; }                     // Дата увольнения
+            public string ReasonDismissal { get; set; }                     // Основание увольнения
+        }
+
+        /*Конструктор формы*/
         public PersonalCard_RW()
         {
             InitializeComponent();
         }
 
-        private void RecruitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            Recruitment_form winR = new Recruitment_form();
-            winR.Closed += Window_Closed;
-            winR.Show();
-        }
-
-        private void EducationBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            Window1 winE = new Window1();
-            winE.Closed += Window_Closed;
-            winE.Show();
-        }
-
-
+        /*Нажатие на кнопку языков*/
         private void LanguageBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -49,6 +56,25 @@ namespace Employee.PersonalCard
             winL.Show();
         }
 
+        /*Нажатие на кнопку образования*/
+        private void EducationBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Education_form winE = new Education_form();
+            winE.Closed += Window_Closed;
+            winE.Show();
+        }
+
+        /*Нажатие на кнопку приема/перевода*/
+        private void RecruitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Recruitment_form winR = new Recruitment_form();
+            winR.Closed += Window_Closed;
+            winR.Show();
+        }
+
+        /*Закрытие окна*/
         private void Window_Closed(object sender, EventArgs e)
         {
             try
@@ -58,18 +84,6 @@ namespace Employee.PersonalCard
                this.Show();
             }
             catch (Exception) { this.Close(); }
-
         }
-
-        private void richTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void comboBox_Copy6_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
     }
 }

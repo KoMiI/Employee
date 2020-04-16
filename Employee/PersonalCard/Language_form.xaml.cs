@@ -14,26 +14,25 @@ using System.Windows.Shapes;
 
 namespace Employee.PersonalCard
 {
-    /// <summary>
-    /// Логика взаимодействия для Language_form.xaml
-    /// </summary>
+    ///Основная форма для знания языков////
     public partial class Language_form : Window
     {
-
-        public class Language
+        /*Класс, отвечающий за информацию о языке*/
+        public class Lang
         {
             public string NameLang { get; set; }
             public string DegreeLang { get; set; }
         }
 
+        /*Конструктор формы*/
         public Language_form()
         {
             InitializeComponent();
-            List<Language> lang = new List<Language>();
+            List<Lang> lang = new List<Lang>();
 
             //Для проверки записей
             for (int i = 0; i < 50; i++)
-                lang.Add(new Language()
+                lang.Add(new Lang()
                 {
                     NameLang = "Русский" + (i+1),
                     DegreeLang = "Свободно",
@@ -42,6 +41,7 @@ namespace Employee.PersonalCard
             LangGrid.ItemsSource = lang;
         }
 
+        /*Нажатие на кнопку сохранения*/
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

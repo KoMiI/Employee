@@ -16,7 +16,7 @@
 
                 <DataGrid.Columns>
 
-                    <DataGridTextColumn Header=" Наименование заведения" Binding="{Binding EduName}" Width="265"/>
+                    <DataGridTextColumn Header="Наименование заведения" Binding="{Binding EduName}" Width="265"/>
                     <DataGridTextColumn Header="Направление" Binding="{Binding EduSpecial}" Width="100"/>
 
                     <DataGridTextColumn Header="Наименование документа" Binding="{Binding EduDocName}" Width="160"/>
@@ -32,6 +32,48 @@
                     </DataGridTemplateColumn>
 
                 </DataGrid.Columns>
+
+
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <DockPanel Background="GhostWhite">
+                            <Grid Margin="10,10">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Наименование заведения:   " FontWeight="Bold"/>
+                                <TextBlock Text="{Binding EduName}" Grid.Column="1" />
+
+                                <TextBlock Text="Направление:   " FontWeight="Bold" Grid.Row="1" />
+                                <TextBlock Text="{Binding EduSpecial}" Grid.Column="1" Grid.Row="1" />
+
+                                <TextBlock Text="Наименование документа: " FontWeight="Bold" Grid.Row="2" />
+                                <TextBlock Text="{Binding EduDocName}" Grid.Column="1" Grid.Row="2" />
+
+                                <TextBlock Text="Серия документа:   " FontWeight="Bold" Grid.Row="3" />
+                                <TextBlock Text="{Binding EduDocSer}" Grid.Column="1" Grid.Row="3" />
+
+                                <TextBlock Text="Номер документа:   " FontWeight="Bold" Grid.Row="4" />
+                                <TextBlock Text="{Binding EduDocNum}" Grid.Column="1" Grid.Row="4" />
+
+                                <TextBlock Text="Дата окончания:   " FontWeight="Bold" Grid.Row="5"/>
+                                <TextBlock Text="{Binding DateFinal, StringFormat=d}" Grid.Column="1" Grid.Row="5"/>
+
+                            </Grid>
+                        </DockPanel>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
 
 
             </DataGrid>

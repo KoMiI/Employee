@@ -40,6 +40,15 @@ namespace Employee.PersonalCard
             winE.Show();
         }
 
+
+        private void LanguageBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Language_form winL = new Language_form();
+            winL.Closed += Window_Closed;
+            winL.Show();
+        }
+
         private void Window_Closed(object sender, EventArgs e)
         {
             try

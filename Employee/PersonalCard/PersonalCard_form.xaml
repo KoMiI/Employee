@@ -27,7 +27,7 @@
             </FlowDocument>
         </RichTextBox>
         <Label x:Name="InsuranceCertificateL" Content="Ноомер страхового свидетельства:" HorizontalAlignment="Left" Margin="337,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="InsuranceCertificateRB" HorizontalAlignment="Left" Height="21" Margin="539,72,0,0" VerticalAlignment="Top" Width="223" TextChanged="richTextBox_TextChanged">
+        <RichTextBox x:Name="InsuranceCertificateRB" HorizontalAlignment="Left" Height="21" Margin="539,72,0,0" VerticalAlignment="Top" Width="223">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -35,7 +35,7 @@
             </FlowDocument>
         </RichTextBox>
         <Label x:Name="FIOL" Content="ФИО:" HorizontalAlignment="Left" Margin="29,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="FIORB" HorizontalAlignment="Left" Height="21" Margin="68,98,0,0" VerticalAlignment="Top" Width="264" TextChanged="richTextBox_TextChanged">
+        <RichTextBox x:Name="FIORB" HorizontalAlignment="Left" Height="21" Margin="68,98,0,0" VerticalAlignment="Top" Width="264">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -51,9 +51,9 @@
         <Label x:Name="CitizenshipL" Content="Гражданство:" HorizontalAlignment="Left" Margin="536,124,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
         <ComboBox x:Name="CitizenshipCB" HorizontalAlignment="Left" Margin="618,128,0,0" VerticalAlignment="Top" Width="144"/>
         <Label x:Name="TypeEducationL" Content="Образование:" HorizontalAlignment="Left" Margin="29,318,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <ComboBox x:Name="TypeEducationCB" HorizontalAlignment="Left" Margin="116,322,0,0" VerticalAlignment="Top" Width="219" SelectionChanged="comboBox_Copy6_SelectionChanged"/>
+        <ComboBox x:Name="TypeEducationCB" HorizontalAlignment="Left" Margin="116,322,0,0" VerticalAlignment="Top" Width="219"/>
         <Label x:Name="PassportNumnerL" Content="Номер:" HorizontalAlignment="Left" Margin="29,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="PassportNumnerRB" HorizontalAlignment="Left" Height="25" Margin="77,253,0,0" VerticalAlignment="Top" Width="60" TextChanged="richTextBox_TextChanged">
+        <RichTextBox x:Name="PassportNumnerRB" HorizontalAlignment="Left" Height="25" Margin="77,253,0,0" VerticalAlignment="Top" Width="60">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -61,7 +61,7 @@
             </FlowDocument>
         </RichTextBox>
         <Label x:Name="PassportSerialL" Content="Серия:" HorizontalAlignment="Left" Margin="145,252,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="PassportSerialRB" HorizontalAlignment="Left" Height="25" Margin="191,252,0,0" VerticalAlignment="Top" Width="60" TextChanged="richTextBox_TextChanged">
+        <RichTextBox x:Name="PassportSerialRB" HorizontalAlignment="Left" Height="25" Margin="191,252,0,0" VerticalAlignment="Top" Width="60">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -71,14 +71,14 @@
         <Label x:Name="PassportDateL" Content="Дата выдачи:" HorizontalAlignment="Left" Margin="254,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
         <DatePicker x:Name="PassportDateDP" HorizontalAlignment="Left" Margin="342,254,0,0" VerticalAlignment="Top" Width="101" Height="25"/>
         <Label x:Name="PassportIssuedL" Content="Кем выдан:" HorizontalAlignment="Left" Margin="456,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423"/>
-        <RichTextBox x:Name="PassportIssuedRB" HorizontalAlignment="Left" Height="25" Margin="526,252,0,0" VerticalAlignment="Top" Width="236" TextChanged="richTextBox_TextChanged">
+        <RichTextBox x:Name="PassportIssuedRB" HorizontalAlignment="Left" Height="25" Margin="526,252,0,0" VerticalAlignment="Top" Width="236">
             <FlowDocument/>
         </RichTextBox>
         <Label x:Name="DismissalL" Content="Увольнение" HorizontalAlignment="Left" Margin="29,427,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
         <Label x:Name="DismissalL1" Content="Дата увольнения:" HorizontalAlignment="Left" Margin="29,457,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontFamily="Arial"/>
         <DatePicker x:Name="DismissalDP" HorizontalAlignment="Left" Margin="33,483,0,0" VerticalAlignment="Top" Width="109"/>
         <Label x:Name="ReasonDismissalL" Content="Основание:" HorizontalAlignment="Left" Margin="418,449,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontFamily="Arial"/>
-        <RichTextBox x:Name="ReasonDismissalRB" HorizontalAlignment="Left" Height="74" Margin="154,483,0,0" VerticalAlignment="Top" Width="608" TextChanged="richTextBox_TextChanged">
+        <RichTextBox x:Name="ReasonDismissalRB" HorizontalAlignment="Left" Height="74" Margin="154,483,0,0" VerticalAlignment="Top" Width="608">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>

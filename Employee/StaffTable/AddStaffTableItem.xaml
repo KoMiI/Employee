@@ -22,10 +22,16 @@
             </TabItem>
         </TabControl>
         <Label Content="Оклад (тариф)" HorizontalAlignment="Left" Margin="19,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.554,1.933"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="112,141,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="112,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button Content="Добавить" HorizontalAlignment="Left" Margin="25,190,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Удалить" HorizontalAlignment="Left" Margin="112,190,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.013,0.2"/>
-        <DataGrid HorizontalAlignment="Left" Height="164" Margin="19,233,0,0" VerticalAlignment="Top" Width="737"/>
+        <DataGrid HorizontalAlignment="Left" Height="164" Margin="19,233,0,0" VerticalAlignment="Top" Width="737" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Начисления" Width="200"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Показатели" Width="250"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Примечание" Width="200"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Window>

@@ -23,6 +23,8 @@ namespace Employee
         public MainWindow()
         {
             InitializeComponent();
+            StaffTable.StaffTable StaffTable = new StaffTable.StaffTable();
+            StaffTable.Show();
         }
     }
 }

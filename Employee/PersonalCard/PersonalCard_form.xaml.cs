@@ -111,13 +111,13 @@ namespace Employee.PersonalCard
                 List<WorkPlace> work_places = new List<WorkPlace>();
 
                 DatePreparation = new DateTime(2017, 06, 04);
-                TablelNumber = "104";
+                TablelNumber = _card[6];
                 INN = _card[5];
-                InsuranceCertificate = "134-237-649 13";
+                InsuranceCertificate = _card[9];
                 FIO = _card[2] + " " + _card[3] + " " + _card[4];
-                Gender = 'ж';
+                Gender = _card[8][0];
                 DateBirth = new DateTime(1975, 02, 09);
-                PlaceBirth = "г. Темрюк";
+                PlaceBirth = _card[7];
                 Citizenship = "Россия";
                 PassportNumner = "758018";
                 PassportSerial = "54 12";
@@ -233,8 +233,9 @@ namespace Employee.PersonalCard
         /*Выбор карточки*/
         private void ChouseBtn_Click(object sender, RoutedEventArgs e)
         {
-            // получаем инфо личной карты
-            card = DataBase.dbConnect.GetPersonalCard(DataBase.dbConnect.StartConnection(), "");
+            PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
+            // получаем инфо личной картыs
+            card = dbRouteen.GetPersonalCardForID("3");
 
             // создаем личную карту
             personal_card = new PersonalCard(card);
@@ -289,6 +290,11 @@ namespace Employee.PersonalCard
             WorksGrid.ItemsSource = personal_card.WorkPlaces;
             DismissalDP.SelectedDate = personal_card.DateDismissal;
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
+        }
+
+        private void GenderCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -34,7 +34,10 @@
         
         <ComboBox x:Name="CitizenshipCB" Margin="980,96,0,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Width="284"/>
         <ComboBox x:Name="TypeEducationCB" HorizontalAlignment="Left" Margin="106,409,0,0" VerticalAlignment="Top" Width="188" Height="25"/>
-        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="725,97,0,0" VerticalAlignment="Top" Width="150" Height="25"/>
+        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="725,97,0,0" VerticalAlignment="Top" Width="150" Height="25" SelectionChanged="GenderCB_SelectionChanged">
+            <ComboBoxItem Content="М" HorizontalAlignment="Left" Width="148.8"/>
+            <ComboBoxItem Content="Ж" HorizontalAlignment="Left" Width="148.8"/>
+        </ComboBox>
 
         <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" Margin="144,67,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>
         <DatePicker x:Name="DateBirthDP" HorizontalAlignment="Left" Margin="144,128,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>

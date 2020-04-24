@@ -53,42 +53,5 @@ namespace Employee.DataBase
             Console.Read();
             return conn;
         }
-
-        // Чтение персональной карточки ПОЛЯ familiya, imya, otchestvo, inn
-        public static Dictionary<int, string> GetPersonalCard(MySqlConnection conn, string where)
-        {
-            string sql = "Select familiya, imya, otchestvo, inn from PersonalCard" + where;
-
-            // Создать объект Command.
-            MySqlCommand cmd = new MySqlCommand();
-
-            // Сочетать Command с Connection.
-            cmd.Connection = conn;
-            cmd.CommandText = sql;
-
-            // Словарь для передачи информации
-            Dictionary<int, string> card = new Dictionary<int, string>();
-
-            using (DbDataReader reader = cmd.ExecuteReader())
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        card.Add(1, Convert.ToString(reader.GetOrdinal("familiya")));                   // получаем index фамилии
-                        card.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));  // получаем фамилию
-                        card.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));      // получаем имя
-                        card.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")))); // получаем отчество
-                        card.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));       // получаем ИНН
-
-                        // залушка, чтобы выводило 1 личную карту
-                        return card;
-                    }
-                }
-            }
-
-            return card;
-
-        }
     }
 }

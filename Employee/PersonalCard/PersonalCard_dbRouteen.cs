@@ -160,5 +160,67 @@ namespace Employee.DataBase
             }
             return data;
         }
+
+        // Выгрузка справочника с типами образования
+        public List<string>  GetAllEduTypes()
+        {
+            List<string> data = new List<string>();
+            string sql = "Select * from EducationType order by name";
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name"))));
+                    }
+                }
+            }
+            return data;
+        }
+
+        // подкачка образования
+        public List<string> GetEduForID(string id)
+        {
+            string sql = "Select * from EducationCard where pk_personal_card=" + id;
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+
+            // Словарь для передачи информации
+            List<string> data = new List<string>();
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    reader.Read();
+
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("type_edu"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("univer"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("spec"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name_doc"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("seria_doc"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("number_doc"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("year_end"))));
+
+
+                    return data;
+                }
+                else
+                    return null;
+            }
+        }
     }
 }

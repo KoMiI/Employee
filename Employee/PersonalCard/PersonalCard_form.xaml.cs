@@ -138,17 +138,25 @@ namespace Employee.PersonalCard
                     });
                 }
                 Langs = langs;
-
+                
+                //
+                // 
+                //              ДЕН ПРИДУМАЙ КАК ВПИХНУТЬ В КОМБОБОКСЫ
+                //
+                //
                 List<string> nations = dbRouteen.GetAllNations(); // ПОДКАЧКА СПРАВОЧНИКА ГРАЖДАНСТВА
+                List<string> edu_types = dbRouteen.GetAllEduTypes(); // ПОДКАЧКА СПРАВОЧНИКА ТИПО ОБРАЗОВАНИЯ
+
+                List<string> sup = dbRouteen.GetEduForID(_card[1]);
 
                 educations.Add(new Education
                 {
-                    EduName = "Санкт-Петербургский государственный университет",
-                    EduSpecial = "Лечебное дело",
-                    EduDocName = "Диплом",
-                    EduDocSer = "116124",
-                    EduDocNum = "4523393",
-                    DateFinal = new DateTime(2005, 06, 19),
+                    EduName = sup[1],
+                    EduSpecial = sup[2],
+                    EduDocName = sup[3],
+                    EduDocSer = sup[4],
+                    EduDocNum = sup[5],
+                    DateFinal = new DateTime(Int32.Parse(sup[6].Substring(6, 4)), Int32.Parse(sup[6].Substring(3, 2)), Int32.Parse(sup[6].Substring(0, 2))),
                 });
 
                 Educations = educations;

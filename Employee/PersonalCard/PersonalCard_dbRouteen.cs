@@ -19,8 +19,8 @@ namespace Employee.DataBase
         // ПОЛЯ familiya, imya, otchestvo, inn
         public Dictionary<int, string> GetPersonalCardForID(string id)
         {
-            string sql = "Select familiya, imya, otchestvo, inn, tabel_number, b_place, Sex, insurance from PersonalCard where pk_personal_card=" + id;
-            
+            string sql = "Select * from PersonalCard where pk_personal_card=" + id;
+
             // Создать объект Command.
             MySqlCommand cmd = new MySqlCommand();
 
@@ -35,27 +35,67 @@ namespace Employee.DataBase
             {
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
-                    {
-                        card.Add(1, Convert.ToString(reader.GetOrdinal("familiya")));                   // получаем index фамилии
-                        card.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));  // получаем фамилию
-                        card.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));      // получаем имя
-                        card.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")))); // получаем отчество
-                        card.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));       // получаем ИНН
-                        card.Add(6, Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));  //получаем табельный номер
-                        card.Add(7, Convert.ToString(reader.GetValue(reader.GetOrdinal("b_place"))));                    // место рождения
-                        card.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
-                        card.Add(9, Convert.ToString(reader.GetOrdinal("insurance")));
-                       // card.Add(10, Convert.ToString(reader.GetOrdinal("familiya")));
+                    reader.Read();
+                    card.Add(1, Convert.ToString(reader.GetOrdinal("familiya")));                   // получаем index фамилии
+                    card.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));  // получаем фамилию
+                    card.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));      // получаем имя
+                    card.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")))); // получаем отчество
+                    card.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));       // получаем ИНН
+                    card.Add(6, Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));  //получаем табельный номер
+                    card.Add(7, Convert.ToString(reader.GetValue(reader.GetOrdinal("b_place"))));                    // место рождения
+                    card.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
+                    card.Add(9, Convert.ToString(reader.GetValue(reader.GetOrdinal("insurance"))));
+                    card.Add(10, Convert.ToString(reader.GetOrdinal("Nation")));                        // национальность
+
+                    // читаем данные для вспомогательных функций
+                    string pas_key = Convert.ToString(reader.GetValue(reader.GetOrdinal("pas_key")));
+
+                    reader.Close();
+                    // отправляем ID паспорта во вспомогательнцю функцию
+                    List<string> PassData = GetPassportForID(pas_key);
+                    // ДАННЫЕ ПАСПОРТА
+                    for(int i=0; i<4; i++)
+                        card.Add(11+i, PassData[i]);   // 11 - серия, 12 - номер, 13 - кем выдан, 14 - дата выдачи
 
 
-                        // залушка, чтобы выводило 1 личную карту
-                        return card;
-                    }
+                    // залушка, чтобы выводило 1 личную карту
+                    return card;
                 }
             }
 
             return card;
+
+        }
+        public List<string> GetPassportForID(string id)
+        {
+            string sql = "Select * from Pasport where pas_key=" + id;
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+
+            // Словарь для передачи информации
+            List<string> data = new List<string>();
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    reader.Read();
+
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("seria"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("number"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("source"))));
+                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("date_v"))));
+
+                    return data;
+                }
+                else
+                    return null;
+            }
 
         }
     }

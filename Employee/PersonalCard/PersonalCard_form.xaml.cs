@@ -118,11 +118,11 @@ namespace Employee.PersonalCard
                 Gender = _card[8][0];
                 DateBirth = new DateTime(1975, 02, 09);
                 PlaceBirth = _card[7];
-                Citizenship = "Россия";
-                PassportNumner = "758018";
-                PassportSerial = "54 12";
-                PassportDate = new DateTime(2020, 02, 14);
-                PassportIssued = "ОУФМС России по Краснодарскому краю в Темрюкском р-не";
+                Citizenship = _card[10];
+                PassportNumner = _card[12];
+                PassportSerial = _card[11];
+                PassportDate = new DateTime(Int32.Parse(_card[14].Substring(6, 4)), Int32.Parse(_card[14].Substring(3, 2)), Int32.Parse(_card[14].Substring(0, 2)));
+                PassportIssued = _card[13];
                 TypeEducation = "Высшеее профессиональное";
                 DateDismissal = new DateTime();
                 ReasonDismissal = "";

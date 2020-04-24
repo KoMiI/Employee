@@ -23,9 +23,15 @@ namespace Employee.PersonalCard
     {
         Dictionary<int, string> card;                                       // Информация по одной личной карте
         PersonalCard personal_card;                                         // Личная карта
+        
 
         /*Класс, отвечающий за информацию одной личной карты*/
         public class PersonalCard {
+
+            public string passport_id = "";
+            public List<string> langs_ids = new List<string>();
+            public string edu_id = "";
+
             public DateTime DatePreparation { get; set; }                   // Дата составления
             public string TablelNumber { get; set; }                        // Табельный номер
             public string INN { get; set; }                                 // ИНН
@@ -127,6 +133,8 @@ namespace Employee.PersonalCard
                 DateDismissal = new DateTime();
                 ReasonDismissal = "";
 
+                passport_id = _card[15]; // ------------------  заготовка на завтра
+
                 PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
                 List<List<string>> recievedLagCards = dbRouteen.GetLangsForID(_card[1]) ;
                 for(int i=0; i<recievedLagCards.Count; i++)
@@ -135,7 +143,9 @@ namespace Employee.PersonalCard
                     {
                         NameLang = recievedLagCards[i][1],
                         DegreeLang = recievedLagCards[i][0]
+                        
                     });
+                    langs_ids.Add(recievedLagCards[i][2]);
                 }
                 Langs = langs;
                 
@@ -146,8 +156,10 @@ namespace Employee.PersonalCard
                 //
                 List<string> nations = dbRouteen.GetAllNations(); // ПОДКАЧКА СПРАВОЧНИКА ГРАЖДАНСТВА
                 List<string> edu_types = dbRouteen.GetAllEduTypes(); // ПОДКАЧКА СПРАВОЧНИКА ТИПО ОБРАЗОВАНИЯ
+                List<string> languages = dbRouteen.GetAllLanguages(); // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
+                List<string> degrees = dbRouteen.GetAllDegreesLan(); // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
 
-                List<string> sup = dbRouteen.GetEduForID(_card[1]);
+                List<string> sup = dbRouteen.GetEduForID(_card[1]); // ------------------  заготовка на завтра
 
                 educations.Add(new Education
                 {
@@ -158,6 +170,9 @@ namespace Employee.PersonalCard
                     EduDocNum = sup[5],
                     DateFinal = new DateTime(Int32.Parse(sup[6].Substring(6, 4)), Int32.Parse(sup[6].Substring(3, 2)), Int32.Parse(sup[6].Substring(0, 2))),
                 });
+
+                edu_id = sup[7]; // ------------------  заготовка на завтра
+                
 
                 Educations = educations;
 

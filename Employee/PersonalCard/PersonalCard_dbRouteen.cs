@@ -36,7 +36,7 @@ namespace Employee.DataBase
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    card.Add(1, Convert.ToString(reader.GetOrdinal("familiya")));                   // получаем index фамилии
+                    card.Add(1, Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_personal_card"))));        // pk
                     card.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));  // получаем фамилию
                     card.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));      // получаем имя
                     card.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")))); // получаем отчество
@@ -66,6 +66,43 @@ namespace Employee.DataBase
             return card;
 
         }
+
+        // Метод получения карточек Языков по ID
+        public List<List<string>> GetLangsForID(string id)
+        {
+            string sql = "Select * from `lang-card` where pk_personal_card=" + id;
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+
+            // Словарь для передачи информации
+            List<List<string>> card = new List<List<string>>();
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    int row = 0;
+                    while(reader.Read())
+                    {
+                        List<string> str = new List<string>();
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("degree_lan"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("lan"))));
+                        card.Add(str);
+                        row++;
+                    }
+
+                }
+            }
+
+            return card;
+        }
+
+        // Метод получения данных паспорта по ID
         public List<string> GetPassportForID(string id)
         {
             string sql = "Select * from Pasport where pas_key=" + id;
@@ -97,6 +134,31 @@ namespace Employee.DataBase
                     return null;
             }
 
+        }
+
+        // Выгрузка справочника гражданств 
+        public List<string> GetAllNations()
+        {
+            List<string> data = new List<string>();
+            string sql = "Select * from nation order by name";
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name"))));
+                    }
+                }
+            }
+            return data;
         }
     }
 }

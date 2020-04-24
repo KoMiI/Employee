@@ -127,19 +127,19 @@ namespace Employee.PersonalCard
                 DateDismissal = new DateTime();
                 ReasonDismissal = "";
 
-                langs.Add(new Lang
+                PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
+                List<List<string>> recievedLagCards = dbRouteen.GetLangsForID(_card[1]) ;
+                for(int i=0; i<recievedLagCards.Count; i++)
                 {
-                    NameLang = "Русский",
-                    DegreeLang = "Владеет свободно",
-                });
-
-                langs.Add(new Lang
-                {
-                    NameLang = "Английский",
-                    DegreeLang = "Владеет свободно",
-                });
-
+                    langs.Add(new Lang
+                    {
+                        NameLang = recievedLagCards[i][1],
+                        DegreeLang = recievedLagCards[i][0]
+                    });
+                }
                 Langs = langs;
+
+                List<string> nations = dbRouteen.GetAllNations(); // ПОДКАЧКА СПРАВОЧНИКА ГРАЖДАНСТВА
 
                 educations.Add(new Education
                 {

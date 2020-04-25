@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Employee.DataBase;
+using ClosedXML.Excel;
+using Microsoft.Win32;
 
 
 namespace Employee.PersonalCard
-{ 
-
+{
     ///Основная форма для личной карты////
     public partial class PersonalCard_RW : Window
     {
+        private static string NameOrganisation1 = "Новосибирский филиал МНТК";
+        private static string NameOrganisation2 =  "\"Микрохирургия глаза\" им.С.Н.Фёдорова";
+
+        // Пути файлов
+        private static string PathExel = Directory.GetCurrentDirectory() + @"\T-2.xlsx";
+        private static string PathPrint = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+
         Dictionary<int, string> card;                                       // Информация по одной личной карте
         List<List<string>> card_lang;                                       // Информация по языкам в ЛК
         List<List<string>> card_education;                                  // Информация по образованию в ЛК
@@ -199,10 +209,10 @@ namespace Employee.PersonalCard
             public string Base { get; set; }                                // Основание
         }
 
+
         /*Конструктор формы*/
         public PersonalCard_RW()
         {
-
             // создаем личную карту
             personal_card = new PersonalCard();
 
@@ -216,7 +226,7 @@ namespace Employee.PersonalCard
             PassportSerialTB.TextWrapping = TextWrapping.NoWrap;
             PassportIssuedTB.TextWrapping = TextWrapping.NoWrap;
             ReasonDismissalTB.TextWrapping = TextWrapping.NoWrap;
-
+  
             label_num.Content = "N - " + personal_card.TablelNumber;
             DatePreparationDP.SelectedDate = personal_card.DatePreparation;
             TablelNumberTB.Text = personal_card.TablelNumber;
@@ -238,7 +248,7 @@ namespace Employee.PersonalCard
             DismissalDP.SelectedDate = personal_card.DateDismissal;
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
 
-            // Пока не знаю, нодо ли это добавлять в таблицы
+            // ПОКА НЕ ЗНАЮ КАК ДОБАВИТЬ ЭТО В ТАБЛИЦЫ, СЛОЖНААА
             //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
             //List<string> degrees = dbRouteen.GetAllDegreesLan();    // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
         }
@@ -262,7 +272,7 @@ namespace Employee.PersonalCard
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
             // получаем инфо личной карты
-            card = dbRouteen.GetPersonalCardForID("2");
+            card = dbRouteen.GetPersonalCardForID("3");
             card_lang = dbRouteen.GetLangsForID(card[1]);
             card_education = dbRouteen.GetEduForID(card[1]);
             card_work = dbRouteen.GetWorksForID(card[1]);
@@ -355,7 +365,7 @@ namespace Employee.PersonalCard
             dbRouteen.UpdateDataInPersonalCardForID(personal_card);
         }
 
-        /*Созздание бокса пол*/
+        /*Создание бокса пол*/
         private void GenderCB_Loaded(object sender, RoutedEventArgs e)
         {
             GenderCB.Items.Add("Мужской");
@@ -363,7 +373,7 @@ namespace Employee.PersonalCard
             GenderCB.Items.Add("Интерсекс");
         }
 
-        /*Созздание бокса гражданство*/
+        /*Создание бокса гражданство*/
         private void CitizenshipCB_Loaded(object sender, RoutedEventArgs e)
         {
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
@@ -372,7 +382,7 @@ namespace Employee.PersonalCard
                 CitizenshipCB.Items.Add(citizenship[i]);
         }
 
-        /*Созздание бокса тип обучения*/
+        /*Создание бокса тип обучения*/
         private void TypeEducationCB_Loaded(object sender, RoutedEventArgs e)
         {
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
@@ -381,5 +391,167 @@ namespace Employee.PersonalCard
                 TypeEducationCB.Items.Add(edu_types[i]);
         }
 
+        /*Сохранение документа на печать*/
+        private void PrintBtn_Click(object sender, RoutedEventArgs e)
+        {
+            XLWorkbook workbook = new XLWorkbook(PathExel);
+            IXLWorksheet list1 = workbook.Worksheets.Worksheet(1);
+            IXLWorksheet list2 = workbook.Worksheets.Worksheet(2);
+            IXLWorksheet list3 = workbook.Worksheets.Worksheet(3);
+            IXLWorksheet list4 = workbook.Worksheets.Worksheet(4);
+
+
+            /// РАБОТА С ПЕРВЫМ ЛИСТОМ
+            list1.Cell("A" + 7).Value = NameOrganisation1;
+            list1.Cell("A" + 8).Value = NameOrganisation2;
+
+            list1.Cell("A" + 16).Value = personal_card.DatePreparation.ToString("dd.MM.yyyy");
+            list1.Cell("H" + 16).Value = personal_card.TablelNumber;
+            list1.Cell("L" + 16).Value = personal_card.INN;
+            list1.Cell("V" + 16).Value = personal_card.InsuranceCertificate;
+            list1.Cell("AG" + 16).Value = personal_card.FIO[0];
+            list1.Cell("AK" + 16).Value = personal_card.WorkPlaces.Last().CharWork;
+            list1.Cell("AU" + 16).Value = personal_card.WorkPlaces.Last().TypeWork;
+            list1.Cell("BH" + 16).Value = personal_card.Gender[0];
+
+            string[] fio = personal_card.FIO.Split(new char[] { ' ' });
+            list1.Cell("H" + 26).Value = fio[0];
+            list1.Cell("AB" + 26).Value = fio[1];
+            list1.Cell("AW" + 26).Value = fio[2];
+            list1.Cell("K" + 29).Value = personal_card.DateBirth.ToString("dd.MM.yyyy");
+            list1.Cell("L" + 31).Value = personal_card.PlaceBirth;
+            list1.Cell("J" + 32).Value = personal_card.Citizenship;
+            list1.Cell("J" + 32).Value = personal_card.Citizenship;
+
+            int size_loop = 0;
+            if (personal_card.Langs.Count >= 2)
+                size_loop = 2;
+            else
+                size_loop = personal_card.Langs.Count;
+
+            for (int i = 0; i < size_loop; i++)
+            {
+                list1.Cell("R" + (33 + (i * 2))).Value = personal_card.Langs[i].NameLang;
+                list1.Cell("AJ" + (33 + (i * 2))).Value = personal_card.Langs[i].DegreeLang;
+            }
+
+            list1.Cell("J" + 37).Value = personal_card.TypeEducation;
+
+            if (personal_card.Educations.Count >= 2)
+                size_loop = 2;
+            else
+                size_loop = personal_card.Educations.Count;
+
+            for (int i = 0; i < size_loop; i++)
+            {
+                string[] eduname = personal_card.Educations[i].EduName.Split(new char[] { ' ' });
+                int size = eduname.Length / 3;
+
+                string res1 = "";
+                for (int j = 0; j < size; j++)
+                    res1 += eduname[j] + " ";
+
+                string res2 = "";
+                for (int j = size; j < size * 2; j++)
+                    res2 += eduname[j] + " ";
+
+                string res3 = "";
+                for (int j = size*2; j < eduname.Length; j++)
+                    res3 += eduname[j] + " ";
+
+                list1.Cell("A" + (41 + (i * 8))).Value = res1;
+                list1.Cell("A" + (42 + (i * 8))).Value = res2;
+                list1.Cell("A" + (43 + (i * 8))).Value = res3;
+
+                list1.Cell("Z" + (43 + (i * 8))).Value = personal_card.Educations[i].EduDocName;
+                list1.Cell("AK" + (43 + (i * 8))).Value = personal_card.Educations[i].EduDocSer;
+                list1.Cell("AQ" + (43 + (i * 8))).Value = personal_card.Educations[i].EduDocNum;
+                list1.Cell("A" + (46 + (i * 8))).Value = personal_card.Educations[i].EduSpecial;
+                list1.Cell("Z" + (45 + (i * 8))).Value = personal_card.Educations[i].EduSpecial;
+                list1.Cell("AZ" + (42 + (i * 8))).Value = personal_card.Educations[i].DateFinal.ToString("dd.MM.yyyy");
+            }
+
+            list1.Cell("I" + 66).Value = list1.Cell("AU" + 16).Value = personal_card.WorkPlaces.Last().Post;
+
+            /// РАБОТА СО ВТОРЫМ ЛИСТОМ
+            list2.Cell("K" + 24).Value = personal_card.PassportNumner + " " + personal_card.PassportSerial;
+
+            string[] datePas = personal_card.PassportDate.ToString("dd.MM.yyyy").Split(new char[] { '.' });
+            list2.Cell("AK" + 24).Value = datePas[0];
+            list2.Cell("AO" + 24).Value = NumToStringDate(datePas[1]);
+            list2.Cell("BC" + 24).Value = datePas[2];
+            list2.Cell("H" + 25).Value = personal_card.PassportIssued;
+
+            /// РАБОТА С ТРЕТЬИМ ЛИСТОМ
+            if (personal_card.Educations.Count >= 12)
+                size_loop = 12;
+            else
+                size_loop = personal_card.WorkPlaces.Count;
+
+            for (int i = 0; i < size_loop; i ++)
+            {
+                list3.Cell("A" + (11 + i)).Value = personal_card.WorkPlaces[i].DateRecruit.ToString("dd:MM:yyyy");
+                list3.Cell("H" + (11 + i)).Value = personal_card.WorkPlaces[i].SubDivision;
+                list3.Cell("V" + (11 + i)).Value = personal_card.WorkPlaces[i].Post;
+                list3.Cell("AJ" + (11 + i)).Value = personal_card.WorkPlaces[i].Pay;
+                list3.Cell("AS" + (11 + i)).Value = personal_card.WorkPlaces[i].Base;
+            }
+
+            /// РАБОТА С ЧЕТВЕРТЫМ ЛИСТОМ
+            string[] dateDis = personal_card.DateDismissal.ToString("dd.MM.yyyy").Split(new char[] { '.' });
+            list4.Cell("L" + 52).Value = dateDis[0];
+            list4.Cell("P" + 52).Value = NumToStringDate(dateDis[1]);
+            list4.Cell("AF" + 52).Value = dateDis[2][2] + dateDis[2][3];
+            list4.Cell("AE" + 49).Value = personal_card.ReasonDismissal;
+
+            
+            // Сохранение файла
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Excel files|*.xlsx",
+                Title = "Save an Excel File",
+                FileName = "T-2 ~ " + personal_card.FIO + ".xlsx",
+            };
+
+            if (saveFileDialog.ShowDialog() == true && !String.IsNullOrWhiteSpace(saveFileDialog.FileName))
+            {
+                workbook.SaveAs(saveFileDialog.FileName);
+                workbook.Dispose();
+            }
+        }
+
+        /*Перевод месяца в слово*/
+        public string NumToStringDate(string _date)
+        {
+            switch (_date)
+            {
+                case "01":
+                    return "Январь";
+                case "02":
+                    return "Февраль";
+                case "03":
+                    return "Март";
+                case "04":
+                    return  "Апрель";
+                case "05":
+                    return "Май";
+                case "06":
+                    return "Июнь";
+                case "07":
+                    return "Июль";
+                case "08":
+                    return "Август";
+                case "09":
+                    return "Сентябрь";
+                case "10":
+                    return "Октябрь";;
+                case "11":
+                    return "Ноябрь";
+                case "12":
+                    return "Декабрь";
+                default:
+                    return _date;
+            }
+        }
     }
 }

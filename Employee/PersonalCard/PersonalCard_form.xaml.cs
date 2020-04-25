@@ -248,6 +248,8 @@ namespace Employee.PersonalCard
             DismissalDP.SelectedDate = personal_card.DateDismissal;
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
 
+            ActivateBtn();
+
             // ПОКА НЕ ЗНАЮ КАК ДОБАВИТЬ ЭТО В ТАБЛИЦЫ, СЛОЖНААА
             //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
             //List<string> degrees = dbRouteen.GetAllDegreesLan();    // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
@@ -301,6 +303,8 @@ namespace Employee.PersonalCard
             WorksGrid.ItemsSource = personal_card.WorkPlaces;
             DismissalDP.SelectedDate = personal_card.DateDismissal;
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
+
+            ActivateBtn();
         }
 
         /*Создание новой карты*/
@@ -330,6 +334,9 @@ namespace Employee.PersonalCard
             WorksGrid.ItemsSource = personal_card.WorkPlaces;
             DismissalDP.SelectedDate = personal_card.DateDismissal;
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
+
+            ActivateBtn();
+
         }
 
         /*Сохранение изменений карты*/
@@ -360,6 +367,7 @@ namespace Employee.PersonalCard
             personal_card.DateDismissal = DismissalDP.DisplayDate;
             personal_card.ReasonDismissal = ReasonDismissalTB.Text;
 
+            ActivateBtn();
 
             // кидаем запрос
             dbRouteen.UpdateDataInPersonalCardForID(personal_card);
@@ -551,6 +559,46 @@ namespace Employee.PersonalCard
                     return "Декабрь";
                 default:
                     return _date;
+            }
+        }
+
+        /*Проерка на заполненость*/
+        public bool CheckForm()
+        {
+            if (personal_card.DatePreparation == new DateTime())  return false;
+            if (personal_card.TablelNumber == "") return false;
+            if (personal_card.INN == "") return false;
+            if (personal_card.InsuranceCertificate == "") return false;
+            if (personal_card.FIO == "") return false;
+            if (personal_card.Gender == "") return false;
+            if (personal_card.DateBirth == new DateTime()) return false;
+            if (personal_card.PlaceBirth == "") return false;
+            if (personal_card.Citizenship == "") return false;
+            if (personal_card.PassportNumner == "") return false;
+            if (personal_card.PassportSerial == "") return false;
+            if (personal_card.PassportDate == new DateTime()) return false;
+            if (personal_card.PassportIssued == "") return false;
+            if (personal_card.TypeEducation == "") return false;
+
+            if (personal_card.Langs == new List<Lang>()) return false;
+            if (personal_card.Educations == new List<Education>()) return false;
+            if (personal_card.WorkPlaces == new List<WorkPlace>()) return false;
+
+            return true;
+        }
+
+        /*Активация кнопок*/
+        public void ActivateBtn()
+        {
+            if (!CheckForm())
+            {
+                SaveBtn.IsEnabled = false;
+                PrintBtn.IsEnabled = false;
+            }
+            else
+            {
+                SaveBtn.IsEnabled = true;
+                PrintBtn.IsEnabled = true;
             }
         }
     }

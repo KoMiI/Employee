@@ -62,7 +62,8 @@ namespace Employee.DataBase
 
 
                     // залушка, чтобы выводило 1 личную карту
-                    return card;
+                    if(id != "")
+                        return card;
                 }
             }
 

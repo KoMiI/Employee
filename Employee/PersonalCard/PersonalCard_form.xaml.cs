@@ -23,7 +23,7 @@ namespace Employee.PersonalCard
     {
         Dictionary<int, string> card;                                       // Информация по одной личной карте
         List<List<string>> card_lang;                                       // Информация по языкам в ЛК
-        List<string> card_education;                                        // Информация по образованию в ЛК
+        List<List<string>> card_education;                                  // Информация по образованию в ЛК
         PersonalCard personal_card;                                         // Личная карта
         
 
@@ -75,7 +75,7 @@ namespace Employee.PersonalCard
                 WorkPlaces = new List<WorkPlace>();
             }
 
-            public PersonalCard(Dictionary<int, string> _card, List<List<string>> _card_lang, List<string> _card_education) 
+            public PersonalCard(Dictionary<int, string> _card, List<List<string>> _card_lang, List<List<string>> _card_education) 
             {
                 List<Lang> langs = new List<Lang>();
                 List<Education> educations = new List<Education>();
@@ -117,20 +117,23 @@ namespace Employee.PersonalCard
                     });
                 }
                 Langs = langs;
-               
-                educations.Add(new Education
+
+                for (int i = 0; i < _card_education.Count; i++)
                 {
-                    EducationId = _card_education[7],
-                    EduName = _card_education[1],
-                    EduSpecial = _card_education[2],
-                    EduDocName = _card_education[3],
-                    EduDocSer = _card_education[4],
-                    EduDocNum = _card_education[5],
-                    DateFinal = new DateTime(
-                        Int32.Parse(_card_education[6].Substring(6, 4)),
-                        Int32.Parse(_card_education[6].Substring(3, 2)),
-                        Int32.Parse(_card_education[6].Substring(0, 2))),
-                });               
+                    educations.Add(new Education
+                    {
+                        EducationId = _card_education[i][7],
+                        EduName = _card_education[i][1],
+                        EduSpecial = _card_education[i][2],
+                        EduDocName = _card_education[i][3],
+                        EduDocSer = _card_education[i][4],
+                        EduDocNum = _card_education[i][5],
+                        DateFinal = new DateTime(
+                        Int32.Parse(_card_education[i][6].Substring(6, 4)),
+                        Int32.Parse(_card_education[i][6].Substring(3, 2)),
+                        Int32.Parse(_card_education[i][6].Substring(0, 2))),
+                    });
+                }
                 Educations = educations;
 
 

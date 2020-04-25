@@ -82,7 +82,7 @@ namespace Employee.PersonalCard
                 List<WorkPlace> work_places = new List<WorkPlace>();
 
                 CardId = _card[15];
-                DatePreparation = new DateTime(2017, 06, 04);
+                DatePreparation = new DateTime(Int32.Parse(_card[16].Substring(6, 4)), Int32.Parse(_card[16].Substring(3, 2)), Int32.Parse(_card[16].Substring(0, 2)));
                 TablelNumber = _card[6];
                 INN = _card[5];
                 InsuranceCertificate = _card[9];
@@ -95,7 +95,7 @@ namespace Employee.PersonalCard
                 else if (_card[8][0] == 'И')
                     Gender = "Интерсекс";
 
-                DateBirth = new DateTime(1975, 02, 09);
+                DateBirth = new DateTime(Int32.Parse(_card[17].Substring(6, 4)), Int32.Parse(_card[17].Substring(3, 2)), Int32.Parse(_card[17].Substring(0, 2)));
                 PlaceBirth = _card[7];
                 Citizenship = _card[10];
                 PassportNumner = _card[12];

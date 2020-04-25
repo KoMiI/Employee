@@ -31,6 +31,7 @@ namespace Employee.PersonalCard
             public string passport_id = "";
             public List<string> langs_ids = new List<string>();
             public string edu_id = "";
+            public string card_id = "";
 
             public DateTime DatePreparation { get; set; }                   // Дата составления
             public string TablelNumber { get; set; }                        // Табельный номер
@@ -58,6 +59,7 @@ namespace Employee.PersonalCard
                 List<Education> educations = new List<Education>();
                 List<WorkPlace> work_places = new List<WorkPlace>();
 
+                card_id = "";
                 DatePreparation = new DateTime();
                 TablelNumber = "";
                 INN = "";
@@ -116,6 +118,7 @@ namespace Employee.PersonalCard
                 List<Education> educations = new List<Education>();
                 List<WorkPlace> work_places = new List<WorkPlace>();
 
+                card_id = _card[1];
                 DatePreparation = new DateTime(2017, 06, 04);
                 TablelNumber = _card[6];
                 INN = _card[5];
@@ -135,19 +138,22 @@ namespace Employee.PersonalCard
 
                 passport_id = _card[15]; // ------------------  заготовка на завтра
 
+                
+
                 PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
-                List<List<string>> recievedLagCards = dbRouteen.GetLangsForID(_card[1]) ;
-                for(int i=0; i<recievedLagCards.Count; i++)
+                List<List<string>> recievedCards = dbRouteen.GetLangsForID(_card[1]) ;
+                for(int i=0; i<recievedCards.Count; i++)
                 {
                     langs.Add(new Lang
                     {
-                        NameLang = recievedLagCards[i][1],
-                        DegreeLang = recievedLagCards[i][0]
+                        NameLang = recievedCards[i][1],
+                        DegreeLang = recievedCards[i][0]
                         
                     });
-                    langs_ids.Add(recievedLagCards[i][2]);
+                    langs_ids.Add(recievedCards[i][2]);
                 }
                 Langs = langs;
+                
                 
                 //
                 // 
@@ -158,7 +164,10 @@ namespace Employee.PersonalCard
                 List<string> edu_types = dbRouteen.GetAllEduTypes(); // ПОДКАЧКА СПРАВОЧНИКА ТИПО ОБРАЗОВАНИЯ
                 List<string> languages = dbRouteen.GetAllLanguages(); // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
                 List<string> degrees = dbRouteen.GetAllDegreesLan(); // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
+                // тест получения всех карточек с опр полями
+                recievedCards = dbRouteen.GetPersonalCardShort();
 
+                // поиск карточки образования
                 List<string> sup = dbRouteen.GetEduForID(_card[1]); // ------------------  заготовка на завтра
 
                 educations.Add(new Education
@@ -176,17 +185,21 @@ namespace Employee.PersonalCard
 
                 Educations = educations;
 
-
-                work_places.Add(new WorkPlace
+                recievedCards = dbRouteen.GetWorksForID(card_id);
+                for(int i=0; i<recievedCards.Count; i++)
                 {
-                    DateRecruit = new DateTime(2017, 06, 02),
-                    SubDivision = "Отдел консультации",
-                    Post = "Врач-консультант",
-                    CharWork = "Постоянная",
-                    TypeWork = "Основная",
-                    Pay = "36000",
-                    Base = "Приказ от 02.06.2017",
-                });
+                    work_places.Add(new WorkPlace
+                    {
+                        DateRecruit = new DateTime(Int32.Parse(recievedCards[i][1].Substring(6, 4)), Int32.Parse(recievedCards[i][1].Substring(3, 2)), Int32.Parse(recievedCards[i][1].Substring(0, 2))),
+                        SubDivision = recievedCards[i][2],
+                        Post = recievedCards[i][3],
+                        CharWork = recievedCards[i][4],
+                        TypeWork = recievedCards[i][5],
+                        Pay = recievedCards[i][6],
+                        Base = recievedCards[i][7],
+                    });
+                }
+                
 
                 WorkPlaces = work_places;
             }

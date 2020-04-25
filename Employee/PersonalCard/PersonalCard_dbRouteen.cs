@@ -15,6 +15,41 @@ namespace Employee.DataBase
         {
             conn = _new_conn;
         }
+
+        // Получение всеха карточек с полями табельный номер, дата составления, ФИО
+        public List<List<string>> GetPersonalCardShort()
+        {
+            string sql = "Select * from PersonalCard";
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+
+            List<List<string>> data = new List<List<string>>();
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        List<string> sup = new List<string>();
+                        sup.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_personal_card"))));        // pk
+                        sup.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));  // получаем фамилию
+                        sup.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));      // получаем имя
+                        sup.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")))); // получаем отчество
+                        sup.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));  //получаем табельный номер
+                        sup.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));
+
+                        data.Add(sup);
+                    }
+                }
+            }
+
+            return data;
+        }
         // Чтение персональной карточки по ID
         // ПОЛЯ familiya, imya, otchestvo, inn
         public Dictionary<int, string> GetPersonalCardForID(string id)
@@ -86,7 +121,6 @@ namespace Employee.DataBase
             {
                 if (reader.HasRows)
                 {
-                    int row = 0;
                     while (reader.Read())
                     {
                         List<string> str = new List<string>();
@@ -94,7 +128,6 @@ namespace Employee.DataBase
                         str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("lan"))));
                         str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_lan"))));
                         card.Add(str);
-                        row++;
                     }
 
                 }
@@ -138,7 +171,46 @@ namespace Employee.DataBase
 
         }
 
-        
+        // подкачка приёма/перевода
+        public List<List<string>> GetWorksForID(string id)
+        {
+            string sql = "Select * from PersonalCardPriem where pk_personal_card=" + id;
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+
+            // Словарь для передачи информации
+            List<List<string>> card = new List<List<string>>();
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        List<string> str = new List<string>();
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_working"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("date"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("unit"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("position"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("work_character"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("work_type"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("taxes"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("reason"))));
+                        card.Add(str);
+                    }
+
+                }
+            }
+
+            return card;
+        }
+
+
         // подкачка образования
         public List<string> GetEduForID(string id)
         {
@@ -175,6 +247,10 @@ namespace Employee.DataBase
                     return null;
             }
         }
+
+        /*
+        *  СПРАВОЧНИКИ
+        */
 
         // Выгрузка справочника гражданств 
         public List<string> GetAllNations()
@@ -275,6 +351,16 @@ namespace Employee.DataBase
                 }
             }
             return data;
+        }
+
+        /*
+         * 
+         *  Обновление данных в PersonalCard по ID
+         * 
+         */
+         public void UpdateDataInPersonalCardForID(string id)
+        {
+
         }
     }
 }

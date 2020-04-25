@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data.Common;
+using Employee.PersonalCard;
 
 namespace Employee.DataBase
 {
@@ -323,11 +324,11 @@ namespace Employee.DataBase
 
         /*
          * 
-         *  Обновление данных в PersonalCard по ID
+         *  Обновление данных в PersonalCard
          * 
          */
-         public void UpdateDataInPersonalCardForID(string id)
-        {
+         public void UpdateDataInPersonalCardForID(PersonalCard_RW.PersonalCard toUpdate)
+        { 
 
         }
     }

@@ -102,7 +102,7 @@ namespace Employee.PersonalCard
                 PassportSerial = _card[11];
                 PassportDate = new DateTime(Int32.Parse(_card[14].Substring(6, 4)), Int32.Parse(_card[14].Substring(3, 2)), Int32.Parse(_card[14].Substring(0, 2)));
                 PassportIssued = _card[13];
-                TypeEducation = "Высшеее профессиональное";
+                TypeEducation = _card_education[0][0];
                 DateDismissal = new DateTime();
                 ReasonDismissal = "";
 
@@ -264,7 +264,7 @@ namespace Employee.PersonalCard
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
             // получаем инфо личной карты
-            card = dbRouteen.GetPersonalCardForID("2");
+            card = dbRouteen.GetPersonalCardForID("3");
             card_lang = dbRouteen.GetLangsForID(card[1]);
             card_education = dbRouteen.GetEduForID(card[1]);
 
@@ -323,7 +323,7 @@ namespace Employee.PersonalCard
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
         }
 
-        private void GenderCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }

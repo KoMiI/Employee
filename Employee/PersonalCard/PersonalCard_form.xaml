@@ -34,7 +34,7 @@
         
         <ComboBox x:Name="CitizenshipCB" Margin="980,96,0,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Width="284"/>
         <ComboBox x:Name="TypeEducationCB" HorizontalAlignment="Left" Margin="106,409,0,0" VerticalAlignment="Top" Width="188" Height="25"/>
-        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="725,97,0,0" VerticalAlignment="Top" Width="150" Height="25" SelectionChanged="GenderCB_SelectionChanged"/>
+        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="725,97,0,0" VerticalAlignment="Top" Width="150" Height="25"/>
 
 
         <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" Margin="144,67,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>
@@ -52,7 +52,7 @@
         <TextBox x:Name="ReasonDismissalTB" Height="25" Margin="384,776,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.622,14.68" HorizontalAlignment="Left" Width="880" VerticalContentAlignment="Center"/>
         <TextBox x:Name="PlaceBirthTB" HorizontalAlignment="Left" Height="25" Margin="423,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" VerticalContentAlignment="Center"/>
 
-        <Button x:Name="SaveBtn" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="1115,10,0,0" VerticalAlignment="Top" Width="149" Height="32" FontWeight="Bold"/>
+        <Button x:Name="SaveBtn" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="1115,10,0,0" VerticalAlignment="Top" Width="149" Height="32" FontWeight="Bold" Click="SaveBtn_Click"/>
         <Button x:Name="ChouseBtn" Content="Выбрать личную карту" HorizontalAlignment="Left" Margin="919,10,0,0" VerticalAlignment="Top" Width="150" Height="32" FontWeight="Bold" Click="ChouseBtn_Click"/>
         <Button x:Name="button" Content="Новая личная карта" HorizontalAlignment="Left" Margin="725,10,0,0" VerticalAlignment="Top" Width="150" Height="32" FontWeight="Bold" Click="button_Click"/>
 

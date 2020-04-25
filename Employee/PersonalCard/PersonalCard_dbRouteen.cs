@@ -179,7 +179,7 @@ namespace Employee.DataBase
 
 
         // подкачка образования
-        public List<string> GetEduForID(string id)
+        public List<List<string>> GetEduForID(string id)
         {
             string sql = "Select * from EducationCard where pk_personal_card=" + id;
 
@@ -191,28 +191,29 @@ namespace Employee.DataBase
             cmd.CommandText = sql;
 
             // Словарь для передачи информации
-            List<string> data = new List<string>();
+            List<List<string>> data = new List<List<string>>();
 
             using (DbDataReader reader = cmd.ExecuteReader())
             {
                 if (reader.HasRows)
                 {
-                    reader.Read();
-
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("type_edu"))));
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("univer"))));
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("spec"))));
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name_doc"))));
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("seria_doc"))));
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("number_doc"))));
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("year_end"))));
-                    data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_edu_card"))));
-
-                    return data;
+                    while (reader.Read())
+                    {
+                        List<string> str = new List<string>();
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("type_edu"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("univer"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("spec"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name_doc"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("seria_doc"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("number_doc"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("year_end"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_edu_card"))));
+                        data.Add(str);
+                    }
+                    
                 }
-                else
-                    return null;
             }
+            return data;
         }
 
         /*

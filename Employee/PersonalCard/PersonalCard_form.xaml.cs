@@ -24,8 +24,9 @@ namespace Employee.PersonalCard
         Dictionary<int, string> card;                                       // Информация по одной личной карте
         List<List<string>> card_lang;                                       // Информация по языкам в ЛК
         List<List<string>> card_education;                                  // Информация по образованию в ЛК
+        List<List<string>> card_work;                                       // Информация по работе в ЛК
         PersonalCard personal_card;                                         // Личная карта
-        
+      
 
         /*Класс, отвечающий за информацию одной личной карты*/
         public class PersonalCard 
@@ -75,14 +76,17 @@ namespace Employee.PersonalCard
                 WorkPlaces = new List<WorkPlace>();
             }
 
-            public PersonalCard(Dictionary<int, string> _card, List<List<string>> _card_lang, List<List<string>> _card_education) 
+            public PersonalCard(Dictionary<int, string> _card, List<List<string>> _card_lang, List<List<string>> _card_education, List<List<string>> _card_work) 
             {
                 List<Lang> langs = new List<Lang>();
                 List<Education> educations = new List<Education>();
                 List<WorkPlace> work_places = new List<WorkPlace>();
 
                 CardId = _card[15];
-                DatePreparation = new DateTime(Int32.Parse(_card[16].Substring(6, 4)), Int32.Parse(_card[16].Substring(3, 2)), Int32.Parse(_card[16].Substring(0, 2)));
+                DatePreparation = new DateTime(
+                    Int32.Parse(_card[16].Substring(6, 4)),
+                    Int32.Parse(_card[16].Substring(3, 2)),
+                    Int32.Parse(_card[16].Substring(0, 2)));
                 TablelNumber = _card[6];
                 INN = _card[5];
                 InsuranceCertificate = _card[9];
@@ -95,12 +99,18 @@ namespace Employee.PersonalCard
                 else if (_card[8][0] == 'И')
                     Gender = "Интерсекс";
 
-                DateBirth = new DateTime(Int32.Parse(_card[17].Substring(6, 4)), Int32.Parse(_card[17].Substring(3, 2)), Int32.Parse(_card[17].Substring(0, 2)));
+                DateBirth = new DateTime(
+                    Int32.Parse(_card[17].Substring(6, 4)),
+                    Int32.Parse(_card[17].Substring(3, 2)),
+                    Int32.Parse(_card[17].Substring(0, 2)));
                 PlaceBirth = _card[7];
                 Citizenship = _card[10];
                 PassportNumner = _card[12];
                 PassportSerial = _card[11];
-                PassportDate = new DateTime(Int32.Parse(_card[14].Substring(6, 4)), Int32.Parse(_card[14].Substring(3, 2)), Int32.Parse(_card[14].Substring(0, 2)));
+                PassportDate = new DateTime(
+                    Int32.Parse(_card[14].Substring(6, 4)),
+                    Int32.Parse(_card[14].Substring(3, 2)),
+                    Int32.Parse(_card[14].Substring(0, 2)));
                 PassportIssued = _card[13];
                 TypeEducation = _card_education[0][0];
                 DateDismissal = new DateTime();
@@ -129,25 +139,29 @@ namespace Employee.PersonalCard
                         EduDocSer = _card_education[i][4],
                         EduDocNum = _card_education[i][5],
                         DateFinal = new DateTime(
-                        Int32.Parse(_card_education[i][6].Substring(6, 4)),
-                        Int32.Parse(_card_education[i][6].Substring(3, 2)),
-                        Int32.Parse(_card_education[i][6].Substring(0, 2))),
+                            Int32.Parse(_card_education[i][6].Substring(6, 4)),
+                            Int32.Parse(_card_education[i][6].Substring(3, 2)),
+                            Int32.Parse(_card_education[i][6].Substring(0, 2))),
                     });
                 }
                 Educations = educations;
 
-
-                work_places.Add(new WorkPlace
+                for (int i = 0; i < _card_work.Count; i++)
                 {
-                    DateRecruit = new DateTime(2017, 06, 02),
-                    SubDivision = "Отдел консультации",
-                    Post = "Врач-консультант",
-                    CharWork = "Постоянная",
-                    TypeWork = "Основная",
-                    Pay = "36000",
-                    Base = "Приказ от 02.06.2017",
-                });
-
+                    work_places.Add(new WorkPlace
+                    {
+                        DateRecruit = new DateTime(
+                            Int32.Parse(_card_work[i][1].Substring(6, 4)),
+                            Int32.Parse(_card_work[i][1].Substring(3, 2)),
+                            Int32.Parse(_card_work[i][1].Substring(0, 2))),
+                        SubDivision = _card_work[i][2],
+                        Post =_card_work[i][3],
+                        CharWork = _card_work[i][4],
+                        TypeWork = _card_work[i][5],
+                        Pay = _card_work[i][6],
+                        Base = _card_work[i][7],
+                    });
+                }
                 WorkPlaces = work_places;
             }
 
@@ -188,7 +202,9 @@ namespace Employee.PersonalCard
         /*Конструктор формы*/
         public PersonalCard_RW()
         {
-            PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
+
+            // создаем личную карту
+            personal_card = new PersonalCard();
 
             InitializeComponent();
             TablelNumberTB.TextWrapping = TextWrapping.NoWrap;
@@ -200,9 +216,6 @@ namespace Employee.PersonalCard
             PassportSerialTB.TextWrapping = TextWrapping.NoWrap;
             PassportIssuedTB.TextWrapping = TextWrapping.NoWrap;
             ReasonDismissalTB.TextWrapping = TextWrapping.NoWrap;
-
-            // создаем личную карту
-            personal_card = new PersonalCard();
 
             label_num.Content = "N - " + personal_card.TablelNumber;
             DatePreparationDP.SelectedDate = personal_card.DatePreparation;
@@ -224,21 +237,6 @@ namespace Employee.PersonalCard
             WorksGrid.ItemsSource = personal_card.WorkPlaces;
             DismissalDP.SelectedDate = personal_card.DateDismissal;
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
-
-            GenderCB.Items.Add("Мужской");
-            GenderCB.Items.Add("Женский");
-            GenderCB.Items.Add("Интерсекс");
-
-            // ПОДКАЧКА СПРАВОЧНИКА ГРАЖДАНСТВА
-            List<string> citizenship = dbRouteen.GetAllNations();       
-            for (int i = 0; i < citizenship.Count; i++)
-                CitizenshipCB.Items.Add(citizenship[i]);
-
-            // ПОДКАЧКА СПРАВОЧНИКА ТИПО ОБРАЗОВАНИЯ
-            List<string> edu_types = dbRouteen.GetAllEduTypes();
-            for (int i = 0; i < edu_types.Count; i++)
-                TypeEducationCB.Items.Add(edu_types[i]);
-
 
             // Пока не знаю, нодо ли это добавлять в таблицы
             //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
@@ -264,12 +262,13 @@ namespace Employee.PersonalCard
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
             // получаем инфо личной карты
-            card = dbRouteen.GetPersonalCardForID("3");
+            card = dbRouteen.GetPersonalCardForID("2");
             card_lang = dbRouteen.GetLangsForID(card[1]);
             card_education = dbRouteen.GetEduForID(card[1]);
+            card_work = dbRouteen.GetWorksForID(card[1]);
 
             // создаем личную карту
-            personal_card = new PersonalCard(card, card_lang, card_education);
+            personal_card = new PersonalCard(card, card_lang, card_education, card_work);
 
             // заполняем поля
             label_num.Content = "N - " + personal_card.TablelNumber;
@@ -323,13 +322,64 @@ namespace Employee.PersonalCard
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
         }
 
+        /*Сохранение изменений карты*/
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
+            // шапка
+            personal_card.DatePreparation = DatePreparationDP.DisplayDate;
+            personal_card.TablelNumber = TablelNumberTB.Text;
+            personal_card.INN = INN_TB.Text;
+            personal_card.InsuranceCertificate = InsuranceCertificateTB.Text;
+            personal_card.FIO = FIO_TB.Text;
+            personal_card.Gender = GenderCB.Text;
+            personal_card.Citizenship = CitizenshipCB.Text;
+
+            // паспорт
+            personal_card.PassportNumner = PassportNumnerTB.Text;
+            personal_card.PassportSerial = PassportSerialTB.Text;
+            personal_card.PassportDate = PassportDateDP.DisplayDate;
+            personal_card.PassportIssued = PassportIssuedTB.Text;
+
+            // образование
+            personal_card.TypeEducation = TypeEducationCB.Text;
+
+            // увольнение
+            personal_card.DateDismissal = DismissalDP.DisplayDate;
+            personal_card.ReasonDismissal = ReasonDismissalTB.Text;
+
+
             // кидаем запрос
             dbRouteen.UpdateDataInPersonalCardForID(personal_card);
         }
+
+        /*Созздание бокса пол*/
+        private void GenderCB_Loaded(object sender, RoutedEventArgs e)
+        {
+            GenderCB.Items.Add("Мужской");
+            GenderCB.Items.Add("Женский");
+            GenderCB.Items.Add("Интерсекс");
+        }
+
+        /*Созздание бокса гражданство*/
+        private void CitizenshipCB_Loaded(object sender, RoutedEventArgs e)
+        {
+            PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
+            List<string> citizenship = dbRouteen.GetAllNations();
+            for (int i = 0; i < citizenship.Count; i++)
+                CitizenshipCB.Items.Add(citizenship[i]);
+        }
+
+        /*Созздание бокса тип обучения*/
+        private void TypeEducationCB_Loaded(object sender, RoutedEventArgs e)
+        {
+            PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
+            List<string> edu_types = dbRouteen.GetAllEduTypes();
+            for (int i = 0; i < edu_types.Count; i++)
+                TypeEducationCB.Items.Add(edu_types[i]);
+        }
+
     }
 }

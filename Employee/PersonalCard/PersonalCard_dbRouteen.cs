@@ -15,6 +15,7 @@ namespace Employee.DataBase
         {
             conn = _new_conn;
         }
+
         // Чтение персональной карточки по ID
         // ПОЛЯ familiya, imya, otchestvo, inn
         public Dictionary<int, string> GetPersonalCardForID(string id)
@@ -36,16 +37,16 @@ namespace Employee.DataBase
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    card.Add(1, Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_personal_card"))));        // pk
-                    card.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));  // получаем фамилию
-                    card.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));      // получаем имя
-                    card.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")))); // получаем отчество
-                    card.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));       // получаем ИНН
-                    card.Add(6, Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));  //получаем табельный номер
-                    card.Add(7, Convert.ToString(reader.GetValue(reader.GetOrdinal("b_place"))));                    // место рождения
+                    card.Add(1, Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_personal_card"))));      // pk
+                    card.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));              // получаем фамилию
+                    card.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));                  // получаем имя
+                    card.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo"))));             // получаем отчество
+                    card.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));                   // получаем ИНН
+                    card.Add(6, Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));          // получаем табельный номер
+                    card.Add(7, Convert.ToString(reader.GetValue(reader.GetOrdinal("b_place"))));               // место рождения
                     card.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
-                    card.Add(9, Convert.ToString(reader.GetValue(reader.GetOrdinal("insurance"))));
-                    card.Add(10, Convert.ToString(reader.GetOrdinal("Nation")));                        // национальность
+                    card.Add(9, Convert.ToString(reader.GetValue(reader.GetOrdinal("insurance"))));             // страховое
+                    card.Add(10, Convert.ToString(reader.GetOrdinal("Nation")));                                // национальность
 
                     // читаем данные для вспомогательных функций
                     string pas_key = Convert.ToString(reader.GetValue(reader.GetOrdinal("pas_key")));

@@ -22,22 +22,21 @@ namespace Employee.PersonalCard
     public partial class PersonalCard_RW : Window
     {
         Dictionary<int, string> card;                                       // Информация по одной личной карте
+        List<List<string>> card_lang;                                       // Информация по языкам в ЛК
+        List<string> card_education;                                        // Информация по образованию в ЛК
         PersonalCard personal_card;                                         // Личная карта
         
 
         /*Класс, отвечающий за информацию одной личной карты*/
-        public class PersonalCard {
-
-            public string passport_id = "";
-            public List<string> langs_ids = new List<string>();
-            public string edu_id = "";
-
+        public class PersonalCard 
+        {
+            public string CardId { get; set; }                              // ID
             public DateTime DatePreparation { get; set; }                   // Дата составления
             public string TablelNumber { get; set; }                        // Табельный номер
             public string INN { get; set; }                                 // ИНН
             public string InsuranceCertificate{ get; set; }                 // Номер страхового свидетельства
             public string FIO { get; set; }                                 // ФИО сотрудника
-            public char Gender { get; set; }                                // Пол сотрудника
+            public string Gender { get; set; }                              // Пол сотрудника
             public DateTime DateBirth { get; set; }                         // Дата рождения
             public string PlaceBirth { get; set; }                          // Место рождения
             public string Citizenship { get; set; }                         // Гражданство
@@ -54,16 +53,12 @@ namespace Employee.PersonalCard
 
             public PersonalCard()
             {
-                List<Lang> langs = new List<Lang>();
-                List<Education> educations = new List<Education>();
-                List<WorkPlace> work_places = new List<WorkPlace>();
-
                 DatePreparation = new DateTime();
                 TablelNumber = "";
                 INN = "";
                 InsuranceCertificate = "";
                 FIO = "";
-                Gender = ' ';
+                Gender = "";
                 DateBirth = new DateTime();
                 PlaceBirth = "";
                 Citizenship = "";
@@ -75,53 +70,31 @@ namespace Employee.PersonalCard
                 DateDismissal = new DateTime();
                 ReasonDismissal = "";
 
-                langs.Add(new Lang
-                {
-                    NameLang = "",
-                    DegreeLang = "",
-                });
-
-                Langs = langs;
-
-                educations.Add(new Education
-                {
-                    EduName = "",
-                    EduSpecial = "",
-                    EduDocName = "",
-                    EduDocSer = "",
-                    EduDocNum = "",
-                    DateFinal = new DateTime(),
-            });
-
-                Educations = educations;
-
-
-                work_places.Add(new WorkPlace
-                {
-                    DateRecruit = new DateTime(),
-                    SubDivision = "",
-                    Post = "",
-                    CharWork = "",
-                    TypeWork = "",
-                    Pay = "",
-                    Base = "",
-                });
-
-                WorkPlaces = work_places;
+                Langs = new List<Lang>();
+                Educations = new List<Education>();
+                WorkPlaces = new List<WorkPlace>();
             }
 
-            public PersonalCard(Dictionary<int, string> _card) 
+            public PersonalCard(Dictionary<int, string> _card, List<List<string>> _card_lang, List<string> _card_education) 
             {
                 List<Lang> langs = new List<Lang>();
                 List<Education> educations = new List<Education>();
                 List<WorkPlace> work_places = new List<WorkPlace>();
 
+                CardId = _card[15];
                 DatePreparation = new DateTime(2017, 06, 04);
                 TablelNumber = _card[6];
                 INN = _card[5];
                 InsuranceCertificate = _card[9];
                 FIO = _card[2] + " " + _card[3] + " " + _card[4];
-                Gender = _card[8][0];
+
+                if (_card[8][0] == 'М')
+                    Gender = "Мужской";
+                else if (_card[8][0] == 'Ж')
+                    Gender = "Женский";
+                else if (_card[8][0] == 'И')
+                    Gender = "Интерсекс";
+
                 DateBirth = new DateTime(1975, 02, 09);
                 PlaceBirth = _card[7];
                 Citizenship = _card[10];
@@ -133,47 +106,31 @@ namespace Employee.PersonalCard
                 DateDismissal = new DateTime();
                 ReasonDismissal = "";
 
-                passport_id = _card[15]; // ------------------  заготовка на завтра
-
-                PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
-                List<List<string>> recievedLagCards = dbRouteen.GetLangsForID(_card[1]) ;
-                for(int i=0; i<recievedLagCards.Count; i++)
+                for(int i = 0; i < _card_lang.Count; i++)
                 {
                     langs.Add(new Lang
                     {
-                        NameLang = recievedLagCards[i][1],
-                        DegreeLang = recievedLagCards[i][0]
-                        
+                        LangId = _card_lang[i][2],
+                        NameLang = _card_lang[i][1],
+                        DegreeLang = _card_lang[i][0],
+
                     });
-                    langs_ids.Add(recievedLagCards[i][2]);
                 }
                 Langs = langs;
-                
-                //
-                // 
-                //              ДЕН ПРИДУМАЙ КАК ВПИХНУТЬ В КОМБОБОКСЫ
-                //
-                //
-                List<string> nations = dbRouteen.GetAllNations(); // ПОДКАЧКА СПРАВОЧНИКА ГРАЖДАНСТВА
-                List<string> edu_types = dbRouteen.GetAllEduTypes(); // ПОДКАЧКА СПРАВОЧНИКА ТИПО ОБРАЗОВАНИЯ
-                List<string> languages = dbRouteen.GetAllLanguages(); // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
-                List<string> degrees = dbRouteen.GetAllDegreesLan(); // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
-
-                List<string> sup = dbRouteen.GetEduForID(_card[1]); // ------------------  заготовка на завтра
-
+               
                 educations.Add(new Education
                 {
-                    EduName = sup[1],
-                    EduSpecial = sup[2],
-                    EduDocName = sup[3],
-                    EduDocSer = sup[4],
-                    EduDocNum = sup[5],
-                    DateFinal = new DateTime(Int32.Parse(sup[6].Substring(6, 4)), Int32.Parse(sup[6].Substring(3, 2)), Int32.Parse(sup[6].Substring(0, 2))),
-                });
-
-                edu_id = sup[7]; // ------------------  заготовка на завтра
-                
-
+                    EducationId = _card_education[7],
+                    EduName = _card_education[1],
+                    EduSpecial = _card_education[2],
+                    EduDocName = _card_education[3],
+                    EduDocSer = _card_education[4],
+                    EduDocNum = _card_education[5],
+                    DateFinal = new DateTime(
+                        Int32.Parse(_card_education[6].Substring(6, 4)),
+                        Int32.Parse(_card_education[6].Substring(3, 2)),
+                        Int32.Parse(_card_education[6].Substring(0, 2))),
+                });               
                 Educations = educations;
 
 
@@ -196,6 +153,7 @@ namespace Employee.PersonalCard
         /*Класс, отвечающий за информацию о языке*/
         public class Lang
         {
+            public string LangId { get; set; }                              // ID
             public string NameLang { get; set; }                            // Название языка
             public string DegreeLang { get; set; }                          // Степень знания языка
         }
@@ -203,11 +161,12 @@ namespace Employee.PersonalCard
         /*Класс, отвечающий за информацию об образовании*/
         public class Education
         {
+            public string EducationId { get; set; }                         // ID
             public string EduName { get; set; }                             // Названия заведения
             public string EduSpecial { get; set; }                          // Направление
             public string EduDocName { get; set; }                          // Наименование документа
             public string EduDocSer { get; set; }                           // Серия документа
-            public string EduDocNum { get; set; }                              // Номер документа
+            public string EduDocNum { get; set; }                           // Номер документа
             public DateTime DateFinal { get; set; }                         // Дата окончания
         }
 
@@ -226,6 +185,8 @@ namespace Employee.PersonalCard
         /*Конструктор формы*/
         public PersonalCard_RW()
         {
+            PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
+
             InitializeComponent();
             TablelNumberTB.TextWrapping = TextWrapping.NoWrap;
             INN_TB.TextWrapping = TextWrapping.NoWrap;
@@ -239,6 +200,46 @@ namespace Employee.PersonalCard
 
             // создаем личную карту
             personal_card = new PersonalCard();
+
+            label_num.Content = "N - " + personal_card.TablelNumber;
+            DatePreparationDP.SelectedDate = personal_card.DatePreparation;
+            TablelNumberTB.Text = personal_card.TablelNumber;
+            INN_TB.Text = personal_card.INN;
+            InsuranceCertificateTB.Text = personal_card.InsuranceCertificate;
+            FIO_TB.Text = personal_card.FIO;
+            GenderCB.SelectedValue = personal_card.Gender;
+            CitizenshipCB.SelectedValue = personal_card.Citizenship;
+            DateBirthDP.SelectedDate = personal_card.DateBirth;
+            PlaceBirthTB.Text = personal_card.PlaceBirth;
+            LangGrid.ItemsSource = personal_card.Langs;
+            PassportNumnerTB.Text = personal_card.PassportNumner;
+            PassportSerialTB.Text = personal_card.PassportSerial;
+            PassportDateDP.SelectedDate = personal_card.PassportDate;
+            PassportIssuedTB.Text = personal_card.PassportIssued;
+            TypeEducationCB.SelectedValue = personal_card.TypeEducation;
+            EduGrid.ItemsSource = personal_card.Educations;
+            WorksGrid.ItemsSource = personal_card.WorkPlaces;
+            DismissalDP.SelectedDate = personal_card.DateDismissal;
+            ReasonDismissalTB.Text = personal_card.ReasonDismissal;
+
+            GenderCB.Items.Add("Мужской");
+            GenderCB.Items.Add("Женский");
+            GenderCB.Items.Add("Интерсекс");
+
+            // ПОДКАЧКА СПРАВОЧНИКА ГРАЖДАНСТВА
+            List<string> citizenship = dbRouteen.GetAllNations();       
+            for (int i = 0; i < citizenship.Count; i++)
+                CitizenshipCB.Items.Add(citizenship[i]);
+
+            // ПОДКАЧКА СПРАВОЧНИКА ТИПО ОБРАЗОВАНИЯ
+            List<string> edu_types = dbRouteen.GetAllEduTypes();
+            for (int i = 0; i < edu_types.Count; i++)
+                TypeEducationCB.Items.Add(edu_types[i]);
+
+
+            // Пока не знаю, нодо ли это добавлять в таблицы
+            //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
+            //List<string> degrees = dbRouteen.GetAllDegreesLan();    // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
         }
 
         /*Закрытие окна*/
@@ -256,12 +257,16 @@ namespace Employee.PersonalCard
         /*Выбор карточки*/
         private void ChouseBtn_Click(object sender, RoutedEventArgs e)
         {
+            // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
-            // получаем инфо личной картыs
-            card = dbRouteen.GetPersonalCardForID("3");
+
+            // получаем инфо личной карты
+            card = dbRouteen.GetPersonalCardForID("2");
+            card_lang = dbRouteen.GetLangsForID(card[1]);
+            card_education = dbRouteen.GetEduForID(card[1]);
 
             // создаем личную карту
-            personal_card = new PersonalCard(card);
+            personal_card = new PersonalCard(card, card_lang, card_education);
 
             // заполняем поля
             label_num.Content = "N - " + personal_card.TablelNumber;
@@ -299,8 +304,8 @@ namespace Employee.PersonalCard
             INN_TB.Text = personal_card.INN;
             InsuranceCertificateTB.Text = personal_card.InsuranceCertificate;
             FIO_TB.Text = personal_card.FIO;
-            GenderCB.SelectedItem = personal_card.Gender;
-            CitizenshipCB.SelectedItem = personal_card.Citizenship;
+            GenderCB.SelectedValue = personal_card.Gender;
+            CitizenshipCB.SelectedValue = personal_card.Citizenship;
             DateBirthDP.SelectedDate = personal_card.DateBirth;
             PlaceBirthTB.Text = personal_card.PlaceBirth;
             LangGrid.ItemsSource = personal_card.Langs;
@@ -308,7 +313,7 @@ namespace Employee.PersonalCard
             PassportSerialTB.Text = personal_card.PassportSerial;
             PassportDateDP.SelectedDate = personal_card.PassportDate;
             PassportIssuedTB.Text = personal_card.PassportIssued;
-            TypeEducationCB.SelectedItem = personal_card.TypeEducation;
+            TypeEducationCB.SelectedValue = personal_card.TypeEducation;
             EduGrid.ItemsSource = personal_card.Educations;
             WorksGrid.ItemsSource = personal_card.WorkPlaces;
             DismissalDP.SelectedDate = personal_card.DateDismissal;

@@ -325,7 +325,11 @@ namespace Employee.PersonalCard
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            // соеденяемся с БД
+            PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
+            // кидаем запрос
+            dbRouteen.UpdateDataInPersonalCardForID(personal_card);
         }
     }
 }

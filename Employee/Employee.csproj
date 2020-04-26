@@ -99,12 +99,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PersonalCard\ChooseForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PersonalCard\PersonalCard_form.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PersonalCard\ChooseForm.xaml.cs">
+      <DependentUpon>ChooseForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PersonalCard\PersonalCard_dbRouteen.cs" />
     <Compile Include="PersonalCard\PersonalCard_form.xaml.cs">
       <DependentUpon>PersonalCard_form.xaml</DependentUpon>

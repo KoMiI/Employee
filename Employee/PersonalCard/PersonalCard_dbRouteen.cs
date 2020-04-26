@@ -71,6 +71,57 @@ namespace Employee.DataBase
 
         }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
+        // Чтение персональной карточек
+        // ПОЛЯ familiya, imya, otchestvo, inn
+        public List<Dictionary<int, string>> GetPersonalCarAll()
+        {
+            string sql = "Select * from PersonalCard";
+
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+
+            // Словарь для передачи информации
+            List<Dictionary<int, string>> card = new List<Dictionary<int, string>>();
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    Dictionary<int, string> dic = new Dictionary<int, string>();
+
+                    dic.Add(1, Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_personal_card"))));      // pk
+                    dic.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));              // получаем фамилию
+                    dic.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));                  // получаем имя
+                    dic.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo"))));             // получаем отчество
+                    dic.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));                   // получаем ИНН
+                    dic.Add(6, Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));          // получаем табельный номер
+                    dic.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
+                    dic.Add(16, Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));          // дата создания
+
+                    // читаем данные для вспомогательных функций
+                    string pas_key = Convert.ToString(reader.GetValue(reader.GetOrdinal("pas_key")));
+
+                    reader.Close();
+                    // отправляем ID паспорта во вспомогательнцю функцию
+                    List<string> PassData = GetPassportForID(pas_key);
+                    // ДАННЫЕ ПАСПОРТА
+                    for (int i = 0; i < 5; i++)
+                        dic.Add(11 + i, PassData[i]);   // 11 - серия, 12 - номер, 13 - кем выдан, 14 - дата выдачи
+
+                    card.Add(dic);
+                }
+            }
+
+            return card;
+        }
+ //-------------------------------------------------------------------------------------------------------------------------------------------------------
+
         // Метод получения карточек Языков по ID
         public List<List<string>> GetLangsForID(string id)
         {

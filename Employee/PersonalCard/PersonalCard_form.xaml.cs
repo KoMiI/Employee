@@ -270,6 +270,11 @@ namespace Employee.PersonalCard
         /*Выбор карточки*/
         private void ChouseBtn_Click(object sender, RoutedEventArgs e)
         {
+            this.Hide();
+            ChooseForm winR = new ChooseForm();
+            winR.Closed += Window_Closed;
+            winR.Show();
+
             // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
@@ -347,7 +352,7 @@ namespace Employee.PersonalCard
 
             // шапка
             personal_card.DatePreparation = DatePreparationDP.DisplayDate;
-            personal_card.TablelNumber = TablelNumberTB.Text;
+            personal_card.TablelNumber = TablelNumberTB.Text; 
             personal_card.INN = INN_TB.Text;
             personal_card.InsuranceCertificate = InsuranceCertificateTB.Text;
             personal_card.FIO = FIO_TB.Text;

@@ -371,13 +371,33 @@ namespace Employee.DataBase
          */
          public void UpdateDataInPersonalCardForID(PersonalCard_RW.PersonalCard toUpdate)
         {
+            string CardId = toUpdate.CardId;
+            DateTime DatePreparation = toUpdate.DatePreparation;
+            string TablelNumber = toUpdate.TablelNumber;
+            string INN = toUpdate.INN;
+            string InsuranceCertificate = toUpdate.InsuranceCertificate;
+            string Gender = toUpdate.Gender;
             string[] fio = toUpdate.FIO.Split(new char[] { ' ' });
+            DateTime DateBirth = toUpdate.DateBirth;
+            string PlaceBirth = toUpdate.PlaceBirth;
+            string Citizenship = toUpdate.Citizenship;
+            string PassportNumner = toUpdate.PassportNumner;
+            string PassportSerial = toUpdate.PassportSerial;
+            DateTime PassportDate = toUpdate.PassportDate;
+            string PassportIssued = toUpdate.PassportIssued;
+            string TypeEducation = toUpdate.TypeEducation;
+            DateTime DateDismissal = toUpdate.DateDismissal;
+            string ReasonDismissal = toUpdate.ReasonDismissal;
+
+            List<PersonalCard_RW.Lang> langs = toUpdate.Langs;
+            List<PersonalCard_RW.Education> educations = toUpdate.Educations;
+            List<PersonalCard_RW.WorkPlace> workPlaces = toUpdate.WorkPlaces;
 
             string sql = "UPDATE `PersonalCard` SET "+
                         "`familiya`='"+ fio[0] +    
                         "' ,`imya`='" + fio[1] +
                         "' ,`otchestvo`='" + fio[2]+
-                        "' WHERE pk_personal_card="+toUpdate.CardId;
+                        "' WHERE pk_personal_card=" + CardId;
 
             // Создать объект Command.
             MySqlCommand cmd = new MySqlCommand();

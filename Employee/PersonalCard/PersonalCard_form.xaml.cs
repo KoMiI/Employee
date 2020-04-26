@@ -210,53 +210,8 @@ namespace Employee.PersonalCard
             public string Base { get; set; }                                // Основание
         }
 
-
-        /*Конструктор формы*/
-        public PersonalCard_RW()
-        {
-            // создаем личную карту
-            personal_card = new PersonalCard();
-
-            InitializeComponent();
-            TablelNumberTB.TextWrapping = TextWrapping.NoWrap;
-            INN_TB.TextWrapping = TextWrapping.NoWrap;
-            InsuranceCertificateTB.TextWrapping = TextWrapping.NoWrap;
-            FIO_TB.TextWrapping = TextWrapping.NoWrap;
-            PlaceBirthTB.TextWrapping = TextWrapping.NoWrap;
-            PassportNumnerTB.TextWrapping = TextWrapping.NoWrap;
-            PassportSerialTB.TextWrapping = TextWrapping.NoWrap;
-            PassportIssuedTB.TextWrapping = TextWrapping.NoWrap;
-            ReasonDismissalTB.TextWrapping = TextWrapping.NoWrap;
-  
-            label_num.Content = "N - " + personal_card.TablelNumber;
-            DatePreparationDP.SelectedDate = personal_card.DatePreparation;
-            TablelNumberTB.Text = personal_card.TablelNumber;
-            INN_TB.Text = personal_card.INN;
-            InsuranceCertificateTB.Text = personal_card.InsuranceCertificate;
-            FIO_TB.Text = personal_card.FIO;
-            GenderCB.SelectedValue = personal_card.Gender;
-            CitizenshipCB.SelectedValue = personal_card.Citizenship;
-            DateBirthDP.SelectedDate = personal_card.DateBirth;
-            PlaceBirthTB.Text = personal_card.PlaceBirth;
-            LangGrid.ItemsSource = personal_card.Langs;
-            PassportNumnerTB.Text = personal_card.PassportNumner;
-            PassportSerialTB.Text = personal_card.PassportSerial;
-            PassportDateDP.SelectedDate = personal_card.PassportDate;
-            PassportIssuedTB.Text = personal_card.PassportIssued;
-            TypeEducationCB.SelectedValue = personal_card.TypeEducation;
-            EduGrid.ItemsSource = personal_card.Educations;
-            WorksGrid.ItemsSource = personal_card.WorkPlaces;
-            DismissalDP.SelectedDate = personal_card.DateDismissal;
-            ReasonDismissalTB.Text = personal_card.ReasonDismissal;
-
-            ActivateBtn();
-
-            // ПОКА НЕ ЗНАЮ КАК ДОБАВИТЬ ЭТО В ТАБЛИЦЫ, СЛОЖНААА
-            //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
-            //List<string> degrees = dbRouteen.GetAllDegreesLan();    // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
-        }
-
-        public void CreateChooseCard()
+        /*Создание существующей карты и заполение полей формы*/
+        public void CreateFullCard()
         {
             // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
@@ -295,17 +250,9 @@ namespace Employee.PersonalCard
             ActivateBtn();
         }
 
-        /*Выбор карточки*/
-        private void ChouseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            ChooseForm winC = new ChooseForm(this);
-            winC.Closed += Window_Closed;
-            winC.Show();
-        }
 
-        /*Создание новой карты*/
-        private void button_Click(object sender, RoutedEventArgs e)
+        /*Создание новой карты и заполение полей формы*/
+        public void CreateNewCard()
         {
             // создаем личную карту
             personal_card = new PersonalCard();
@@ -333,7 +280,44 @@ namespace Employee.PersonalCard
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
 
             ActivateBtn();
+        }
 
+
+        /*Конструктор формы*/
+        public PersonalCard_RW()
+        {
+
+            InitializeComponent();
+            TablelNumberTB.TextWrapping = TextWrapping.NoWrap;
+            INN_TB.TextWrapping = TextWrapping.NoWrap;
+            InsuranceCertificateTB.TextWrapping = TextWrapping.NoWrap;
+            FIO_TB.TextWrapping = TextWrapping.NoWrap;
+            PlaceBirthTB.TextWrapping = TextWrapping.NoWrap;
+            PassportNumnerTB.TextWrapping = TextWrapping.NoWrap;
+            PassportSerialTB.TextWrapping = TextWrapping.NoWrap;
+            PassportIssuedTB.TextWrapping = TextWrapping.NoWrap;
+            ReasonDismissalTB.TextWrapping = TextWrapping.NoWrap;
+
+            CreateNewCard();
+
+            // ПОКА НЕ ЗНАЮ КАК ДОБАВИТЬ ЭТО В ТАБЛИЦЫ, СЛОЖНААА
+            //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
+            //List<string> degrees = dbRouteen.GetAllDegreesLan();    // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
+        }
+
+        /*Кнопка для выбора карточки*/
+        private void ChouseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            ChooseForm winC = new ChooseForm(this);
+            winC.Closed += Window_Closed;
+            winC.Show();
+        }
+
+        /*Кнопка для создания новой карты*/
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateNewCard();
         }
 
         /*Сохранение изменений карты*/

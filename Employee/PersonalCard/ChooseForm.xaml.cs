@@ -92,7 +92,7 @@ namespace Employee.PersonalCard
                 if (dataGrid.SelectedItems.Count > 0)
                 {
                     personal_card.ID_card = initcards[dataGrid.SelectedIndex].CardId;
-                    personal_card.CreateChooseCard();
+                    personal_card.CreateFullCard();
                     this.Close();
                 }
                 else

@@ -256,6 +256,7 @@ namespace Employee.PersonalCard
             personal_card = new PersonalCard();
 
             // заполняем поля
+            label_name.Content = "Личная карта";
             DatePreparationDP.SelectedDate = personal_card.DatePreparation;
             TablelNumberTB.Text = personal_card.TablelNumber;
             INN_TB.Text = personal_card.INN;

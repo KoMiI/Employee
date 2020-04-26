@@ -36,8 +36,6 @@ namespace Employee.PersonalCard
         List<List<string>> card_education;                                  // Информация по образованию в ЛК
         List<List<string>> card_work;                                       // Информация по работе в ЛК
         PersonalCard personal_card;                                         // Личная карта
-        public string ID_card;                                // ID выбраной карты
-      
 
         /*Класс, отвечающий за информацию одной личной карты*/
         public class PersonalCard 
@@ -211,13 +209,13 @@ namespace Employee.PersonalCard
         }
 
         /*Создание существующей карты и заполение полей формы*/
-        public void CreateFullCard()
+        public void CreateFullCard(string ID)
         {
             // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
             // получаем инфо личной карты
-            card = dbRouteen.GetPersonalCardForID(ID_card);
+            card = dbRouteen.GetPersonalCardForID(ID);
             card_lang = dbRouteen.GetLangsForID(card[1]);
             card_education = dbRouteen.GetEduForID(card[1]);
             card_work = dbRouteen.GetWorksForID(card[1]);
@@ -226,7 +224,7 @@ namespace Employee.PersonalCard
             personal_card = new PersonalCard(card, card_lang, card_education, card_work);
 
             // заполняем поля
-            label_num.Content = "N - " + personal_card.TablelNumber;
+            label_name.Content = "Личная карта N - " + personal_card.TablelNumber + " от " + personal_card.DatePreparation.ToString("dd.MM.yyyy");
             DatePreparationDP.SelectedDate = personal_card.DatePreparation;
             TablelNumberTB.Text = personal_card.TablelNumber;
             INN_TB.Text = personal_card.INN;
@@ -258,7 +256,6 @@ namespace Employee.PersonalCard
             personal_card = new PersonalCard();
 
             // заполняем поля
-            label_num.Content = "N - " + personal_card.TablelNumber;
             DatePreparationDP.SelectedDate = personal_card.DatePreparation;
             TablelNumberTB.Text = personal_card.TablelNumber;
             INN_TB.Text = personal_card.INN;

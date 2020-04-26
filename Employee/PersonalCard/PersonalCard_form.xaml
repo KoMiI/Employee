@@ -8,7 +8,7 @@
         Title="Личная карта работника" Height="850" Width="1290" ResizeMode="NoResize" Closed="Window_Closed">
 
     <Grid HorizontalAlignment="Left" Height="821" VerticalAlignment="Top" Width="1284">
-        <Label x:Name="label_name" Content="Личная карта работника" HorizontalAlignment="Center" Margin="15,10,965,0" VerticalAlignment="Top" Height="32" Width="304" FontSize="20" FontWeight="Bold" FontStyle="Italic" FontFamily="Bookman Old Style"/>
+        <Label x:Name="label_name" Content="Личная карта" HorizontalAlignment="Center" Margin="15,10,711,0" VerticalAlignment="Top" Height="32" Width="558" FontSize="20" FontWeight="Bold" FontStyle="Italic" FontFamily="Bookman Old Style"/>
         <Label x:Name="DatePreparationL" Content="Дата составления:" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontStyle="Italic" Height="25"/>
         <Label x:Name="TablelNumberL" Content="Табельный номер:" HorizontalAlignment="Left" Margin="299,66,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontStyle="Italic" Height="25"/>
         <Label x:Name="INNL" Content="ИНН:" HorizontalAlignment="Left" Margin="652,66,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" Height="25" FontWeight="Bold"/>
@@ -30,7 +30,6 @@
         <Label x:Name="EducationsL" Content="Сведения об образовании" HorizontalAlignment="Left" Margin="10,375,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
         <Label x:Name="PassportL" Content="Паспортные данные" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
         <Label x:Name="LanguagesL" Content="Знание языков" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontSize="14"/>
-        <Label x:Name="label_num" Content="N - " HorizontalAlignment="Center" Margin="324,10,711,0" VerticalAlignment="Top" Height="32" Width="249" FontSize="20" FontWeight="Bold" FontStyle="Italic" FontFamily="Bookman Old Style"/>
 
         <ComboBox x:Name="CitizenshipCB" Margin="980,96,0,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Width="284" Loaded="CitizenshipCB_Loaded"/>
         <ComboBox x:Name="TypeEducationCB" HorizontalAlignment="Left" Margin="106,409,0,0" VerticalAlignment="Top" Width="188" Height="25" Loaded="TypeEducationCB_Loaded"/>

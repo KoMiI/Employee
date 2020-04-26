@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Employee.PersonalCard"
         mc:Ignorable="d"
-        Title="Выбрать личную карту" Height="849.6" Width="1290">
+        Title="Выбрать личную карту" Height="849.6" Width="1290" ResizeMode="NoResize">
     <Grid>
-        <DataGrid x:Name="dataGrid" Margin="0,139,0,0" ColumnWidth="*" AutoGenerateColumns="False"
+        <DataGrid x:Name="dataGrid" Margin="10,139,10,0" ColumnWidth="*" AutoGenerateColumns="False"
                    VerticalContentAlignment="Center" VerticalScrollBarVisibility="Visible">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar">
@@ -30,39 +30,37 @@
             </DataGrid.RowHeaderStyle>
 
             <DataGrid.Columns>
-
-                <DataGridTextColumn Header="ID" Binding="{Binding CardId}"/>
-
                 <DataGridTemplateColumn Header="Дата составления">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <DatePicker SelectedDate="{Binding DatePreparation}" BorderThickness="0" Width="180" />
+                            <DatePicker SelectedDate="{Binding DatePreparation}" BorderThickness="0" Width="220"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Табельный номер" Binding="{Binding TablelNumber}" Width="200"/>
+                <DataGridTextColumn Header="Табельный номер" Binding="{Binding TablelNumber}"/>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" Width="300"/>
                 <DataGridTextColumn Header="Пол" Binding="{Binding Gender}" />
                 <DataGridTextColumn Header="ИНН" Binding="{Binding INN}"/>
-                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding PassportNumner}" />
-                <DataGridTextColumn Header="Серия паспорта" Binding="{Binding PassportSerial}" />
 
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="SaveBtn" Content="Выбрать карту" Margin="1135,10,0,0" VerticalAlignment="Top" Height="32" FontWeight="Bold" HorizontalAlignment="Left" Width="137" Click="SaveBtn_Click"/>
-        <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" Margin="0,109,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="TablelNumberTB" HorizontalAlignment="Left" Height="25" Margin="155,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" VerticalContentAlignment="Center">
+        <Button x:Name="SaveBtn" Content="Открыть личную карту" Margin="1082,10,10,0" VerticalAlignment="Top" Height="32" FontWeight="Bold" Click="SaveBtn_Click"/>
+        <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center" Margin="10,99,0,0" SelectedDateChanged="DatePreparationDP_SelectedDateChanged"/>
+        <TextBox x:Name="TablelNumberTB" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" VerticalContentAlignment="Center" Margin="165,99,0,0" TextChanged="TablelNumberTB_TextChanged">
             <TextBox.BindingGroup>
                 <BindingGroup/>
             </TextBox.BindingGroup>
         </TextBox>
-        <TextBox x:Name="FIO_TB" HorizontalAlignment="Left" Height="25" Margin="260,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" VerticalContentAlignment="Center"/>
-        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="565,109,0,0" VerticalAlignment="Top" Width="150" Height="25" Loaded="GenderCB_Loaded"/>
-        <TextBox x:Name="INN_TB" HorizontalAlignment="Left" Height="25" Margin="720,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="PassportNumnerTB" HorizontalAlignment="Left" Height="25" Margin="875,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" VerticalContentAlignment="Center" />
-        <TextBox x:Name="PassportSerialTB" HorizontalAlignment="Left" Height="25" Margin="1030,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.287,0.56" VerticalContentAlignment="Center"/>
-        <Button x:Name="FindBtn" Content="Поиск" Margin="1135,109,0,0" VerticalAlignment="Top" Height="25" FontWeight="Bold" HorizontalAlignment="Left" Width="147"/>
+        <TextBox x:Name="FIO_TB" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" Width="450" VerticalContentAlignment="Center" Margin="420,99,0,0" TextChanged="FIO_TB_TextChanged"/>
+        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="25" Loaded="GenderCB_Loaded" Margin="875,99,0,0" SelectionChanged="GenderCB_SelectionChanged"/>
+        <TextBox x:Name="INN_TB" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" Margin="1080,99,12,0" TextChanged="INN_TB_TextChanged" VerticalContentAlignment="Center"/>
+        <Label x:Name="label_name" Content="Список личных карт по форме Т-2 " HorizontalAlignment="Center" Margin="10,10,734,0" VerticalAlignment="Top" Height="32" Width="540" FontSize="20" FontWeight="Bold" FontStyle="Italic" FontFamily="Bookman Old Style"/>
+        <Label x:Name="DatePreparationL" Content="&quot;Дата составления&quot;" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontStyle="Italic" Height="25" Width="150"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="TablelNumberL" Content="&quot;Табельный номер&quot;" HorizontalAlignment="Left" Margin="165,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontStyle="Italic" Height="25" HorizontalContentAlignment="Center" Width="250"/>
+        <Label x:Name="FIOL" Content="&quot;ФИО&quot;" HorizontalAlignment="Left" Margin="420,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontStyle="Italic" Height="25" Width="450" HorizontalContentAlignment="Center"/>
+        <Label x:Name="GenderL" Content="&quot;Пол&quot;" HorizontalAlignment="Left" Margin="875,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" FontWeight="Bold" FontStyle="Italic" Height="25" Width="200" HorizontalContentAlignment="Center"/>
+        <Label x:Name="INNL" Content="&quot;ИНН&quot;" HorizontalAlignment="Left" Margin="1082,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.423" Height="25" FontWeight="Bold" Width="192" HorizontalContentAlignment="Center"/>
 
     </Grid>
 </Window>

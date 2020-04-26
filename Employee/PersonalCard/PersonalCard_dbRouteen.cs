@@ -71,12 +71,10 @@ namespace Employee.DataBase
 
         }
 
-//-------------------------------------------------------------------------------------------------------------------------------------------------------
-        // Чтение персональной карточек
-        // ПОЛЯ familiya, imya, otchestvo, inn
+        // Чтение персональных карточек
         public List<Dictionary<int, string>> GetPersonalCarAll()
         {
-            string sql = "Select * from PersonalCard";
+            string sql = "Select * from PersonalCard ";
 
             // Создать объект Command.
             MySqlCommand cmd = new MySqlCommand();
@@ -104,23 +102,13 @@ namespace Employee.DataBase
                     dic.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
                     dic.Add(16, Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));          // дата создания
 
-                    // читаем данные для вспомогательных функций
-                    string pas_key = Convert.ToString(reader.GetValue(reader.GetOrdinal("pas_key")));
-
-                    reader.Close();
-                    // отправляем ID паспорта во вспомогательнцю функцию
-                    List<string> PassData = GetPassportForID(pas_key);
-                    // ДАННЫЕ ПАСПОРТА
-                    for (int i = 0; i < 5; i++)
-                        dic.Add(11 + i, PassData[i]);   // 11 - серия, 12 - номер, 13 - кем выдан, 14 - дата выдачи
-
                     card.Add(dic);
                 }
             }
 
             return card;
         }
- //-------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
         // Метод получения карточек Языков по ID
         public List<List<string>> GetLangsForID(string id)

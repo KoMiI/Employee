@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using MySql.Data.MySqlClient;
+
 namespace Employee
 {
     /// <summary>
@@ -20,9 +22,14 @@ namespace Employee
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
+        public static MySqlConnection connection;
+        public MainWindow() {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
+            connection = dbConnect.StartConnection();
         }
     }
 }

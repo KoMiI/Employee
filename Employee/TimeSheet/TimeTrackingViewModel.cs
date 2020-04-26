@@ -9,8 +9,7 @@ namespace Employee.TimeSheet
 {
     public class TimeTrackingViewModel : INotifyPropertyChanged
     {
-        public readonly string PrimaryKey;
-
+        public TimeTracking TimeSheet;
         public string NumberDocument { get; set; }
 
         public DateTime DateСompilation { get; set; }

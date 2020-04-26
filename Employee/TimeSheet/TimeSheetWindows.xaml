@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:Employee.TimeSheet"
         mc:Ignorable="d"
         Title="Табель учета рабочего времени">
+    <Window.DataContext>
+        <local:TimeTracking/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="Data" HorizontalAlignment="Stretch" Grid.Row="0">
             <Grid.RowDefinitions>
@@ -51,7 +54,13 @@
                 <DatePicker  HorizontalAlignment="Center" Margin="10,0,10,0" />
             </StackPanel>
         </Grid>
-        <ListView Background="LightGray" Grid.Row="1" Margin="10,9.8,9.6,-335.8" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="350"/>
+        <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" Margin="10"
+                  ItemsSource="{Binding Path=timeTrackings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер документа" Binding="{Binding Path=NumberDocument}"/>
+                <DataGridTextColumn Header="Подразделение" Binding="{Binding Path=PKUnit}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>

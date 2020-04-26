@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\TimeSheetLogic.cs" />
     <Compile Include="TimeSheet\CreateTimeSheetWindow.xaml.cs">
       <DependentUpon>CreateTimeSheetWindow.xaml</DependentUpon>
     </Compile>
@@ -88,6 +89,7 @@
     <Compile Include="TimeSheet\TimeSheetWindows.xaml.cs">
       <DependentUpon>TimeSheetWindows.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheet\TimeTracking.cs" />
     <Compile Include="TimeSheet\TimeTrackingViewModel.cs" />
     <Page Include="Login\LoginFormWindow.xaml">
       <SubType>Designer</SubType>

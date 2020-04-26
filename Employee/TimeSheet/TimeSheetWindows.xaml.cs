@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows;
+
+using Employee.Database;
 
 namespace Employee.TimeSheet
 {
@@ -7,11 +11,19 @@ namespace Employee.TimeSheet
     /// </summary>
     public partial class TimeSheetWindows : Window
     {
-        private TimeTrackingViewModel timeTrackingViewModel;
 
+        private ObservableCollection<TimeTracking> timeTrackings = new ObservableCollection<TimeTracking>();
+ 
         public TimeSheetWindows()
         {
             InitializeComponent();
+            var logic = new TimeSheetLogic(MainWindow.connection);
+            var list = logic.GetAll();
+            foreach (var timeTracking in list) {
+                timeTrackings.Add(timeTracking);
+            }
+
+            DataGrid.ItemsSource = timeTrackings;
         }
 
         private void loadData() {
@@ -24,15 +36,15 @@ namespace Employee.TimeSheet
         }
 
         private void AddStringMenuItem_OnClick(object sender, RoutedEventArgs e) {
-            throw new System.NotImplementedException();
+            
         }
 
         private void FilterMenuItem_OnClick(object sender, RoutedEventArgs e) {
-            throw new System.NotImplementedException();
+            
         }
 
         private void PrintMenuItem_OnClick(object sender, RoutedEventArgs e) {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

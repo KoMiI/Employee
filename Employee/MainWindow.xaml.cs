@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Employee.TimeSheet;
+
 using MySql.Data.MySqlClient;
 
 namespace Employee
@@ -30,6 +32,8 @@ namespace Employee
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
             connection = dbConnect.StartConnection();
+            TimeSheet.TimeSheetWindows timeSheetWindows = new TimeSheetWindows();
+            timeSheetWindows.Show();
         }
     }
 }

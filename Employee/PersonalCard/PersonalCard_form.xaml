@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Employee.PersonalCard"
         mc:Ignorable="d"
-        Title="Личная карта работника" Height="850" Width="1290" Closed="Window_Closed" ResizeMode="NoResize">
+        Title="Личная карта работника" Height="850" Width="1290" ResizeMode="NoResize" Closed="Window_Closed">
 
     <Grid HorizontalAlignment="Left" Height="821" VerticalAlignment="Top" Width="1284">
         <Label x:Name="label_name" Content="Личная карта работника" HorizontalAlignment="Center" Margin="15,10,965,0" VerticalAlignment="Top" Height="32" Width="304" FontSize="20" FontWeight="Bold" FontStyle="Italic" FontFamily="Bookman Old Style"/>

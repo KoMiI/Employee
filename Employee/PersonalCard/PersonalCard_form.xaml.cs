@@ -36,6 +36,7 @@ namespace Employee.PersonalCard
         List<List<string>> card_education;                                  // Информация по образованию в ЛК
         List<List<string>> card_work;                                       // Информация по работе в ЛК
         PersonalCard personal_card;                                         // Личная карта
+        public string ID_card;                                // ID выбраной карты
       
 
         /*Класс, отвечающий за информацию одной личной карты*/
@@ -92,7 +93,7 @@ namespace Employee.PersonalCard
                 List<Education> educations = new List<Education>();
                 List<WorkPlace> work_places = new List<WorkPlace>();
 
-                CardId = _card[15];
+                CardId = _card[1];
                 DatePreparation = new DateTime(
                     Int32.Parse(_card[16].Substring(6, 4)),
                     Int32.Parse(_card[16].Substring(3, 2)),
@@ -255,31 +256,13 @@ namespace Employee.PersonalCard
             //List<string> degrees = dbRouteen.GetAllDegreesLan();    // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
         }
 
-        /*Закрытие окна*/
-        private void Window_Closed(object sender, EventArgs e)
+        public void CreateChooseCard()
         {
-            try
-            {
-               Window win = ((Window)sender);
-               win.Closed -= Window_Closed;
-               this.Show();
-            }
-            catch (Exception) { this.Close(); }
-        }
-
-        /*Выбор карточки*/
-        private void ChouseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            ChooseForm winR = new ChooseForm();
-            winR.Closed += Window_Closed;
-            winR.Show();
-
             // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
             // получаем инфо личной карты
-            card = dbRouteen.GetPersonalCardForID("3");
+            card = dbRouteen.GetPersonalCardForID(ID_card);
             card_lang = dbRouteen.GetLangsForID(card[1]);
             card_education = dbRouteen.GetEduForID(card[1]);
             card_work = dbRouteen.GetWorksForID(card[1]);
@@ -310,6 +293,15 @@ namespace Employee.PersonalCard
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
 
             ActivateBtn();
+        }
+
+        /*Выбор карточки*/
+        private void ChouseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            ChooseForm winC = new ChooseForm(this);
+            winC.Closed += Window_Closed;
+            winC.Show();
         }
 
         /*Создание новой карты*/
@@ -605,6 +597,18 @@ namespace Employee.PersonalCard
                 SaveBtn.IsEnabled = true;
                 PrintBtn.IsEnabled = true;
             }
+        }
+
+        /*Закрытие окна*/
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            try
+            {
+                Window win = ((Window)sender);
+                win.Closed -= Window_Closed;
+                this.Show();
+            }
+            catch (Exception) { this.Close(); }
         }
     }
 }

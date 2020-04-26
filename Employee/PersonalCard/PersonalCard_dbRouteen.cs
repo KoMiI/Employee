@@ -46,9 +46,9 @@ namespace Employee.DataBase
                     card.Add(7, Convert.ToString(reader.GetValue(reader.GetOrdinal("b_place"))));               // место рождения
                     card.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
                     card.Add(9, Convert.ToString(reader.GetValue(reader.GetOrdinal("insurance"))));             // страховое
-                    card.Add(10, Convert.ToString(reader.GetValue(reader.GetOrdinal("Nation"))));                                // национальность
-                    card.Add(16, Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));                           // дата создания
-                    card.Add(17, Convert.ToString(reader.GetValue(reader.GetOrdinal("birthday"))));                              // др
+                    card.Add(10, Convert.ToString(reader.GetValue(reader.GetOrdinal("Nation"))));               // национальность
+                    card.Add(16, Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));           // дата создания
+                    card.Add(17, Convert.ToString(reader.GetValue(reader.GetOrdinal("birthday"))));              // др
 
                     // читаем данные для вспомогательных функций
                     string pas_key = Convert.ToString(reader.GetValue(reader.GetOrdinal("pas_key")));

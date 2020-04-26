@@ -7,30 +7,31 @@
         mc:Ignorable="d"
         Title="Выбрать личную карту" Height="849.6" Width="1290">
     <Grid>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="745" Margin="10,64,0,0"
-                  VerticalAlignment="Top" Width="1254" ColumnWidth="*" AutoGenerateColumns="False"
+        <DataGrid x:Name="dataGrid" Margin="0,139,0,0" ColumnWidth="*" AutoGenerateColumns="False"
                    VerticalContentAlignment="Center" VerticalScrollBarVisibility="Visible">
-        <DataGrid.Resources>
-            <Style TargetType="ScrollBar">
-                <Style.Triggers>
-                    <Trigger Property="Orientation" Value="Vertical">
-                        <Setter Property="Width" Value="20"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </DataGrid.Resources>
+            <DataGrid.Resources>
+                <Style TargetType="ScrollBar">
+                    <Style.Triggers>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="Width" Value="20"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
 
-        <DataGrid.RowHeaderStyle>
-            <Style TargetType="DataGridRowHeader">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate />
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </DataGrid.RowHeaderStyle>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowHeaderStyle>
 
             <DataGrid.Columns>
+
+                <DataGridTextColumn Header="ID" Binding="{Binding CardId}"/>
 
                 <DataGridTemplateColumn Header="Дата составления">
                     <DataGridTemplateColumn.CellTemplate>
@@ -49,6 +50,19 @@
 
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="SaveBtn" Content="Выбрать карту" Margin="1135,10,0,0" VerticalAlignment="Top" Height="32" FontWeight="Bold" HorizontalAlignment="Left" Width="137" Click="SaveBtn_Click"/>
+        <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" Margin="0,109,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="TablelNumberTB" HorizontalAlignment="Left" Height="25" Margin="155,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" VerticalContentAlignment="Center">
+            <TextBox.BindingGroup>
+                <BindingGroup/>
+            </TextBox.BindingGroup>
+        </TextBox>
+        <TextBox x:Name="FIO_TB" HorizontalAlignment="Left" Height="25" Margin="260,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" VerticalContentAlignment="Center"/>
+        <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="565,109,0,0" VerticalAlignment="Top" Width="150" Height="25" Loaded="GenderCB_Loaded"/>
+        <TextBox x:Name="INN_TB" HorizontalAlignment="Left" Height="25" Margin="720,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="PassportNumnerTB" HorizontalAlignment="Left" Height="25" Margin="875,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" VerticalContentAlignment="Center" />
+        <TextBox x:Name="PassportSerialTB" HorizontalAlignment="Left" Height="25" Margin="1030,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.287,0.56" VerticalContentAlignment="Center"/>
+        <Button x:Name="FindBtn" Content="Поиск" Margin="1135,109,0,0" VerticalAlignment="Top" Height="25" FontWeight="Bold" HorizontalAlignment="Left" Width="147"/>
 
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Employee.DataBase;
+using Employee.PersonalCard;
 
 namespace Employee.PersonalCard
 {
@@ -19,9 +21,11 @@ namespace Employee.PersonalCard
     {
         List<Dictionary<int, string>> cards;
         List<InitCard> initcards;
+        PersonalCard.PersonalCard_RW personal_card;
 
         class InitCard
         {
+            public string CardId { get; set; }                              // ID
             public DateTime DatePreparation { get; set; }                   // Дата составления
             public string TablelNumber { get; set; }                        // Табельный номер
             public string INN { get; set; }                                 // ИНН
@@ -32,6 +36,7 @@ namespace Employee.PersonalCard
 
             public InitCard(Dictionary<int, string> _card)
             {
+                CardId = _card[1];
                 DatePreparation = new DateTime(
                        Int32.Parse(_card[16].Substring(6, 4)),
                        Int32.Parse(_card[16].Substring(3, 2)),
@@ -52,10 +57,11 @@ namespace Employee.PersonalCard
             }
         }
 
-
-        public ChooseForm()
+        public ChooseForm(PersonalCard.PersonalCard_RW pc)
         {
             InitializeComponent();
+            dataGrid.Columns[0].Visibility = Visibility.Collapsed;
+            personal_card = pc;
 
             // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
@@ -68,6 +74,37 @@ namespace Employee.PersonalCard
             }
 
             dataGrid.ItemsSource = initcards;
+        }
+
+        /*Создание бокса пол*/
+        private void GenderCB_Loaded(object sender, RoutedEventArgs e)
+        {
+            GenderCB.Items.Add("Мужской");
+            GenderCB.Items.Add("Женский");
+            GenderCB.Items.Add("Интерсекс");
+        }
+
+        /*Выбор карты*/
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (dataGrid.SelectedItems.Count > 0)
+                {
+                    personal_card.ID_card = initcards[dataGrid.SelectedIndex].CardId;
+                    personal_card.CreateChooseCard();
+                    this.Close();
+                }
+                else
+                {
+                    personal_card.ID_card = "err";
+                    this.Close();
+                }
+            }
+            catch (Exception)
+            {
+                this.Close();
+            }
         }
     }
 }

@@ -90,19 +90,21 @@ namespace Employee.DataBase
             {
                 if (reader.HasRows)
                 {
-                    reader.Read();
-                    Dictionary<int, string> dic = new Dictionary<int, string>();
+                    while (reader.Read())
+                    {
+                        Dictionary<int, string> dic = new Dictionary<int, string>();
 
-                    dic.Add(1, Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_personal_card"))));      // pk
-                    dic.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));              // получаем фамилию
-                    dic.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));                  // получаем имя
-                    dic.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo"))));             // получаем отчество
-                    dic.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));                   // получаем ИНН
-                    dic.Add(6, Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));          // получаем табельный номер
-                    dic.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
-                    dic.Add(16, Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));          // дата создания
+                        dic.Add(1, Convert.ToString(reader.GetValue(reader.GetOrdinal("pk_personal_card"))));      // pk
+                        dic.Add(2, Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya"))));              // получаем фамилию
+                        dic.Add(3, Convert.ToString(reader.GetValue(reader.GetOrdinal("imya"))));                  // получаем имя
+                        dic.Add(4, Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo"))));             // получаем отчество
+                        dic.Add(5, Convert.ToString(reader.GetValue(reader.GetOrdinal("inn"))));                   // получаем ИНН
+                        dic.Add(6, Convert.ToString(reader.GetValue(reader.GetOrdinal("tabel_number"))));          // получаем табельный номер
+                        dic.Add(8, Convert.ToString(reader.GetValue(reader.GetOrdinal("Sex"))));                   // пол
+                        dic.Add(16, Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));          // дата создания
 
-                    card.Add(dic);
+                        card.Add(dic);
+                    }
                 }
             }
 

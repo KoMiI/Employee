@@ -8,7 +8,7 @@
         Title="Выбрать личную карту" Height="849.6" Width="1290" ResizeMode="NoResize">
     <Grid>
         <DataGrid x:Name="dataGrid" Margin="10,139,10,0" ColumnWidth="*" AutoGenerateColumns="False"
-                   VerticalContentAlignment="Center" VerticalScrollBarVisibility="Visible">
+                   VerticalContentAlignment="Center" VerticalScrollBarVisibility="Visible" IsReadOnly="True">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar">
                     <Style.Triggers>
@@ -30,7 +30,7 @@
             </DataGrid.RowHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Дата составления">
+                <DataGridTemplateColumn Header="Дата составления" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DatePicker SelectedDate="{Binding DatePreparation}" BorderThickness="0" Width="220"/>

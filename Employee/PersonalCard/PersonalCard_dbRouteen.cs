@@ -371,10 +371,12 @@ namespace Employee.DataBase
          */
          public void UpdateDataInPersonalCardForID(PersonalCard_RW.PersonalCard toUpdate)
         {
+            string[] fio = toUpdate.FIO.Split(new char[] { ' ' });
+
             string sql = "UPDATE `PersonalCard` SET "+
-                        "`familiya`='"+ toUpdate.FIO.Split(' ')[0] +    
-                        "' ,`imya`='" + toUpdate.FIO.Split(' ')[1] +
-                        "' ,`otchestvo`='" + toUpdate.FIO.Split(' ')[2]+
+                        "`familiya`='"+ fio[0] +    
+                        "' ,`imya`='" + fio[1] +
+                        "' ,`otchestvo`='" + fio[2]+
                         "' WHERE pk_personal_card="+toUpdate.CardId;
 
             // Создать объект Command.

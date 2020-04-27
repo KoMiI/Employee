@@ -51,7 +51,7 @@ namespace Employee.PersonalCard
             public string PlaceBirth { get; set; }                          // Место рождения
             public string Citizenship { get; set; }                         // Гражданство
             public List<Lang> Langs { get; set; }                           // Знание языков
-            public string PassportPK { get; set; }                          // PK паспорта (ХВАТИТ ЕГО СНОСИТЬ)
+            public string PassportPK { get; set; }                          // PK паспорта
             public string PassportNumner { get; set; }                      // Номер паспорта
             public string PassportSerial { get; set; }                      // Серия паспорта
             public DateTime PassportDate { get; set; }                      // Дата выдачи паспорта
@@ -124,8 +124,15 @@ namespace Employee.PersonalCard
                 PassportIssued = _card[13];
                 TypeEducation = _card[18];
                 PassportPK = _card[15];
-                DateDismissal = new DateTime();
-                ReasonDismissal = "";
+
+                if(_card_work.Last()[9] != "")
+                {
+                    DateDismissal = new DateTime(
+                       Int32.Parse(_card_work.Last()[8].Substring(6, 4)),
+                       Int32.Parse(_card_work.Last()[8].Substring(3, 2)),
+                       Int32.Parse(_card_work.Last()[8].Substring(0, 2)));
+                    ReasonDismissal = _card_work.Last()[9].ToString();
+                }        
 
                 for(int i = 0; i < _card_lang.Count; i++)
                 {

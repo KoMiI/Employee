@@ -126,7 +126,7 @@
                 <DataGridTemplateColumn Header="Дата окончания">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <DatePicker SelectedDate="{Binding DateFinal}" BorderThickness="0" Width="100" />
+                            <DatePicker SelectedDate="{Binding DateFinal, Mode=TwoWay, UpdateSourceTrigger =PropertyChanged}" BorderThickness="0" Width="100" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -164,7 +164,7 @@
                 <DataGridTemplateColumn Header="Дата приёма">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <DatePicker SelectedDate="{Binding DateRecruit}" BorderThickness="0" Width="100" />
+                            <DatePicker SelectedDate="{Binding DateRecruit, Mode=TwoWay, UpdateSourceTrigger =PropertyChanged}" BorderThickness="0" Width="100" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

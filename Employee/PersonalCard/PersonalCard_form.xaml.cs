@@ -367,6 +367,8 @@ namespace Employee.PersonalCard
             personal_card.FIO = FIO_TB.Text;
             personal_card.Gender = GenderCB.Text;
             personal_card.Citizenship = CitizenshipCB.Text;
+            personal_card.PlaceBirth = PlaceBirthTB.Text;
+            personal_card.DateBirth = DateBirthDP.DisplayDate;
 
             // паспорт
             personal_card.PassportNumner = PassportNumnerTB.Text;
@@ -379,7 +381,9 @@ namespace Employee.PersonalCard
 
             // увольнение
             personal_card.DateDismissal = DismissalDP.DisplayDate;
+            personal_card.WorkPlaces.Last().WorkDateDismissal = DismissalDP.DisplayDate;
             personal_card.ReasonDismissal = ReasonDismissalTB.Text;
+            personal_card.WorkPlaces.Last().WorkReasonDismissal = ReasonDismissalTB.Text;
 
             ActivateBtn();
 

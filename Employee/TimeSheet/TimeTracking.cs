@@ -8,7 +8,7 @@ namespace Employee.TimeSheet
 {
     public class TimeTracking
     {
-        public readonly int PrimaryKey;
+        public int PrimaryKey;
 
         public string NumberDocument { get; set; }
 
@@ -18,7 +18,7 @@ namespace Employee.TimeSheet
 
         public DateTime EndDate { set; get; }
 
-        public readonly int PKUnit;
+        public int PKUnit;
 
         public TimeTracking() { }
         public TimeTracking(int PK, string numberDocument, DateTime date, DateTime from, DateTime to, int PK_unit) {

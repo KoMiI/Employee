@@ -13,17 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Employee.TimeSheet;
-
-using MySql.Data.MySqlClient;
-
-namespace Employee
+namespace Employee.TimeSheet
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Логика взаимодействия для TimeSheetPage.xaml
+    /// </summary>
+    public partial class TimeSheetPagexaml : Page
     {
-        public static MySqlConnection connection;
-        public MainWindow() {
-            connection = dbConnect.StartConnection();
+        public TimeSheetPagexaml()
+        {
             InitializeComponent();
         }
     }

@@ -64,8 +64,7 @@ namespace Employee.Database
 
             using (DbDataReader reader = cmd.ExecuteReader())
             {
-                if (reader.HasRows)
-                {
+                if (reader.HasRows) {
 
                    while (reader.Read()) {
                         int pk = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_time_tracking")));
@@ -104,8 +103,7 @@ namespace Employee.Database
 
                 Console.WriteLine("Row Count affected = " + rowCount);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 Console.WriteLine("Error: " + e);
                 Console.WriteLine(e.StackTrace);
             }
@@ -113,8 +111,7 @@ namespace Employee.Database
 
         public void DeleteObject(int primaryKey) {
             
-            try
-            {
+            try {
                 string sql = $"DELETE FROM `TimeTracking` WHERE `pk_time_tracking` = {primaryKey}";
 
                 MySqlCommand cmd = new MySqlCommand();
@@ -126,8 +123,33 @@ namespace Employee.Database
 
                 Console.WriteLine("Row Count affected = " + rowCount);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
+                Console.WriteLine("Error: " + e);
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+        public void CreateObject(TimeTracking model) {
+            try {
+                string sql = "INSERT INTO `TimeTracking`(`nomer`, `date_sostav`, `to`, `from`, `pk_unit`) VALUES (@nomer, @date, @date_to, @date_from, @pk_unit)";
+
+                MySqlCommand cmd = new MySqlCommand();
+
+                cmd.Connection = connection;
+                cmd.CommandText = sql;
+
+                // Добавить и настроить значение для параметра.
+                cmd.Parameters.Add("@nomer", MySqlDbType.VarChar).Value = model.NumberDocument;
+                cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.DateСompilation;
+                cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
+                cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.BeginDate;
+                cmd.Parameters.Add("@pk_unit", MySqlDbType.Int32).Value = model.PKUnit;
+
+                int rowCount = cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Row Count affected = " + rowCount);
+            }
+            catch (Exception e) {
                 Console.WriteLine("Error: " + e);
                 Console.WriteLine(e.StackTrace);
             }

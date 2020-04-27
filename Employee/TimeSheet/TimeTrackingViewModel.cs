@@ -5,25 +5,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Employee.Database;
+
 namespace Employee.TimeSheet
 {
-    public class TimeTrackingViewModel : INotifyPropertyChanged
+    public class TimeTrackingViewModel
     {
-        public TimeTracking TimeSheet;
+        public TimeTracking TimeTracking;
         public string NumberDocument { get; set; }
 
-        public DateTime DateСompilation { get; set; }
+        public string DateСompilation { get; set; }
 
-        public DateTime BeginDate { get; set; }
+        public string BeginDate { get; set; }
 
-        public DateTime EndDate { set; get; }
+        public string EndDate { set; get; }
 
-        public readonly string PKUnit;
+        public Unit Unit { get; set; }
 
-        public TimeTrackingViewModel() {
+        public TimeTrackingViewModel() { }
 
+        public TimeTrackingViewModel(TimeTracking logicModel) {
+            TimeTracking = logicModel;
+            NumberDocument = logicModel.NumberDocument;
+            DateСompilation = logicModel.DateСompilation.ToShortDateString();
+            BeginDate = logicModel.BeginDate.ToShortDateString();
+            EndDate = logicModel.EndDate.ToShortDateString();
+            loadData();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void loadData() {
+            var logic = new UnitLogic(MainWindow.connection);
+            Unit = logic.GetObject(TimeTracking.PKUnit);
+        }
+
+        public TimeTracking saveChanged() {
+            TimeTracking timeTracking = new TimeTracking();
+            timeTracking.NumberDocument = NumberDocument;
+            DateTime.TryParse(DateСompilation, out DateTime date);
+            timeTracking.DateСompilation = date;
+            DateTime.TryParse(BeginDate, out DateTime from);
+            timeTracking.BeginDate = from;
+            DateTime.TryParse(EndDate, out DateTime to);
+            timeTracking.EndDate = to;
+            timeTracking.PKUnit = Unit.PrimaryKey;
+
+            return timeTracking;
+        }
     }
 }

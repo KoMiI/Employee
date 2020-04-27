@@ -49,6 +49,7 @@ namespace Employee.DataBase
                     card.Add(10, Convert.ToString(reader.GetValue(reader.GetOrdinal("Nation"))));               // национальность
                     card.Add(16, Convert.ToString(reader.GetValue(reader.GetOrdinal("date_create"))));           // дата создания
                     card.Add(17, Convert.ToString(reader.GetValue(reader.GetOrdinal("birthday"))));              // др
+                    card.Add(18, Convert.ToString(reader.GetValue(reader.GetOrdinal("type_edu"))));              // тип образования (НОВОЕ)
 
                     // читаем данные для вспомогательных функций
                     string pas_key = Convert.ToString(reader.GetValue(reader.GetOrdinal("pas_key")));
@@ -211,6 +212,8 @@ namespace Employee.DataBase
                         str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("work_type"))));
                         str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("taxes"))));
                         str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("reason"))));
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("date_fired"))));                // добавил
+                        str.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("reason_fired"))));              // по увольнению
                         card.Add(str);
                     }
 
@@ -381,6 +384,7 @@ namespace Employee.DataBase
             DateTime DateBirth = toUpdate.DateBirth;
             string PlaceBirth = toUpdate.PlaceBirth;
             string Citizenship = toUpdate.Citizenship;
+            string PassportPK = toUpdate.PassportPK;
             string PassportNumner = toUpdate.PassportNumner;
             string PassportSerial = toUpdate.PassportSerial;
             DateTime PassportDate = toUpdate.PassportDate;
@@ -393,19 +397,48 @@ namespace Employee.DataBase
             List<PersonalCard_RW.Education> educations = toUpdate.Educations;
             List<PersonalCard_RW.WorkPlace> workPlaces = toUpdate.WorkPlaces;
 
-            string sql = "UPDATE `PersonalCard` SET "+
-                        "`familiya`='"+ fio[0] +    
+            string sql = "UPDATE `PersonalCard` SET " +
+                        "`familiya`='" + fio[0] +
                         "' ,`imya`='" + fio[1] +
-                        "' ,`otchestvo`='" + fio[2]+
+                        "' ,`otchestvo`='" + fio[2] +
+                        "' ,`Sex`='" + Gender[0] +
+                        "' ,`inn`='" + INN +
+                        "' ,`insurance`='" + InsuranceCertificate +
+                        "' ,`Nation`='" + Citizenship +
+                        "' ,`tabel_number`='" + TablelNumber +
+                        "' ,`b_place`='" + PlaceBirth +
+                        "' ,`birthday`='" + DateBirth.ToString("yyyy'-'MM'-'dd")+
                         "' WHERE pk_personal_card=" + CardId;
-
+            Console.WriteLine(sql);
             // Создать объект Command.
             MySqlCommand cmd = new MySqlCommand();
             // Сочетать Command с Connection.
             cmd.Connection = conn;
             cmd.CommandText = sql;
-
             cmd.ExecuteNonQuery();
+
+            // Работа с паспортом
+            sql = "UPDATE `Pasport` SET " +
+                    "`seria`='" + PassportSerial +
+                    "', `number`='" + PassportNumner +
+                    "', `source`='" + PassportIssued +
+                    "', `date_v`='" + PassportDate.ToString("yyyy'-'MM'-'dd") +
+                    "' WHERE pas_key=" + PassportPK;
+            Console.WriteLine(sql);
+            cmd.CommandText = sql;
+            cmd.ExecuteNonQuery();
+            Console.WriteLine(sql);
+            // Работа с Языками
+            for(int i=0; i<langs.Count; i++)
+            {
+                sql = "UPDATE `lang-card` SET " +
+                   "`lan`='" + langs[i].NameLang +
+                   "', `degree_lan`='" + langs[i].DegreeLang +
+                   "' WHERE pk_lan=" + langs[i].LangId;
+                Console.WriteLine(sql);
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

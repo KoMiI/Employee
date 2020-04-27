@@ -456,7 +456,7 @@ namespace Employee.DataBase
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
             }
-            /*
+            
             // Карточки приёма
             for (int i = 0; i < workPlaces.Count; i++)
             {
@@ -465,16 +465,16 @@ namespace Employee.DataBase
                    "', `work_type`='" + workPlaces[i].TypeWork +
                    "', `position`='" + workPlaces[i].Post +
                    "', `unit`='" + workPlaces[i].SubDivision +
-                   "', `date`='" + workPlaces[i].DateRecruit +
+                   "', `date`='" + workPlaces[i].DateRecruit.ToString("dd'.'MM'.'yyyy") +
                    "', `taxes`='" + workPlaces[i].Pay+
                    "', `reason`='" + workPlaces[i].Base +
-                   "', `date_fired`='" + workPlaces[i].DateDismissal +
-                   "', `reason_fired`='" + workPlaces[i].ReasonDismissal +
-                   "' WHERE pk_edu_card=" + workPlaces[i].CharWork;
+                   "', `date_fired`='" + workPlaces[i].WorkDateDismissal.ToString("dd'.'MM'.'yyyy") +
+                   "', `reason_fired`='" + workPlaces[i].WorkReasonDismissal +
+                   "' WHERE pk_working=" + workPlaces[i].WorkPlaceID;
                 Console.WriteLine(sql);
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
-            }*/
+            }
         }
     }
 }

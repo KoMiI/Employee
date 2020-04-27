@@ -372,7 +372,7 @@ namespace Employee.DataBase
          *  Обновление данных в PersonalCard
          * 
          */
-         public void UpdateDataInPersonalCardForID(PersonalCard_RW.PersonalCard toUpdate)
+        public void UpdateDataInPersonalCardForID(PersonalCard_RW.PersonalCard toUpdate)
         {
             string CardId = toUpdate.CardId;
             DateTime DatePreparation = toUpdate.DatePreparation;
@@ -407,7 +407,7 @@ namespace Employee.DataBase
                         "' ,`Nation`='" + Citizenship +
                         "' ,`tabel_number`='" + TablelNumber +
                         "' ,`b_place`='" + PlaceBirth +
-                        "' ,`birthday`='" + DateBirth.ToString("yyyy'-'MM'-'dd")+
+                        "' ,`birthday`='" + DateBirth.ToString("yyyy'-'MM'-'dd") +
                         "' WHERE pk_personal_card=" + CardId;
             Console.WriteLine(sql);
             // Создать объект Command.
@@ -429,7 +429,7 @@ namespace Employee.DataBase
             cmd.ExecuteNonQuery();
             Console.WriteLine(sql);
             // Работа с Языками
-            for(int i=0; i<langs.Count; i++)
+            for (int i = 0; i < langs.Count; i++)
             {
                 sql = "UPDATE `lang-card` SET " +
                    "`lan`='" + langs[i].NameLang +
@@ -439,6 +439,42 @@ namespace Employee.DataBase
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
             }
+
+            // работа с образованием
+            for (int i = 0; i < educations.Count; i++)
+            {
+                sql = "UPDATE `EducationCard` SET " +
+                   "`univer`='" + educations[i].EduName +
+                   "', `number_doc`='" + educations[i].EduDocNum +
+                   "', `seria_doc`='" + educations[i].EduDocSer +
+                   "', `year_end`='" + educations[i].DateFinal.ToString("dd'.'MM'.'yyyy") +
+                   "', `name_doc`='" + educations[i].EduDocName +
+                   "', `name_doc`='" + educations[i].EduDocName +
+                   "', `spec`='" + educations[i].EduSpecial +
+                   "' WHERE pk_edu_card=" + educations[i].EducationId;
+                Console.WriteLine(sql);
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+            }
+            /*
+            // Карточки приёма
+            for (int i = 0; i < workPlaces.Count; i++)
+            {
+                sql = "UPDATE `PersonalCardPriem` SET " +
+                   "`work_character`='" + workPlaces[i].CharWork +
+                   "', `work_type`='" + workPlaces[i].TypeWork +
+                   "', `position`='" + workPlaces[i].Post +
+                   "', `unit`='" + workPlaces[i].SubDivision +
+                   "', `date`='" + workPlaces[i].DateRecruit +
+                   "', `taxes`='" + workPlaces[i].Pay+
+                   "', `reason`='" + workPlaces[i].Base +
+                   "', `date_fired`='" + workPlaces[i].DateDismissal +
+                   "', `reason_fired`='" + workPlaces[i].ReasonDismissal +
+                   "' WHERE pk_edu_card=" + workPlaces[i].CharWork;
+                Console.WriteLine(sql);
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+            }*/
         }
     }
 }

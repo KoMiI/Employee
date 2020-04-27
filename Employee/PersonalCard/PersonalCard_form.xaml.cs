@@ -168,6 +168,7 @@ namespace Employee.PersonalCard
                 {
                     work_places.Add(new WorkPlace
                     {
+                        //WorkID = _card_work[i][0],
                         DateRecruit = new DateTime(
                             Int32.Parse(_card_work[i][1].Substring(6, 4)),
                             Int32.Parse(_card_work[i][1].Substring(3, 2)),
@@ -178,6 +179,11 @@ namespace Employee.PersonalCard
                         TypeWork = _card_work[i][5],
                         Pay = _card_work[i][6],
                         Base = _card_work[i][7],
+                        DateDismissal =  new DateTime(
+                            Int32.Parse(_card_work[i][8].Substring(6, 4)),
+                            Int32.Parse(_card_work[i][8].Substring(3, 2)),
+                            Int32.Parse(_card_work[i][8].Substring(0, 2))),
+                        ReasonDismissal = _card_work[i][9],
                     });
                 }
                 WorkPlaces = work_places;
@@ -208,6 +214,7 @@ namespace Employee.PersonalCard
         /*Класс, отвечающий за информацию о рабочем месте*/
         public class WorkPlace
         {
+          //  public string WorkID { get; set;  }
             public DateTime DateRecruit { get; set; }                       // Дата приема
             public string SubDivision { get; set; }                         // Подразделение
             public string Post { get; set; }                                // Должность
@@ -215,6 +222,8 @@ namespace Employee.PersonalCard
             public string TypeWork { get; set; }                            // Вид работы
             public string Pay { get; set; }                                 // Тариф / оклад
             public string Base { get; set; }                                // Основание
+            public DateTime DateDismissal { get; set; }
+            public string ReasonDismissal { get; set; }
         }
 
         /*Создание существующей карты и заполение полей формы*/

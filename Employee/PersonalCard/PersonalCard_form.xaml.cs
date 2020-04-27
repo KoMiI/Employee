@@ -125,15 +125,6 @@ namespace Employee.PersonalCard
                 TypeEducation = _card[18];
                 PassportPK = _card[15];
 
-                if(_card_work.Last()[9] != "")
-                {
-                    DateDismissal = new DateTime(
-                       Int32.Parse(_card_work.Last()[8].Substring(6, 4)),
-                       Int32.Parse(_card_work.Last()[8].Substring(3, 2)),
-                       Int32.Parse(_card_work.Last()[8].Substring(0, 2)));
-                    ReasonDismissal = _card_work.Last()[9].ToString();
-                }        
-
                 for(int i = 0; i < _card_lang.Count; i++)
                 {
                     langs.Add(new Lang
@@ -166,27 +157,55 @@ namespace Employee.PersonalCard
 
                 for (int i = 0; i < _card_work.Count; i++)
                 {
-                    work_places.Add(new WorkPlace
-                    {
-                        //WorkID = _card_work[i][0],
-                        DateRecruit = new DateTime(
-                            Int32.Parse(_card_work[i][1].Substring(6, 4)),
-                            Int32.Parse(_card_work[i][1].Substring(3, 2)),
-                            Int32.Parse(_card_work[i][1].Substring(0, 2))),
-                        SubDivision = _card_work[i][2],
-                        Post =_card_work[i][3],
-                        CharWork = _card_work[i][4],
-                        TypeWork = _card_work[i][5],
-                        Pay = _card_work[i][6],
-                        Base = _card_work[i][7],
-                        DateDismissal =  new DateTime(
-                            Int32.Parse(_card_work[i][8].Substring(6, 4)),
-                            Int32.Parse(_card_work[i][8].Substring(3, 2)),
-                            Int32.Parse(_card_work[i][8].Substring(0, 2))),
-                        ReasonDismissal = _card_work[i][9],
-                    });
+                    if (_card_work[i][9] != "") {
+                        work_places.Add(new WorkPlace
+                        {
+                            DateRecruit = new DateTime(
+                                Int32.Parse(_card_work[i][1].Substring(6, 4)),
+                                Int32.Parse(_card_work[i][1].Substring(3, 2)),
+                                Int32.Parse(_card_work[i][1].Substring(0, 2))),
+                            SubDivision = _card_work[i][2],
+                            Post = _card_work[i][3],
+                            CharWork = _card_work[i][4],
+                            TypeWork = _card_work[i][5],
+                            Pay = _card_work[i][6],
+                            Base = _card_work[i][7],
+
+                            WorkDateDismissal = new DateTime(
+                                    Int32.Parse(_card_work[i][8].Substring(6, 4)),
+                                    Int32.Parse(_card_work[i][8].Substring(3, 2)),
+                                    Int32.Parse(_card_work[i][8].Substring(0, 2))),
+                            WorkReasonDismissal = _card_work[i][9],
+                        });
+                    }
+                    else {
+                        work_places.Add(new WorkPlace
+                        {
+                            DateRecruit = new DateTime(
+                                Int32.Parse(_card_work[i][1].Substring(6, 4)),
+                                Int32.Parse(_card_work[i][1].Substring(3, 2)),
+                                Int32.Parse(_card_work[i][1].Substring(0, 2))),
+                            SubDivision = _card_work[i][2],
+                            Post = _card_work[i][3],
+                            CharWork = _card_work[i][4],
+                            TypeWork = _card_work[i][5],
+                            Pay = _card_work[i][6],
+                            Base = _card_work[i][7],
+
+                            WorkDateDismissal = new DateTime(),
+                            WorkReasonDismissal = "",
+                        });
+                    }
                 }
+
+
+
                 WorkPlaces = work_places;
+
+                if(WorkPlaces.Last().WorkReasonDismissal != ""){
+                    DateDismissal = WorkPlaces.Last().WorkDateDismissal;
+                    ReasonDismissal = WorkPlaces.Last().WorkReasonDismissal;
+                }
             }
 
         }
@@ -214,7 +233,6 @@ namespace Employee.PersonalCard
         /*Класс, отвечающий за информацию о рабочем месте*/
         public class WorkPlace
         {
-          //  public string WorkID { get; set;  }
             public DateTime DateRecruit { get; set; }                       // Дата приема
             public string SubDivision { get; set; }                         // Подразделение
             public string Post { get; set; }                                // Должность
@@ -222,8 +240,8 @@ namespace Employee.PersonalCard
             public string TypeWork { get; set; }                            // Вид работы
             public string Pay { get; set; }                                 // Тариф / оклад
             public string Base { get; set; }                                // Основание
-            public DateTime DateDismissal { get; set; }
-            public string ReasonDismissal { get; set; }
+            public DateTime WorkDateDismissal { get; set; }
+            public string WorkReasonDismissal { get; set; }
         }
 
         /*Создание существующей карты и заполение полей формы*/

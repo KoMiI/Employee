@@ -160,6 +160,7 @@ namespace Employee.PersonalCard
                     if (_card_work[i][9] != "") {
                         work_places.Add(new WorkPlace
                         {
+                            WorkPlaceID = _card_work[i][0],
                             DateRecruit = new DateTime(
                                 Int32.Parse(_card_work[i][1].Substring(6, 4)),
                                 Int32.Parse(_card_work[i][1].Substring(3, 2)),
@@ -176,11 +177,12 @@ namespace Employee.PersonalCard
                                     Int32.Parse(_card_work[i][8].Substring(3, 2)),
                                     Int32.Parse(_card_work[i][8].Substring(0, 2))),
                             WorkReasonDismissal = _card_work[i][9],
-                        });
+                        }); 
                     }
                     else {
                         work_places.Add(new WorkPlace
                         {
+                            WorkPlaceID = _card_work[i][0],
                             DateRecruit = new DateTime(
                                 Int32.Parse(_card_work[i][1].Substring(6, 4)),
                                 Int32.Parse(_card_work[i][1].Substring(3, 2)),
@@ -198,16 +200,12 @@ namespace Employee.PersonalCard
                     }
                 }
 
-
-
                 WorkPlaces = work_places;
 
-                if(WorkPlaces.Last().WorkReasonDismissal != ""){
-                    DateDismissal = WorkPlaces.Last().WorkDateDismissal;
-                    ReasonDismissal = WorkPlaces.Last().WorkReasonDismissal;
-                }
-            }
+                DateDismissal = WorkPlaces.Last().WorkDateDismissal;
+                ReasonDismissal = WorkPlaces.Last().WorkReasonDismissal;
 
+            }
         }
 
         /*Класс, отвечающий за информацию о языке*/
@@ -233,6 +231,7 @@ namespace Employee.PersonalCard
         /*Класс, отвечающий за информацию о рабочем месте*/
         public class WorkPlace
         {
+            public string WorkPlaceID { get; set; }                         // ID
             public DateTime DateRecruit { get; set; }                       // Дата приема
             public string SubDivision { get; set; }                         // Подразделение
             public string Post { get; set; }                                // Должность

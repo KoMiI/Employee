@@ -23,7 +23,7 @@ namespace Employee.DataBase
             connection = conn;
         }
 
-        public List<StringStaffTableViewModel> GetAll()
+        public List<StringStaffTableViewModel> GetAll(int pkstaffingtable)
          {
 
             // Создать объект Command.
@@ -31,7 +31,7 @@ namespace Employee.DataBase
 
             // Сочетать Command с Connection.
             cmd.Connection = connection;
-            cmd.CommandText = "SELECT * FROM `StringStaffingTable`";
+            cmd.CommandText = $"SELECT * FROM `StringStaffingTable` WHERE `pk_staffing_table`= { pkstaffingtable }";
 
             var result = new List<StringStaffTableViewModel>();
             // using (DbDataReader reader = cmd.ExecuteReader())

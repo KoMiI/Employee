@@ -55,7 +55,7 @@ namespace Employee.StaffTable
         public void loadData()
         {
             var logic = new StringStaffTableLogic(LoginFormWindow.connection);
-            StaffLines = logic.GetAll();
+            StaffLines = logic.GetAll(PrimaryKey);
         }
 
         /*public StaffingTable saveChanged()

@@ -25,6 +25,7 @@ namespace Employee.StaffTable
     public partial class StafTable : Window
     {
         public StaffTableViewModel MainStaffTable = null;
+        public bool AdditingFlag = false;
         public StafTable()
         {
             InitializeComponent();
@@ -33,12 +34,12 @@ namespace Employee.StaffTable
 
         private void UpdateGrid()
         {
-            if (MainStaffTable != null)
+            //if (AdditingFlag)
             {
                 //StaffTableGrid.Items.Clear();
                 StaffTableGrid.ItemsSource = null;
                 var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
-                var stringStaffTable = stringStaffTableLogic.GetAll();
+                var stringStaffTable = stringStaffTableLogic.GetAll(MainStaffTable.PrimaryKey);
 
                 MainStaffTable.StaffLines.Clear();
 
@@ -53,21 +54,30 @@ namespace Employee.StaffTable
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (MainStaffTable != null)
+            if (!AdditingFlag)
             {
                 DateCreatePicker.SelectedDate = MainStaffTable.CreateDate;
                 DateStartPicker.SelectedDate = MainStaffTable.StartDate;
                 DateEndPicker.SelectedDate = MainStaffTable.EndDate;
                 OKYDTextBox.Text = MainStaffTable.CodeOKYD.ToString();
                 NumberTextBox.Text = MainStaffTable.NumDoc.ToString();
-
-                UpdateGrid();
-               
             }
+
+            UpdateGrid();
         }
 
         private void AddLineButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AdditingFlag)
+            {
+                var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+                staffTableLogic.CreateObject(MainStaffTable);
+
+                int pk = staffTableLogic.GetPrimaryKey(MainStaffTable);
+                if (pk > 0)
+                    MainStaffTable.PrimaryKey = pk;
+            }
+
             AddStaffTableItem addStaffTableItem = new AddStaffTableItem();
             addStaffTableItem.Owner = this;
             addStaffTableItem.StaffTableID = MainStaffTable.PrimaryKey;
@@ -78,7 +88,7 @@ namespace Employee.StaffTable
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MainStaffTable != null)
+            //if (AdditingFlag)
             {
                 StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
                 var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
@@ -94,7 +104,7 @@ namespace Employee.StaffTable
 
         private void StaffTableGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            if (MainStaffTable != null)
+            //if (MainStaffTable != null)
             {
                 StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
                 var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
@@ -118,11 +128,6 @@ namespace Employee.StaffTable
             MainStaffTable.EndDate = (DateTime)DateEndPicker.SelectedDate;
         }
 
-        private void NumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            MainStaffTable.NumDoc = Convert.ToInt32(NumberTextBox.Text);
-        }
-
         private void Window_Closed(object sender, EventArgs e)
         {
           
@@ -133,6 +138,11 @@ namespace Employee.StaffTable
             var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
             staffTableLogic.UpdateObject(MainStaffTable);
             this.DialogResult = true;
+        }
+
+        private void NumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MainStaffTable.NumDoc = Convert.ToInt32(NumberTextBox.Text);
         }
     }
 }

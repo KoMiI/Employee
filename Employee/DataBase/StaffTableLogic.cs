@@ -72,9 +72,9 @@ namespace Employee.DataBase
                     {
                         int pk = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_staffing_table")));
                         int number = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("nomer")));
-                        DateTime date_sostav = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("date_sostav")));
-                        DateTime from = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("from")));
-                        DateTime to = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("to")));
+                        DateTime date_sostav = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("data_sostav")));
+                        DateTime from = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("d_from")));
+                        DateTime to = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("d_to")));
 
                         staffingTable = new StaffTableViewModel(pk, number, date_sostav, from, to);
                     }
@@ -89,8 +89,8 @@ namespace Employee.DataBase
         {
             try
             {
-                string sql = "UPDATE `StaffingTable` SET `nomer` = @nomer,`date_sostav` = @date," +
-                             $"`to` = @date_to,`from` = @date_from WHERE `pk_staffing_table` = {model.PrimaryKey}";
+                string sql = "UPDATE `StaffingTable` SET `nomer` = @nomer,`data_sostav` = @date," +
+                             $"`d_to` = @date_to,`d_from` = @date_from WHERE `pk_staffing_table` = {model.PrimaryKey}";
 
                 MySqlCommand cmd = new MySqlCommand();
 
@@ -141,7 +141,7 @@ namespace Employee.DataBase
         {
             try
             {
-                string sql = "INSERT INTO `StaffingTable`(`nomer`, `date_sostav`, `to`, `from`) VALUES (@nomer, @date, @date_to, @date_from)";
+                string sql = "INSERT INTO `StaffingTable`(`nomer`, `data_sostav`, `d_to`, `d_from`) VALUES (@nomer, @date, @date_to, @date_from)";
 
                 MySqlCommand cmd = new MySqlCommand();
 
@@ -179,6 +179,34 @@ namespace Employee.DataBase
                 int nextPK = Convert.ToInt32(cmd.ExecuteScalar());
 
                 return nextPK + 1;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+                Console.WriteLine(e.StackTrace);
+                return -1;
+            }
+        }
+
+        public int GetPrimaryKey(StaffTableViewModel model)
+        {
+            try
+            {
+                string sql = "SELECT `pk_staffing_table` FROM `StaffingTable` WHERE `nomer` = @nomer AND `data_sostav` = @date AND `d_to` = @date_to  AND `d_from` = @date_from";
+
+                MySqlCommand cmd = new MySqlCommand();
+
+                cmd.Connection = connection;
+                cmd.CommandText = sql;
+
+                // Добавить и настроить значение для параметра.
+                cmd.Parameters.Add("@nomer", MySqlDbType.VarChar).Value = model.NumDoc;
+                cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.CreateDate;
+                cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
+                cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.StartDate;
+
+                int pk = Convert.ToInt32(cmd.ExecuteScalar());
+                return pk;
             }
             catch (Exception e)
             {

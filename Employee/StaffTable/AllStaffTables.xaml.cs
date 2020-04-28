@@ -37,7 +37,7 @@ namespace Employee.StaffTable
 
             _staffTables.Clear();
 
-            foreach (var staffTable in staffTableist)
+            foreach (var staffTable in staffTableist) 
             {
                 _staffTables.Add(staffTable);
             }
@@ -77,16 +77,17 @@ namespace Employee.StaffTable
             StaffTable.StafTable _StaffTable = new StaffTable.StafTable();
 
             var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
-            int pk = staffTableLogic.GetNextPrimaryKey();
+            /*int pk = staffTableLogic.GetNextPrimaryKey();
             if (pk > 0)
-                _StaffTable.MainStaffTable.PrimaryKey = pk;
-
+                _StaffTable.MainStaffTable.PrimaryKey = pk;*/
+            _StaffTable.AdditingFlag = true;
             _StaffTable.ShowDialog();
-            if (_StaffTable.MainStaffTable != null)
+            _staffTables.Add(_StaffTable.MainStaffTable);
+            /*if (_StaffTable.MainStaffTable != null)
             {
                 staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
                 staffTableLogic.CreateObject(_StaffTable.MainStaffTable);
-            }
+            }*/
 
             UpdateGrid();
         }

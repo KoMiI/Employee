@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Employee.StaffTable"
         mc:Ignorable="d"
         Title="Штатное расписание" Height="524" Width="826" Loaded="Window_Loaded" Closed ="Window_Closed">
-    <Grid Margin="0,0,2,0">
+    <Grid Margin="0,0,2,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="26*"/>
@@ -47,7 +47,7 @@
         </DataGrid>
         <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="186" Height="26" Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="4"/>
         <Label Content="Приказ" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="3" Height="26" Width="50" Grid.Row="1"/>
-        <ComboBox HorizontalAlignment="Left" Margin="52,0,0,0" VerticalAlignment="Top" Width="138" Grid.Column="3" Height="26" Grid.Row="1" SelectionChanged="ComboBox_SelectionChanged"/>
+        <ComboBox Name="OrderComdoBox" HorizontalAlignment="Left" Margin="52,0,0,0" VerticalAlignment="Top" Width="138" Grid.Column="3" Height="26" Grid.Row="1" SelectionChanged="OrderComdoBox_SelectionChanged"/>
         <Label Content="с" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="25" Grid.Column="2" Grid.Row="5"/>
         <DatePicker Name="DateStartPicker" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Top" Height="26" Width="155" Grid.Column="2" Grid.Row="5" SelectedDateChanged="DateStartPicker_SelectedDateChanged"/>
         <Label Content="по" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="25" Grid.Column="3" Grid.Row="5" Margin="5,0,0,0"/>

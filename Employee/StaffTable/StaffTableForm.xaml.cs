@@ -51,11 +51,19 @@ namespace Employee.StaffTable
                 StaffTableGrid.ItemsSource = MainStaffTable.StaffLines;
             }
         }
+        public void FillComboBox()
+        {
+            var orderLogic = new OrderLogic(LoginFormWindow.connection);
+            var orders = orderLogic.GetAll();
+            OrderComdoBox.ItemsSource = orders;
 
+        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            FillComboBox();
             if (!AdditingFlag)
             {
+                OrderComdoBox.SelectedValue = MainStaffTable.Order;
                 DateCreatePicker.SelectedDate = MainStaffTable.CreateDate;
                 DateStartPicker.SelectedDate = MainStaffTable.StartDate;
                 DateEndPicker.SelectedDate = MainStaffTable.EndDate;
@@ -97,11 +105,6 @@ namespace Employee.StaffTable
             UpdateGrid();
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void StaffTableGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
             //if (MainStaffTable != null)
@@ -130,7 +133,7 @@ namespace Employee.StaffTable
 
         private void Window_Closed(object sender, EventArgs e)
         {
-          
+          this.Close();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -143,6 +146,11 @@ namespace Employee.StaffTable
         private void NumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             MainStaffTable.NumDoc = Convert.ToInt32(NumberTextBox.Text);
+        }
+
+        private void OrderComdoBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainStaffTable.Order = (OrderViewModel)OrderComdoBox.SelectedItem;
         }
     }
 }

@@ -54,12 +54,6 @@ namespace Employee.StaffTable
             this.Close();
         }
 
-        private void WorkScheduleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Object[] data = ((DataRowView)e.AddedItems[0]).Row.ItemArray;
-
-        }
-
         private void SubdivisionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _unit = (Unit)SubdivisionComboBox.SelectedItem;

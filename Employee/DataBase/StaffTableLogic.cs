@@ -44,7 +44,19 @@ namespace Employee.DataBase
                         DateTime from = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("d_from")));
                         DateTime to = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("d_to")));
 
-                        result.Add(new StaffTableViewModel(pk, number, date_sostav, from, to));
+                        int pk_order = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_order")));
+                        OrderViewModel order = null;
+                        string Connect = "Database=base_v2;host=kozlov.pro;port=3306;UserId=employee;Password=Dwx2EI4k";
+                        using (MySqlConnection connection = new MySqlConnection(Connect))
+                        {
+                            connection.Open();
+                            var _OrdertLog = new OrderLogic(connection);
+                            order = _OrdertLog.GetObject(pk_order);
+
+                            connection.Close();
+                        }
+
+                        result.Add(new StaffTableViewModel(pk, order,number, date_sostav, from, to));
                     }
                 }
                 reader.Close();
@@ -76,7 +88,19 @@ namespace Employee.DataBase
                         DateTime from = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("d_from")));
                         DateTime to = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("d_to")));
 
-                        staffingTable = new StaffTableViewModel(pk, number, date_sostav, from, to);
+                        int pk_order = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_order")));
+                        OrderViewModel order = null;
+                        string Connect = "Database=base_v2;host=kozlov.pro;port=3306;UserId=employee;Password=Dwx2EI4k";
+                        using (MySqlConnection connection = new MySqlConnection(Connect))
+                        {
+                            connection.Open();
+                            var _OrdertLog = new OrderLogic(connection);
+                            order = _OrdertLog.GetObject(pk_order);
+
+                            connection.Close();
+                        }
+
+                        staffingTable = new StaffTableViewModel(pk, order, number, date_sostav, from, to);
                     }
                 }
                 reader.Close();
@@ -89,7 +113,7 @@ namespace Employee.DataBase
         {
             try
             {
-                string sql = "UPDATE `StaffingTable` SET `nomer` = @nomer,`data_sostav` = @date," +
+                string sql = "UPDATE `StaffingTable` SET `nomer` = @nomer,`pk_order`=@pk_order, `data_sostav` = @date," +
                              $"`d_to` = @date_to,`d_from` = @date_from WHERE `pk_staffing_table` = {model.PrimaryKey}";
 
                 MySqlCommand cmd = new MySqlCommand();
@@ -99,6 +123,7 @@ namespace Employee.DataBase
 
                 // Добавить и настроить значение для параметра.
                 cmd.Parameters.Add("@nomer", MySqlDbType.VarChar).Value = model.NumDoc;
+                cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
                 cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.CreateDate;
                 cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
                 cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.StartDate;
@@ -141,7 +166,7 @@ namespace Employee.DataBase
         {
             try
             {
-                string sql = "INSERT INTO `StaffingTable`(`nomer`, `data_sostav`, `d_to`, `d_from`) VALUES (@nomer, @date, @date_to, @date_from)";
+                string sql = "INSERT INTO `StaffingTable`(`nomer`, `pk_order`,`data_sostav`, `d_to`, `d_from`) VALUES (@nomer, @pk_order, @date, @date_to, @date_from)";
 
                 MySqlCommand cmd = new MySqlCommand();
 
@@ -150,6 +175,7 @@ namespace Employee.DataBase
 
                 // Добавить и настроить значение для параметра.
                 cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.NumDoc;
+                cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
                 cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.CreateDate;
                 cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
                 cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.StartDate;
@@ -192,7 +218,7 @@ namespace Employee.DataBase
         {
             try
             {
-                string sql = "SELECT `pk_staffing_table` FROM `StaffingTable` WHERE `nomer` = @nomer AND `data_sostav` = @date AND `d_to` = @date_to  AND `d_from` = @date_from";
+                string sql = "SELECT `pk_staffing_table` FROM `StaffingTable` WHERE `nomer` = @nomer AND `pk_order`=@pk_order AND `data_sostav` = @date AND `d_to` = @date_to  AND `d_from` = @date_from";
 
                 MySqlCommand cmd = new MySqlCommand();
 
@@ -201,6 +227,7 @@ namespace Employee.DataBase
 
                 // Добавить и настроить значение для параметра.
                 cmd.Parameters.Add("@nomer", MySqlDbType.VarChar).Value = model.NumDoc;
+                cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
                 cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.CreateDate;
                 cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
                 cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.StartDate;

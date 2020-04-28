@@ -28,9 +28,11 @@
         <DataGrid Name ="AllStaffTablesDataGrid" HorizontalAlignment="Left" Height="343" VerticalAlignment="Top" Width="770" SelectionChanged="AllStaffTablesDataGrid_SelectionChanged" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="8" Grid.Row="3">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding NumDoc}" ClipboardContentBinding="{x:Null}" Header="Номер"/>
+                <DataGridTextColumn x:Name="OrderComboBox" Binding="{Binding Order}" ClipboardContentBinding="{x:Null}" Header="Приказ" Width="130" />
                 <DataGridTextColumn Binding="{Binding CreateDate}" ClipboardContentBinding="{x:Null}" Header="Дата создания"/>
                 <DataGridTextColumn Binding="{Binding StartDate}" ClipboardContentBinding="{x:Null}" Header="Дата начала периода"/>
                 <DataGridTextColumn Binding="{Binding EndDate}" ClipboardContentBinding="{x:Null}" Header="Дата конца периода"/>
+                
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Добавить" Name ="AddButton"  Grid.Column="1" HorizontalAlignment="Left" Width="92" Grid.Row="1" Margin="3,0,0,0" Click="AddButton_Click"/>

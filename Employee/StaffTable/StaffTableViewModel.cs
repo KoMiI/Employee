@@ -12,15 +12,13 @@ namespace Employee.StaffTable
     {
         //public StaffingTable _StaffTable;
         public int PrimaryKey { get; set; }
+        public OrderViewModel Order { get; set; }
 
         public int CodeOKYD = 0301017;
-        public int CodeOKPO { get; set; }
         public int NumDoc { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int StaffCount { get; set; }
-        public double SumTariff { get; set; }
         public List<StringStaffTableViewModel> StaffLines;
 
         /*public StaffTableViewModel(StaffingTable logicModel)
@@ -37,9 +35,10 @@ namespace Employee.StaffTable
             StaffLines = new List<StringStaffTableViewModel>();
             StaffLines = logicModel.StaffLines;
         }*/
-        public StaffTableViewModel(int _primaryKey, int _numDoc, DateTime _createDate, DateTime _startDate, DateTime _endDate)
+        public StaffTableViewModel(int _primaryKey, OrderViewModel _order, int _numDoc, DateTime _createDate, DateTime _startDate, DateTime _endDate)
         {
             PrimaryKey = _primaryKey;
+            Order = _order;
             NumDoc = _numDoc;
             CreateDate = _createDate;
             StartDate = _startDate;

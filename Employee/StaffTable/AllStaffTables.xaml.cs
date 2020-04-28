@@ -47,6 +47,10 @@ namespace Employee.StaffTable
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            /*var OrderLogic = new OrderLogic(LoginFormWindow.connection);
+            var orders = OrderLogic.GetAll();
+            OrderComboBox.ItemsSource = orders;*/
+
             UpdateGrid();
         }
 

@@ -59,6 +59,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataBase\OrderLogic.cs" />
+    <Compile Include="DataBase\OrderTypeLogic.cs" />
     <Compile Include="DataBase\PositionLogic.cs" />
     <Compile Include="DataBase\StaffTableLogic.cs" />
     <Compile Include="DataBase\StringStaffTableLogic.cs" />
@@ -68,7 +70,7 @@
     </Compile>
     <Compile Include="DataBase\dbConnect.cs" />
     <Compile Include="StaffTable\AddStaffTableItem.xaml.cs" />
-    <Compile Include="StaffTable\OrderViewModel.cs" />
+    <Compile Include="OrderViewModel.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="StaffTable\StaffTableForm.xaml.cs">
       <DependentUpon>StaffTableForm.xaml</DependentUpon>

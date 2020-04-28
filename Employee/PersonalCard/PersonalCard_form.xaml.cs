@@ -312,6 +312,9 @@ namespace Employee.PersonalCard
             DismissalDP.SelectedDate = personal_card.DateDismissal;
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
 
+            PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
+            personal_card.CardId = dbRouteen.EmptyPersonalCard();
+
             ActivateBtn();
         }
 
@@ -331,7 +334,7 @@ namespace Employee.PersonalCard
             PassportIssuedTB.TextWrapping = TextWrapping.NoWrap;
             ReasonDismissalTB.TextWrapping = TextWrapping.NoWrap;
 
-            CreateNewCard();
+            //CreateNewCard();
 
             // ПОКА НЕ ЗНАЮ КАК ДОБАВИТЬ ЭТО В ТАБЛИЦЫ, СЛОЖНААА
             //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
@@ -388,7 +391,8 @@ namespace Employee.PersonalCard
             ActivateBtn();
 
             // кидаем запрос
-            dbRouteen.UpdateDataInPersonalCardForID(personal_card);
+            personal_card = dbRouteen.UpdateDataInPersonalCardForID(personal_card);
+            CreateFullCard(personal_card.CardId);
         }
 
         /*Создание бокса пол*/

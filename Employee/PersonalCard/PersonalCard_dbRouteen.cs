@@ -66,6 +66,7 @@ namespace Employee.DataBase
                     if(id != "")
                         return card;
                 }
+                reader.Close();
             }
 
             return card;
@@ -107,6 +108,7 @@ namespace Employee.DataBase
                         card.Add(dic);
                     }
                 }
+                reader.Close();
             }
 
             return card;
@@ -142,6 +144,8 @@ namespace Employee.DataBase
                     }
 
                 }
+                reader.Close();
+
             }
 
             return card;
@@ -173,11 +177,13 @@ namespace Employee.DataBase
                     data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("source"))));
                     data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("date_v"))));
                     data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("pas_key"))));
+                    reader.Close();
 
                     return data;
                 }
-                else
-                    return null;
+                reader.Close();
+
+                return null;
             }
 
         }
@@ -218,6 +224,8 @@ namespace Employee.DataBase
                     }
 
                 }
+                reader.Close();
+
             }
 
             return card;
@@ -258,6 +266,8 @@ namespace Employee.DataBase
                     }
                     
                 }
+                reader.Close();
+
             }
             return data;
         }
@@ -287,7 +297,10 @@ namespace Employee.DataBase
                         data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name"))));
                     }
                 }
+                reader.Close();
+
             }
+
             return data;
         }
 
@@ -312,6 +325,8 @@ namespace Employee.DataBase
                         data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name"))));
                     }
                 }
+                reader.Close();
+
             }
             return data;
         }
@@ -338,6 +353,8 @@ namespace Employee.DataBase
                         data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name"))));
                     }
                 }
+                reader.Close();
+
             }
             return data;
         }
@@ -363,6 +380,8 @@ namespace Employee.DataBase
                         data.Add(Convert.ToString(reader.GetValue(reader.GetOrdinal("name"))));
                     }
                 }
+                reader.Close();
+
             }
             return data;
         }
@@ -372,7 +391,7 @@ namespace Employee.DataBase
          *  Обновление данных в PersonalCard
          * 
          */
-        public void UpdateDataInPersonalCardForID(PersonalCard_RW.PersonalCard toUpdate)
+        public PersonalCard_RW.PersonalCard UpdateDataInPersonalCardForID(PersonalCard_RW.PersonalCard toUpdate)
         {
             string CardId = toUpdate.CardId;
             DateTime DatePreparation = toUpdate.DatePreparation;
@@ -418,43 +437,35 @@ namespace Employee.DataBase
             cmd.ExecuteNonQuery();
 
             // Работа с паспортом
-            sql = "UPDATE `Pasport` SET " +
-                    "`seria`='" + PassportSerial +
-                    "', `number`='" + PassportNumner +
-                    "', `source`='" + PassportIssued +
-                    "', `date_v`='" + PassportDate.ToString("yyyy'-'MM'-'dd") +
-                    "' WHERE pas_key=" + PassportPK;
-            Console.WriteLine(sql);
-            cmd.CommandText = sql;
-            cmd.ExecuteNonQuery();
-            Console.WriteLine(sql);
+            PassportUpdate(PassportSerial, PassportNumner, PassportIssued, PassportDate.ToString("yyyy'-'MM'-'dd"), PassportPK);
+
+
             // Работа с Языками
             for (int i = 0; i < langs.Count; i++)
             {
-                sql = "UPDATE `lang-card` SET " +
-                   "`lan`='" + langs[i].NameLang +
-                   "', `degree_lan`='" + langs[i].DegreeLang +
-                   "' WHERE pk_lan=" + langs[i].LangId;
-                Console.WriteLine(sql);
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
+               
+                if (langs[i].DegreeLang == "" && langs[i].NameLang == "")
+                {
+                    LangCardDelete(langs[i].LangId);
+                    toUpdate.Langs.RemoveAt(i);
+                }
+                else
+                {
+                    if (!LangCardUpdate(langs[i]))
+                    {
+                        toUpdate.Langs[i].LangId = LangCardCreate(CardId, langs[i]);
+                    }
+                }
             }
 
+           // educations[i].DateFinal.ToString("dd'.'MM'.'yyyy");
             // работа с образованием
             for (int i = 0; i < educations.Count; i++)
             {
-                sql = "UPDATE `EducationCard` SET " +
-                   "`univer`='" + educations[i].EduName +
-                   "', `number_doc`='" + educations[i].EduDocNum +
-                   "', `seria_doc`='" + educations[i].EduDocSer +
-                   "', `year_end`='" + educations[i].DateFinal.ToString("dd'.'MM'.'yyyy") +
-                   "', `name_doc`='" + educations[i].EduDocName +
-                   "', `name_doc`='" + educations[i].EduDocName +
-                   "', `spec`='" + educations[i].EduSpecial +
-                   "' WHERE pk_edu_card=" + educations[i].EducationId;
-                Console.WriteLine(sql);
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
+                if (!EduUpdate(educations[i]))
+                {
+                    toUpdate.Educations[i].EducationId = EduCreate(CardId, educations[i]);
+                }
             }
             
             // Карточки приёма
@@ -475,6 +486,168 @@ namespace Employee.DataBase
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
             }
+
+            return toUpdate;
+        }
+
+
+        public string EmptyPersonalCard()
+        {
+            string pk_pass = PassportCreate("", "", "", "2000-01-01");
+            string sql = "INSERT INTO `PersonalCard` (`pas_key`) VALUES ('" + pk_pass + "'); SELECT LAST_INSERT_ID();";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            object O = cmd.ExecuteScalar();
+            return O.ToString();
+        }
+
+        public string EduCreate(string pk_personal_card, PersonalCard_RW.Education _card)
+        {
+            string sql = "INSERT INTO `EducationCard` (`univer`, `name_doc`, `number_doc`, `seria_doc`, `year_end`, `pk_personal_card`, `spec`) " +
+                "VALUES ('" + _card.EduName +
+                "', '" + _card.EduDocName +
+                "', '" + _card.EduDocNum +
+                "', '" + _card.EduDocSer +
+                "', '" + _card.DateFinal.ToString("dd'.'MM'.'yyyy") +
+                "', '" + pk_personal_card +
+                "', '" + _card.EduSpecial +
+                "'); SELECT LAST_INSERT_ID();";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            object O = cmd.ExecuteScalar();
+            return O.ToString();
+        }
+
+
+
+        public bool EduUpdate(PersonalCard_RW.Education _card)
+        {
+            string sql = "UPDATE `EducationCard` SET " +
+                    "`univer`='" + _card.EduName +
+                    "', `number_doc`='" + _card.EduDocNum +
+                    "', `seria_doc`='" + _card.EduDocSer +
+                    "', `year_end`='" + _card.DateFinal.ToString("dd'.'MM'.'yyyy") +
+                    "', `name_doc`='" + _card.EduDocName +
+                    "', `name_doc`='" + _card.EduDocName +
+                    "', `spec`='" + _card.EduSpecial +
+                    "' WHERE pk_edu_card=" + _card.EducationId;
+            Console.WriteLine(sql);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void EduDelete(string pk_edu)
+        {
+            string sql = "DELETE FROM `EducationCard` WHERE pk_edu_card=" + pk_edu;
+            Console.WriteLine(sql);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+        public string LangCardCreate(string pk_personal_card, PersonalCard_RW.Lang _card)
+        {
+            string sql = "INSERT INTO `lang-card`(`pk_personal_card`, `degree_lan`, `lan`) " +
+                "VALUES ('" + pk_personal_card +
+                "', '" + _card.DegreeLang + 
+                "', '" + _card.NameLang +
+                "'); SELECT LAST_INSERT_ID();";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            object O = cmd.ExecuteScalar();
+            return O.ToString();
+        }
+
+        public bool LangCardUpdate(PersonalCard_RW.Lang _card)
+        {
+            string sql = "UPDATE `lang-card` SET " +
+                   "`lan`='" + _card.NameLang +
+                   "', `degree_lan`='" + _card.DegreeLang +
+                   "' WHERE pk_lan=" + _card.LangId;
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+        public void LangCardDelete(string pk_lan)
+        {
+            string sql = "DELETE FROM `lang-card` WHERE pk_lan=" + pk_lan;
+            Console.WriteLine(sql);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+
+       
+        // пасспорт 
+        public string PassportCreate(string seria, string number, string source, string date)
+        {
+            string sql = "INSERT INTO `Pasport` (`seria`, `number`, `source`, `date_v`)" +
+                 "VALUES ('" + seria +
+                 "', '" + number +
+                 "', '" + source +
+                 "', '" + date +
+                 "'); SELECT LAST_INSERT_ID();";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            object O = cmd.ExecuteScalar();
+            return O.ToString();
+        }
+
+        public void PassportUpdate(string seria, string number, string source, string date, string pk)
+        {
+           string sql = "UPDATE `Pasport` SET " +
+                    "`seria`='" + seria +
+                    "', `number`='" + number +
+                    "', `source`='" + source +
+                    "', `date_v`='" + date+
+                    "' WHERE pas_key=" + pk;
+            Console.WriteLine(sql);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.CommandText = sql;
+            cmd.Connection = conn;
+            cmd.ExecuteNonQuery();
         }
     }
 }

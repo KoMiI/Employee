@@ -56,7 +56,7 @@
         <Border 
             x:Name="LoginButton"
             Grid.Row="3"
-            Style="{StaticResource Border-Button-Login}">
+            Style="{StaticResource Border-Button-Login}" MouseLeftButtonUp="LoginButton_MouseLeftButtonUp">
             <TextBlock
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,28 +12,127 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
+using System.Data.Common;
+using Employee.DataBase;
+using Employee.Login;
 
 namespace Employee.StaffTable
 {
     /// <summary>
     /// Логика взаимодействия для StaffTable.xaml
     /// </summary>
-    public partial class StaffTable : Window
+    public partial class StafTable : Window
     {
-        public StaffTable()
+        public StaffTableViewModel MainStaffTable = null;
+        public StafTable()
         {
             InitializeComponent();
+            MainStaffTable = new StaffTableViewModel();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void UpdateGrid()
+        {
+            if (MainStaffTable != null)
+            {
+                //StaffTableGrid.Items.Clear();
+                StaffTableGrid.ItemsSource = null;
+                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                var stringStaffTable = stringStaffTableLogic.GetAll();
+
+                MainStaffTable.StaffLines.Clear();
+
+                foreach (var stringStaff in stringStaffTable)
+                {
+                    MainStaffTable.StaffLines.Add(stringStaff);
+                }
+
+                StaffTableGrid.ItemsSource = MainStaffTable.StaffLines;
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (MainStaffTable != null)
+            {
+                DateCreatePicker.SelectedDate = MainStaffTable.CreateDate;
+                DateStartPicker.SelectedDate = MainStaffTable.StartDate;
+                DateEndPicker.SelectedDate = MainStaffTable.EndDate;
+                OKYDTextBox.Text = MainStaffTable.CodeOKYD.ToString();
+                NumberTextBox.Text = MainStaffTable.NumDoc.ToString();
+
+                UpdateGrid();
+               
+            }
+        }
+
+        private void AddLineButton_Click(object sender, RoutedEventArgs e)
         {
             AddStaffTableItem addStaffTableItem = new AddStaffTableItem();
-            addStaffTableItem.Show();
+            addStaffTableItem.Owner = this;
+            addStaffTableItem.StaffTableID = MainStaffTable.PrimaryKey;
+            addStaffTableItem.ShowDialog();
+            UpdateGrid();
+
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainStaffTable != null)
+            {
+                StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
+                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                stringStaffTableLogic.DeleteObject(path.PrimaryKey);
+            }
+            UpdateGrid();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void StaffTableGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            if (MainStaffTable != null)
+            {
+                StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
+                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                stringStaffTableLogic.UpdateObject(path);
+            }
+            UpdateGrid();
+        }
+
+        private void DateCreatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainStaffTable.CreateDate = (DateTime)DateCreatePicker.SelectedDate;
+        }
+
+        private void DateStartPicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainStaffTable.StartDate = (DateTime)DateStartPicker.SelectedDate;
+        }
+
+        private void DateEndPicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainStaffTable.EndDate = (DateTime)DateEndPicker.SelectedDate;
+        }
+
+        private void NumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MainStaffTable.NumDoc = Convert.ToInt32(NumberTextBox.Text);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+            staffTableLogic.UpdateObject(MainStaffTable);
+            this.DialogResult = true;
         }
     }
 }

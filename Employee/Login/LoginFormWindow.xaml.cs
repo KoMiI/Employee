@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
 
 namespace Employee.Login
 {
@@ -19,13 +20,18 @@ namespace Employee.Login
     /// </summary>
     public partial class LoginFormWindow : Window
     {
+        public static MySqlConnection connection;
         public LoginFormWindow()
         {
+            connection = dbConnect.StartConnection();
             InitializeComponent();
+            
         }
 
-        private void LoginButton_OnClick(object sender, RoutedEventArgs e) {
-            
+        private void LoginButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            StaffTable.AllStaffTables StaffTables = new StaffTable.AllStaffTables();
+            StaffTables.Show();
         }
     }
 }

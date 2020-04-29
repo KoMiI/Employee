@@ -303,7 +303,7 @@ namespace Employee.PersonalCard
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
 
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
-            personal_card.CardId = dbRouteen.EmptyPersonalCard();
+            personal_card.CardId = dbRouteen.EmptyPersonalCard(personal_card);
 
             ChooseFrame();
             NewBtn.IsEnabled = false;

@@ -473,7 +473,7 @@ namespace Employee.DataBase
             // Карточки приёма
             for (int i = 0; i < workPlaces.Count; i++)
             {
-                if (!EduUpdate(educations[i]))
+                if (!WorkUpdate(workPlaces[i]))
                 {
                     toUpdate.WorkPlaces[i].WorkPlaceID = WorkCreate(CardId, workPlaces[i]);
                 }
@@ -547,7 +547,7 @@ namespace Employee.DataBase
 
         public string WorkCreate(string pk_personal_card, PersonalCard_RW.WorkPlace _card)
         {
-            string sql = "INSERT INTO `PersonalCardPriem` (`work_character`, `work_type`, `position`, `unit`, `date`, `taxes`, `reason`, `pk_personal_card`, `date_fired`, `reason_fired`) " +
+            string sql = "INSERT INTO `PersonalCardPriem` (`work_character`, `work_type`, `position`, `unit`, `date`, `taxes`, `reason`, `pk_personal_card`) " +
                 "VALUES ('" + _card.CharWork+
                 "', '" + _card.TypeWork +
                 "', '" + _card.Post +
@@ -557,6 +557,7 @@ namespace Employee.DataBase
                 "', '" + _card.Base +
                 "', '" + pk_personal_card+
                 "'); SELECT LAST_INSERT_ID();";
+            Console.WriteLine(sql);
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
             cmd.CommandText = sql;

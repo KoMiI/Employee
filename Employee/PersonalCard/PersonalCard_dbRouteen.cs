@@ -427,6 +427,7 @@ namespace Employee.DataBase
                         "' ,`tabel_number`='" + TablelNumber +
                         "' ,`b_place`='" + PlaceBirth +
                         "' ,`birthday`='" + DateBirth.ToString("yyyy'-'MM'-'dd") +
+                        "' ,`type_edu`='" + toUpdate.TypeEducation +
                         "' WHERE pk_personal_card=" + CardId;
             Console.WriteLine(sql);
             // Создать объект Command.
@@ -462,6 +463,7 @@ namespace Employee.DataBase
             // работа с образованием
             for (int i = 0; i < educations.Count; i++)
             {
+                
                 if (!EduUpdate(educations[i]))
                 {
                     toUpdate.Educations[i].EducationId = EduCreate(CardId, educations[i]);

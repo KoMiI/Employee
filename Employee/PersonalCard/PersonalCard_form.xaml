@@ -34,9 +34,6 @@
         <ComboBox x:Name="CitizenshipCB" Margin="980,96,0,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Width="284" Loaded="CitizenshipCB_Loaded"/>
         <ComboBox x:Name="TypeEducationCB" HorizontalAlignment="Left" Margin="106,409,0,0" VerticalAlignment="Top" Width="188" Height="25" Loaded="TypeEducationCB_Loaded"/>
         <ComboBox x:Name="GenderCB" HorizontalAlignment="Left" Margin="725,97,0,0" VerticalAlignment="Top" Width="150" Height="25" Loaded="GenderCB_Loaded"/>
-
-
-        <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" Margin="144,67,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>
         <DatePicker x:Name="DateBirthDP" HorizontalAlignment="Left" Margin="144,128,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>
         <DatePicker x:Name="PassportDateDP" HorizontalAlignment="Left" Margin="753,340,0,0" VerticalAlignment="Top" Width="122" Height="25" VerticalContentAlignment="Center"/>
         <DatePicker x:Name="DismissalDP" HorizontalAlignment="Left" Margin="136,776,0,0" VerticalAlignment="Top" Width="158" Height="25" VerticalContentAlignment="Center"/>
@@ -57,7 +54,7 @@
 
         <Button x:Name="SaveBtn" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="963,10,0,0" VerticalAlignment="Top" Width="149" Height="32" FontWeight="Bold" Click="SaveBtn_Click"/>
         <Button x:Name="ChouseBtn" Content="Выбрать личную карту" HorizontalAlignment="Left" Margin="808,10,0,0" VerticalAlignment="Top" Width="150" Height="32" FontWeight="Bold" Click="ChouseBtn_Click"/>
-        <Button x:Name="button" Content="Новая личная карта" HorizontalAlignment="Left" Margin="652,10,0,0" VerticalAlignment="Top" Width="150" Height="32" FontWeight="Bold" Click="button_Click"/>
+        <Button x:Name="NewBtn" Content="Новая личная карта" HorizontalAlignment="Left" Margin="652,10,0,0" VerticalAlignment="Top" Width="150" Height="32" FontWeight="Bold" Click="button_Click"/>
 
         <DataGrid x:Name="LangGrid" Margin="10,196,0,0" AutoGenerateColumns="False" RenderTransformOrigin="0,0" HorizontalContentAlignment="Center" 
                   VerticalContentAlignment="Center" VerticalScrollBarVisibility="Visible" CanUserResizeColumns="False" HorizontalScrollBarVisibility="Disabled"
@@ -212,6 +209,7 @@
 
         </DataGrid>
         <Button x:Name="PrintBtn" Content="К печати" Margin="1117,10,0,0" VerticalAlignment="Top" Height="32" FontWeight="Bold" Click="PrintBtn_Click" HorizontalAlignment="Left" Width="147"/>
+        <DatePicker x:Name="DatePreparationDP" HorizontalAlignment="Left" Margin="144,67,0,0" VerticalAlignment="Top" Width="150" Height="25" VerticalContentAlignment="Center"/>
 
     </Grid>
 

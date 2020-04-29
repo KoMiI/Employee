@@ -315,14 +315,46 @@ namespace Employee.PersonalCard
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
             personal_card.CardId = dbRouteen.EmptyPersonalCard();
 
-            ActivateBtn();
+            ChooseFrame();
+            NewBtn.IsEnabled = false;
+            ChouseBtn.IsEnabled = false;
+            PrintBtn.IsEnabled = false;
         }
 
+        /*Создание новой карты и заполение полей формы*/
+        public void StartCard()
+        {
+            // создаем личную карту
+            personal_card = new PersonalCard();
+
+            // заполняем поля
+            label_name.Content = "Личная карта";
+            DatePreparationDP.SelectedDate = personal_card.DatePreparation;
+            TablelNumberTB.Text = personal_card.TablelNumber;
+            INN_TB.Text = personal_card.INN;
+            InsuranceCertificateTB.Text = personal_card.InsuranceCertificate;
+            FIO_TB.Text = personal_card.FIO;
+            GenderCB.SelectedValue = personal_card.Gender;
+            CitizenshipCB.SelectedValue = personal_card.Citizenship;
+            DateBirthDP.SelectedDate = personal_card.DateBirth;
+            PlaceBirthTB.Text = personal_card.PlaceBirth;
+            LangGrid.ItemsSource = personal_card.Langs;
+            PassportNumnerTB.Text = personal_card.PassportNumner;
+            PassportSerialTB.Text = personal_card.PassportSerial;
+            PassportDateDP.SelectedDate = personal_card.PassportDate;
+            PassportIssuedTB.Text = personal_card.PassportIssued;
+            TypeEducationCB.SelectedValue = personal_card.TypeEducation;
+            EduGrid.ItemsSource = personal_card.Educations;
+            WorksGrid.ItemsSource = personal_card.WorkPlaces;
+            DismissalDP.SelectedDate = personal_card.DateDismissal;
+            ReasonDismissalTB.Text = personal_card.ReasonDismissal;
+
+            StartFrame();
+        }
 
         /*Конструктор формы*/
         public PersonalCard_RW()
         {
-
             InitializeComponent();
             TablelNumberTB.TextWrapping = TextWrapping.NoWrap;
             INN_TB.TextWrapping = TextWrapping.NoWrap;
@@ -334,11 +366,8 @@ namespace Employee.PersonalCard
             PassportIssuedTB.TextWrapping = TextWrapping.NoWrap;
             ReasonDismissalTB.TextWrapping = TextWrapping.NoWrap;
 
-            //CreateNewCard();
+            StartCard();
 
-            // ПОКА НЕ ЗНАЮ КАК ДОБАВИТЬ ЭТО В ТАБЛИЦЫ, СЛОЖНААА
-            //List<string> languages = dbRouteen.GetAllLanguages();   // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
-            //List<string> degrees = dbRouteen.GetAllDegreesLan();    // ПОДКАЧКА СПРАВОЧНИКА НАЗВАНИЯ ЯЗЫКОВ
         }
 
         /*Кнопка для выбора карточки*/
@@ -359,12 +388,13 @@ namespace Employee.PersonalCard
         /*Сохранение изменений карты*/
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+
             // соеденяемся с БД
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
 
             // шапка
             personal_card.DatePreparation = DatePreparationDP.DisplayDate;
-            personal_card.TablelNumber = TablelNumberTB.Text; 
+            personal_card.TablelNumber = TablelNumberTB.Text;
             personal_card.INN = INN_TB.Text;
             personal_card.InsuranceCertificate = InsuranceCertificateTB.Text;
             personal_card.FIO = FIO_TB.Text;
@@ -384,15 +414,20 @@ namespace Employee.PersonalCard
 
             // увольнение
             personal_card.DateDismissal = DismissalDP.DisplayDate;
-            personal_card.WorkPlaces.Last().WorkDateDismissal = DismissalDP.DisplayDate;
             personal_card.ReasonDismissal = ReasonDismissalTB.Text;
+            personal_card.WorkPlaces.Last().WorkDateDismissal = DismissalDP.DisplayDate;
             personal_card.WorkPlaces.Last().WorkReasonDismissal = ReasonDismissalTB.Text;
 
-            ActivateBtn();
-
-            // кидаем запрос
-            personal_card = dbRouteen.UpdateDataInPersonalCardForID(personal_card);
-            CreateFullCard(personal_card.CardId);
+            if (CheckForm())
+            {
+                // кидаем запрос
+                personal_card = dbRouteen.UpdateDataInPersonalCardForID(personal_card);
+                CreateFullCard(personal_card.CardId);
+            }
+            else
+            {
+                MessageBox.Show("Карта не заполнена!");
+            }
         }
 
         /*Создание бокса пол*/
@@ -621,6 +656,7 @@ namespace Employee.PersonalCard
             {
                 SaveBtn.IsEnabled = true;
                 PrintBtn.IsEnabled = true;
+                ChooseFrame();
             }
         }
 
@@ -635,5 +671,60 @@ namespace Employee.PersonalCard
             }
             catch (Exception) { this.Close(); }
         }
+
+        /*Окно старт*/
+        public void StartFrame()
+        {
+            SaveBtn.IsEnabled = false;
+            PrintBtn.IsEnabled = false;
+            label_name.IsEnabled = false;
+            DatePreparationDP.IsEnabled = false;
+            TablelNumberTB.IsEnabled = false;
+            INN_TB.IsEnabled = false;
+            InsuranceCertificateTB.IsEnabled = false;
+            FIO_TB.IsEnabled = false;
+            GenderCB.IsEnabled = false;
+            CitizenshipCB.IsEnabled = false;
+            DateBirthDP.IsEnabled = false;
+            PlaceBirthTB.IsEnabled = false;
+            LangGrid.IsEnabled = false;
+            PassportNumnerTB.IsEnabled = false;
+            PassportSerialTB.IsEnabled = false;
+            PassportDateDP.IsEnabled = false;
+            PassportIssuedTB.IsEnabled = false;
+            TypeEducationCB.IsEnabled = false;
+            EduGrid.IsEnabled = false;
+            WorksGrid.IsEnabled = false;
+            DismissalDP.IsEnabled = false;
+            ReasonDismissalTB.IsEnabled = false;
+        }
+
+        /*Окно старт*/
+        public void ChooseFrame()
+        {
+            SaveBtn.IsEnabled = true;
+            PrintBtn.IsEnabled = true;
+            label_name.IsEnabled = true;
+            DatePreparationDP.IsEnabled = true;
+            TablelNumberTB.IsEnabled = true;
+            INN_TB.IsEnabled = true;
+            InsuranceCertificateTB.IsEnabled = true;
+            FIO_TB.IsEnabled = true;
+            GenderCB.IsEnabled = true;
+            CitizenshipCB.IsEnabled = true;
+            DateBirthDP.IsEnabled = true;
+            PlaceBirthTB.IsEnabled = true;
+            LangGrid.IsEnabled = true;
+            PassportNumnerTB.IsEnabled = true;
+            PassportSerialTB.IsEnabled = true;
+            PassportDateDP.IsEnabled = true;
+            PassportIssuedTB.IsEnabled = true;
+            TypeEducationCB.IsEnabled = true;
+            EduGrid.IsEnabled = true;
+            WorksGrid.IsEnabled = true;
+            DismissalDP.IsEnabled = true;
+            ReasonDismissalTB.IsEnabled = true;
+        }
+
     }
 }

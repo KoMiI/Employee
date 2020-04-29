@@ -2,17 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using MySql.Data.MySqlClient;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Employee.DataBase;
 using ClosedXML.Excel;
 using Microsoft.Win32;
@@ -412,15 +402,17 @@ namespace Employee.PersonalCard
             // образование
             personal_card.TypeEducation = TypeEducationCB.Text;
 
-            // увольнение
-            personal_card.DateDismissal = DismissalDP.DisplayDate;
-            personal_card.ReasonDismissal = ReasonDismissalTB.Text;
-            personal_card.WorkPlaces.Last().WorkDateDismissal = DismissalDP.DisplayDate;
-            personal_card.WorkPlaces.Last().WorkReasonDismissal = ReasonDismissalTB.Text;
-
             if (CheckForm())
             {
-                // кидаем запрос
+                // увольнение
+                if (ReasonDismissalTB.Text != "")
+                {
+                    personal_card.DateDismissal = DismissalDP.DisplayDate;
+                    personal_card.ReasonDismissal = ReasonDismissalTB.Text;
+                    personal_card.WorkPlaces.Last().WorkDateDismissal = DismissalDP.DisplayDate;
+                    personal_card.WorkPlaces.Last().WorkReasonDismissal = ReasonDismissalTB.Text;
+                }
+
                 personal_card = dbRouteen.UpdateDataInPersonalCardForID(personal_card);
                 CreateFullCard(personal_card.CardId);
             }
@@ -725,6 +717,5 @@ namespace Employee.PersonalCard
             DismissalDP.IsEnabled = true;
             ReasonDismissalTB.IsEnabled = true;
         }
-
     }
 }

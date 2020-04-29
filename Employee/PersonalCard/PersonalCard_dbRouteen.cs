@@ -463,20 +463,31 @@ namespace Employee.DataBase
             // работа с образованием
             for (int i = 0; i < educations.Count; i++)
             {
-                
-                if (!EduUpdate(educations[i]))
+                if(educations[i].EduName == "" && educations[i].EduSpecial == "")
                 {
-                    toUpdate.Educations[i].EducationId = EduCreate(CardId, educations[i]);
+                    EduDelete(educations[i].EducationId);
+                    toUpdate.Educations.RemoveAt(i);
                 }
+                else 
+                    if (!EduUpdate(educations[i]))
+                    {
+                        toUpdate.Educations[i].EducationId = EduCreate(CardId, educations[i]);
+                    }
             }
             
             // Карточки приёма
             for (int i = 0; i < workPlaces.Count; i++)
             {
-                if (!WorkUpdate(workPlaces[i]))
+                if (workPlaces[i].CharWork == "")
                 {
-                    toUpdate.WorkPlaces[i].WorkPlaceID = WorkCreate(CardId, workPlaces[i]);
+                    WorkDelete(workPlaces[i].WorkPlaceID);
+                    toUpdate.WorkPlaces.RemoveAt(i);
                 }
+                else
+                    if (!WorkUpdate(workPlaces[i]))
+                    {
+                        toUpdate.WorkPlaces[i].WorkPlaceID = WorkCreate(CardId, workPlaces[i]);
+                    }
             }
 
             return toUpdate;

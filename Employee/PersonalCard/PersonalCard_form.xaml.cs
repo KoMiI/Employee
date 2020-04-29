@@ -313,7 +313,7 @@ namespace Employee.PersonalCard
             ReasonDismissalTB.Text = personal_card.ReasonDismissal;
 
             PersonalCard_dbRouteen dbRouteen = new PersonalCard_dbRouteen(DataBase.dbConnect.StartConnection());
-            personal_card.CardId = dbRouteen.EmptyPersonalCard();
+            personal_card.CardId = dbRouteen.EmptyPersonalCard(personal_card);
 
             ChooseFrame();
             NewBtn.IsEnabled = false;
@@ -415,8 +415,8 @@ namespace Employee.PersonalCard
             // увольнение
             personal_card.DateDismissal = DismissalDP.DisplayDate;
             personal_card.ReasonDismissal = ReasonDismissalTB.Text;
-            personal_card.WorkPlaces.Last().WorkDateDismissal = DismissalDP.DisplayDate;
-            personal_card.WorkPlaces.Last().WorkReasonDismissal = ReasonDismissalTB.Text;
+            //personal_card.WorkPlaces.Last().WorkDateDismissal = DismissalDP.DisplayDate;
+            //personal_card.WorkPlaces.Last().WorkReasonDismissal = ReasonDismissalTB.Text;
 
             if (CheckForm())
             {

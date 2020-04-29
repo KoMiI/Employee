@@ -481,10 +481,11 @@ namespace Employee.DataBase
         }
 
         // Пустая личная карточка
-        public string EmptyPersonalCard()
+        public string EmptyPersonalCard(PersonalCard_RW.PersonalCard personalCard)
         {
             string pk_pass = PassportCreate("", "", "", "2000-01-01");
-            string sql = "INSERT INTO `PersonalCard` (`pas_key`) VALUES ('" + pk_pass + "'); SELECT LAST_INSERT_ID();";
+            personalCard.PassportPK = pk_pass;
+            string sql = "INSERT INTO `PersonalCard` (`Sex`,`pas_key`,`date_create`) VALUES ('М','" + pk_pass + "','"+ DateTime.Today.ToString("dd'.'MM'.'yyyy") + "'); SELECT LAST_INSERT_ID();";
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
             cmd.CommandText = sql;

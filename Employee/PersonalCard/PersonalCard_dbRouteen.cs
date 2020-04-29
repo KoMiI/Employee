@@ -471,26 +471,16 @@ namespace Employee.DataBase
             // Карточки приёма
             for (int i = 0; i < workPlaces.Count; i++)
             {
-                sql = "UPDATE `PersonalCardPriem` SET " +
-                   "`work_character`='" + workPlaces[i].CharWork +
-                   "', `work_type`='" + workPlaces[i].TypeWork +
-                   "', `position`='" + workPlaces[i].Post +
-                   "', `unit`='" + workPlaces[i].SubDivision +
-                   "', `date`='" + workPlaces[i].DateRecruit.ToString("dd'.'MM'.'yyyy") +
-                   "', `taxes`='" + workPlaces[i].Pay+
-                   "', `reason`='" + workPlaces[i].Base +
-                   "', `date_fired`='" + workPlaces[i].WorkDateDismissal.ToString("dd'.'MM'.'yyyy") +
-                   "', `reason_fired`='" + workPlaces[i].WorkReasonDismissal +
-                   "' WHERE pk_working=" + workPlaces[i].WorkPlaceID;
-                Console.WriteLine(sql);
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
+                if (!EduUpdate(educations[i]))
+                {
+                    toUpdate.WorkPlaces[i].WorkPlaceID = WorkCreate(CardId, workPlaces[i]);
+                }
             }
 
             return toUpdate;
         }
 
-
+        // Пустая личная карточка
         public string EmptyPersonalCard()
         {
             string pk_pass = PassportCreate("", "", "", "2000-01-01");
@@ -501,6 +491,76 @@ namespace Employee.DataBase
             object O = cmd.ExecuteScalar();
             return O.ToString();
         }
+
+        /*
+         *   ЛОГИКА КАРТОЧКИ РАБОТЫ
+         * */
+
+        public bool WorkUpdate(PersonalCard_RW.WorkPlace _card)
+        {
+            string sql = "UPDATE `PersonalCardPriem` SET " +
+                   "`work_character`='" + _card.CharWork +
+                   "', `work_type`='" + _card.TypeWork +
+                   "', `position`='" + _card.Post +
+                   "', `unit`='" + _card.SubDivision +
+                   "', `date`='" + _card.DateRecruit.ToString("dd'.'MM'.'yyyy") +
+                   "', `taxes`='" + _card.Pay +
+                   "', `reason`='" + _card.Base +
+                   "', `date_fired`='" + _card.WorkDateDismissal.ToString("dd'.'MM'.'yyyy") +
+                   "', `reason_fired`='" + _card.WorkReasonDismissal +
+                   "' WHERE pk_working=" + _card.WorkPlaceID;
+            Console.WriteLine(sql);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void WorkDelete(string pk_work)
+        {
+            string sql = "DELETE FROM `PersonalCardPriem` WHERE pk_edu_card=" + pk_work;
+            Console.WriteLine(sql);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+        public string WorkCreate(string pk_personal_card, PersonalCard_RW.WorkPlace _card)
+        {
+            string sql = "INSERT INTO `PersonalCardPriem` (`work_character`, `work_type`, `position`, `unit`, `date`, `taxes`, `reason`, `pk_personal_card`, `date_fired`, `reason_fired`) " +
+                "VALUES ('" + _card.CharWork+
+                "', '" + _card.TypeWork +
+                "', '" + _card.Post +
+                "', '" + _card.SubDivision +
+                "', '" + _card.DateRecruit.ToString("dd'.'MM'.'yyyy") +
+                "', '" + _card.Pay +
+                "', '" + _card.Base +
+                "', '" + pk_personal_card+
+                "'); SELECT LAST_INSERT_ID();";
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = sql;
+            object O = cmd.ExecuteScalar();
+            return O.ToString();
+        }
+
 
         public string EduCreate(string pk_personal_card, PersonalCard_RW.Education _card)
         {
@@ -519,8 +579,6 @@ namespace Employee.DataBase
             object O = cmd.ExecuteScalar();
             return O.ToString();
         }
-
-
 
         public bool EduUpdate(PersonalCard_RW.Education _card)
         {

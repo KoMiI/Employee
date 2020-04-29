@@ -129,9 +129,10 @@ namespace Employee.Database
             }
         }
 
-        public void CreateObject(TimeTracking model) {
+        public long CreateObject(TimeTracking model) {
             try {
-                string sql = "INSERT INTO `TimeTracking`(`nomer`, `date_sostav`, `to`, `from`, `pk_unit`) VALUES (@nomer, @date, @date_to, @date_from, @pk_unit)";
+                string sql = "INSERT INTO `TimeTracking`(`nomer`, `date_sostav`, `to`, `from`, `pk_unit`) " +
+                             "VALUES (@nomer, @date, @date_to, @date_from, @pk_unit)";
 
                 MySqlCommand cmd = new MySqlCommand();
 
@@ -147,11 +148,15 @@ namespace Employee.Database
 
                 int rowCount = cmd.ExecuteNonQuery();
 
+                return cmd.LastInsertedId;
+
+
                 Console.WriteLine("Row Count affected = " + rowCount);
             }
             catch (Exception e) {
                 Console.WriteLine("Error: " + e);
                 Console.WriteLine(e.StackTrace);
+                return -1;
             }
         }
     }

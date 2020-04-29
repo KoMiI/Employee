@@ -78,21 +78,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\DayLogic.cs" />
+    <Compile Include="Database\FactLogic.cs" />
+    <Compile Include="Database\ResultLogic.cs" />
+    <Compile Include="Database\StringTimeTrackingLogic.cs" />
     <Compile Include="Database\TimeSheetLogic.cs" />
     <Compile Include="Database\UnitLogic.cs" />
     <Compile Include="TimeSheet\CreateTimeSheetPage.xaml.cs">
       <DependentUpon>CreateTimeSheetPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheet\Day.cs" />
     <Compile Include="TimeSheet\DayViewModel.cs" />
+    <Compile Include="TimeSheet\Fact.cs" />
     <Compile Include="TimeSheet\FactViewModel.cs" />
+    <Compile Include="TimeSheet\PersonalCard.cs" />
+    <Compile Include="TimeSheet\Result.cs" />
     <Compile Include="TimeSheet\ResultViewModel.cs" />
+    <Compile Include="TimeSheet\StringTimeTracking.cs" />
     <Compile Include="TimeSheet\StringTimeTrackingViewModel.cs" />
     <Compile Include="TimeSheet\TimeSheetPage.xaml.cs">
       <DependentUpon>TimeSheetPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeSheet\TimeTracking.cs" />
     <Compile Include="TimeSheet\TimeTrackingViewModel.cs" />
-    <Compile Include="Unit.cs" />
+    <Compile Include="TimeSheet\Unit.cs" />
     <Page Include="Login\LoginFormWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -13,7 +13,6 @@ namespace Employee.Database
     class UnitLogic
     {
         private MySqlConnection connection;
-
         public UnitLogic(MySqlConnection conn)
         {
             if (conn == null)
@@ -76,7 +75,7 @@ namespace Employee.Database
         public void UpdateObject(Unit model)
         {
             try {
-                string sql = $"UPDATE `Unit` SET `name` = @name,` WHERE `pk_unit` = {model.PrimaryKey}";
+                string sql = $"UPDATE `Unit` SET `name` = @name` WHERE `pk_unit` = {model.PrimaryKey}";
 
                 MySqlCommand cmd = new MySqlCommand();
 

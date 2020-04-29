@@ -27,7 +27,7 @@ namespace Employee.TimeSheet
     /// </summary>
     public partial class TimeSheetPage : Page
     {
-        private ObservableCollection<TimeTrackingViewModel> timeTrackings = new ObservableCollection<TimeTrackingViewModel>();
+        private ObservableCollection<TimeTrackingViewModel> timeTrackings { get; set; } = new ObservableCollection<TimeTrackingViewModel>();
         public TimeSheetPage()
         {
             InitializeComponent();
@@ -77,6 +77,17 @@ namespace Employee.TimeSheet
                 var timeTrackingLogic = new TimeSheetLogic(MainWindow.connection);
                 timeTrackingLogic.DeleteObject(viewModel.TimeTracking.PrimaryKey);
             }
+        }
+
+        private void EditMenuItem_OnClick(object sender, RoutedEventArgs e) {
+            var select = DataGrid.SelectedItem;
+            if (select is TimeTrackingViewModel viewModel) {
+                var createPage = new CreateTimeSheetPage();
+                createPage.ViewModel = viewModel;
+                createPage.IsEdit = true;
+                this.NavigationService.Navigate(createPage);
+            }
+
         }
     }
 }

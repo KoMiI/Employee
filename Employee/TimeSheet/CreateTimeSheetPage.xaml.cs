@@ -1,36 +1,139 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.Common;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 using Employee.Database;
+
+using MySql.Data.MySqlClient;
 
 namespace Employee.TimeSheet
 {
     public partial class CreateTimeSheetPage : Page
     {
-        private TimeTrackingViewModel viewModel = new TimeTrackingViewModel();
+        public TimeTrackingViewModel ViewModel { get; set; }
+
+        private ObservableCollection<StringTimeTrackingViewModel> strings { get; set; } =
+            new ObservableCollection<StringTimeTrackingViewModel>();
+
+        public List<PersonalCard> personalCard { get; set; }
         private TimeSheetLogic timeSheetLogic;
-        public CreateTimeSheetPage()
-        {
+
+        public bool IsEdit = false;
+
+        public CreateTimeSheetPage() {
             InitializeComponent();
             this.Loaded += CreateTimeSheetPage_Loaded;
         }
 
         private void CreateTimeSheetPage_Loaded(object sender, RoutedEventArgs e) {
             timeSheetLogic = new TimeSheetLogic(MainWindow.connection);
-            var logic = new UnitLogic(MainWindow.connection);
-            var list = logic.GetAll();
-            UnitComboBox.ItemsSource = list;
+            loadData();
         }
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e) {
-            viewModel.NumberDocument = NumberDocumentTextBox.Text;
-            viewModel.DateСompilation = SostavDatePicker.DisplayDate.ToShortDateString();
-            viewModel.BeginDate = FromDatePicker.DisplayDate.ToShortDateString();
-            viewModel.EndDate = ToDatePicker.DisplayDate.ToShortDateString();
-            viewModel.Unit = UnitComboBox.SelectionBoxItem as Unit;
-
-            var newTracking = viewModel.saveChanged();
-            timeSheetLogic.CreateObject(newTracking);
+            if (IsEdit)
+                updateObject();
+            else
+                saveObject();
         }
+
+        private void loadData() {
+            var logic = new UnitLogic(MainWindow.connection);
+            var list = logic.GetAll();
+            UnitComboBox.ItemsSource = list;
+            if (IsEdit) {
+                NumberDocumentTextBox.Text = ViewModel.NumberDocument;
+                SostavDatePicker.SelectedDate = ViewModel.TimeTracking.DateСompilation;
+                FromDatePicker.SelectedDate = ViewModel.TimeTracking.BeginDate;
+                ToDatePicker.SelectedDate = ViewModel.TimeTracking.EndDate;
+                UnitComboBox.SelectedItem = list.FirstOrDefault(x => x.PrimaryKey == ViewModel.Unit.PrimaryKey);
+
+                var stringTimeLogic = new StringTimeTrackingLogic(MainWindow.connection);
+                var timeStrings = stringTimeLogic.GetObjectByTimeTracking(ViewModel.TimeTracking.PrimaryKey);
+                foreach (var stringTimeTracking in timeStrings) {
+                    strings.Add(new StringTimeTrackingViewModel(stringTimeTracking));
+                }
+
+
+            } else {
+                ViewModel = new TimeTrackingViewModel();
+            }
+
+            DataGrid.ItemsSource = strings;
+        }
+
+        private void saveObject() {
+            ViewModel.NumberDocument = NumberDocumentTextBox.Text;
+            ViewModel.DateСompilation = SostavDatePicker.DisplayDate.ToShortDateString();
+            ViewModel.BeginDate = FromDatePicker.DisplayDate.ToShortDateString();
+            ViewModel.EndDate = ToDatePicker.DisplayDate.ToShortDateString();
+            ViewModel.Unit = UnitComboBox.SelectedItem as Unit;
+
+            var newTracking = ViewModel.saveChanged();
+            newTracking.PrimaryKey = (int) timeSheetLogic.CreateObject(newTracking);
+            ViewModel.TimeTracking = newTracking;
+            foreach (var stringTime in strings) {
+                stringTime.TimeTracking = ViewModel;
+                stringTime.SaveChanged();
+            }
+
+            this.NavigationService.GoBack();
+        }
+
+        private void updateObject() {
+            ViewModel.NumberDocument = NumberDocumentTextBox.Text;
+            ViewModel.DateСompilation = SostavDatePicker.DisplayDate.ToShortDateString();
+            ViewModel.BeginDate = FromDatePicker.DisplayDate.ToShortDateString();
+            ViewModel.EndDate = ToDatePicker.DisplayDate.ToShortDateString();
+            ViewModel.Unit = UnitComboBox.SelectedItem as Unit;
+
+            var newTracking = ViewModel.saveChanged();
+            timeSheetLogic.UpdateObject(newTracking);
+            foreach (var stringTime in strings) {
+                stringTime.TimeTracking = ViewModel;
+                stringTime.SaveChanged(true);
+            }
+
+            this.NavigationService.GoBack();
+        }
+
+        private void GetAllPersonalCard()
+        {
+            // Создать объект Command.
+            MySqlCommand cmd = new MySqlCommand();
+
+            // Сочетать Command с Connection.
+            cmd.Connection = MainWindow.connection;
+            cmd.CommandText = "SELECT  `PersonalCard`.`pk_personal_card`, `PersonalCard`.`familiya`, `PersonalCard`.`imya`,`PersonalCard`.`tabel_number`, " +
+                              "`PersonalCardPriem`.`position`, `PersonalCard`.`otchestvo` FROM `PersonalCard`, `PersonalCardPriem` " +
+                              $"WHERE `PersonalCardPriem`.`pk_personal_card` = `PersonalCard`.`pk_personal_card`";
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+
+                    while (reader.Read())
+                    {
+                        string familiya = Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya")));
+                        string name = Convert.ToString(reader.GetValue(reader.GetOrdinal("imya")));
+                        int tableNumber = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("tabel_number")));
+                        string otchestvo = Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")));
+                        string Position = Convert.ToString(reader.GetValue(reader.GetOrdinal("position")));
+                        int pk = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_personal_card")));
+
+                        personalCard.Add(new PersonalCard(pk, familiya, name, otchestvo, Position, tableNumber));
+                    }
+                }
+            }
+        }
+
     }
 }

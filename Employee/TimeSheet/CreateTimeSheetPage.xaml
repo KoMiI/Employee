@@ -3,17 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Employee"
+        xmlns:local="clr-namespace:Employee.TimeSheet"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
         Title="CreateTimeSheetWindow">
+    <Page.Resources>
+        <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type local:PersonalCard}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local:PersonalCard"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0">Добаления табеля учета рабочего времени</Label>
-        <TabControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10">
+        <TabControl Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10">
             <TabItem Header="Шапка табеля">
                 <Grid Background="#FFE5E5E5" MinHeight="400">
                     <Grid.RowDefinitions>
@@ -57,13 +64,194 @@
             </TabItem>
             <TabItem Header="Учет рабочего времени">
                 <Grid Background="#FFE5E5E5" MinHeight="400">
-                    <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch" Margin="10"
-                              AutoGenerateColumns="False" SelectionMode="Single">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26*"/>
+                        <ColumnDefinition Width="133*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="DataGrid" 
+                              AutoGenerateColumns="False"
+                              HorizontalAlignment="Stretch"
+                              Margin="10,10,10,20"
+                              VerticalAlignment="Stretch" Grid.ColumnSpan="2"
+                              IsReadOnly="False"
+                              AreRowDetailsFrozen="False">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Фамилия, инициалы, должность">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox SelectedItem="{Binding Path=PersonalCard.FIO}" ItemsSource="{Binding Source={StaticResource myEnum} }">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding FIO}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Фамилия, инициалы, должность">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding PersonalCard.FIO}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Табельный номер">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding PersonalCard.TableNumber}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Отметки о явках и неявках на работу по числам месяца">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGrid x:Name="DayDataGrid"
+                                                  ItemsSource="{Binding Path=Days}"
+                                                  AutoGenerateColumns="False">
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn Header="Дата">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DatePicker SelectedDate="{Binding Date}"></DatePicker>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridComboBoxColumn Header="Код" SelectedItemBinding="{Binding Path=DayType}">
+                                                    <DataGridComboBoxColumn.ItemsSource>
+                                                        <col:ArrayList>
+                                                            <sys:String>Я</sys:String>
+                                                            <sys:String>Н</sys:String>
+                                                            <sys:String>РВ</sys:String>
+                                                            <sys:String>С</sys:String>
+                                                            <sys:String>ВМ</sys:String>
+                                                            <sys:String>К</sys:String>
+                                                            <sys:String>ПК</sys:String>
+                                                            <sys:String>ПМ</sys:String>
+                                                            <sys:String>ОТ</sys:String>
+                                                            <sys:String>ОД</sys:String>
+                                                            <sys:String>ОП</sys:String>
+                                                        </col:ArrayList>
+                                                    </DataGridComboBoxColumn.ItemsSource>
+                                                </DataGridComboBoxColumn>
+                                                <DataGridTextColumn Header="Количество часов" Binding="{Binding Path=DurationWork}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="290">
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="60"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" >
+                                                <TextBlock Text="дней" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" >
+                                                <TextBlock Text="часов" HorizontalAlignment="Center" />
+                                            </Border>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"   >
+                                                <TextBlock Text="всего" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" >
+                                                <TextBlock  Text="из них" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Row="2" Grid.Column="2"  >
+                                                <TextBlock Text="сверхурочно" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Row="2" Grid.Column="3" >
+                                                <TextBlock  Text="ночных" HorizontalAlignment="Center" />
+                                            </Border>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Row="2" Grid.Column="4" >
+                                                <TextBlock Text="выходных" HorizontalAlignment="Center" />
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.HeaderTemplate>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="60"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" Text="{Binding Result.DayWork}"/>
+                                            <TextBox Grid.Column="1" Text="{Binding Result.HoursWork}"/>
+                                            <TextBox Grid.Column="2" Text="{Binding Result.HoursOverwork}"/>
+                                            <TextBox Grid.Column="3" Text="{Binding Result.NightHours}"/>
+                                            <TextBox Grid.Column="4" Text="{Binding Result.Holydays}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="100">
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="50"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Column="0" >
+                                                <TextBlock Text="код" HorizontalAlignment="Center" />
+                                            </Border>
+                                            <Border BorderThickness="1" BorderBrush="LightGray" Grid.Column="1" >
+                                                <TextBlock Text="Количество неявок дней" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                            </Border>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="50"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox SelectedItem="{Binding Path=Fact.Presence}">
+                                                <ComboBox.ItemsSource>
+                                                    <col:ArrayList>
+                                                        <sys:String>Я</sys:String>
+                                                        <sys:String>Н</sys:String>
+                                                        <sys:String>РВ</sys:String>
+                                                        <sys:String>С</sys:String>
+                                                        <sys:String>ВМ</sys:String>
+                                                        <sys:String>К</sys:String>
+                                                        <sys:String>ПК</sys:String>
+                                                        <sys:String>ПМ</sys:String>
+                                                        <sys:String>ОТ</sys:String>
+                                                        <sys:String>ОД</sys:String>
+                                                        <sys:String>ОП</sys:String>
+                                                    </col:ArrayList>
+                                                </ComboBox.ItemsSource>
+                                            </ComboBox>
+                                            <TextBox Grid.Column="1" Text="{Binding Fact.CountDay}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="SaveButton" Margin="10" Grid.Row="2" HorizontalAlignment="Right" Click="SaveButton_OnClick">Сохранить</Button>
+        <Button x:Name="SaveButton" Margin="10" Grid.Row="1" HorizontalAlignment="Right" Click="SaveButton_OnClick">Сохранить</Button>
     </Grid>
 </Page>

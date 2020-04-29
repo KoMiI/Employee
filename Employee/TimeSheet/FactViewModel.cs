@@ -4,22 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Employee.Database;
+
 namespace Employee.TimeSheet
 {
     public class FactViewModel
     {
-        public readonly string PrimaryKey;
+        public Fact Fact { get; set; }
+        public string Presence { get; set; }
+        public int CountDay { get; set; }
 
-        public readonly string PKTimeTracking;
+        public FactViewModel() { }
 
-        public readonly string PKStringTimeTrackingViewModel;
-        public DateTime Data { get; set; }
+        public FactViewModel(Fact model) {
+            Fact = model;
+            Presence = model.Reason;
+            CountDay = model.CountDay;
+        }
 
-        public int Presence { get; set; }
+        public Fact saveChanged(bool isEdit) {
+            var newObject = new Fact {CountDay = CountDay, Reason = Presence};
 
-        public string Cause { get; set; }
+            var factLogic = new FactLogic(MainWindow.connection);
+            if (isEdit) {
+                newObject.PrimaryKey = Fact.PrimaryKey;
+                factLogic.UpdateObject(newObject);
+            } else {
+                newObject.PrimaryKey = (int)factLogic.CreateObject(newObject);
+            }
 
-        public  FactViewModel() { }
-
+            return newObject;
+        }
     }
 }

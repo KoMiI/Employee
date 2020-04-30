@@ -35,14 +35,14 @@
         <Button Name="AddLineButton" Content="Добавить позицию" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="26" Click="AddLineButton_Click" Grid.Column="3" Grid.Row="3"/>
         <Button Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Height="26" Click="DeleteButton_Click" Grid.Column="4" Grid.Row="3" />
         <Label Content="Фильтр" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="49" Grid.Column="5" Grid.Row="5"/>
-        <DataGrid Name ="StaffTableGrid" HorizontalAlignment="Left" Width="796" SelectionMode="Single" IsSynchronizedWithCurrentItem="True" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="8" AutoGenerateColumns="False" RowEditEnding="StaffTableGrid_RowEditEnding">
+        <DataGrid Name ="StaffTableGrid" HorizontalAlignment="Left" Width="796" SelectionMode="Single" IsSynchronizedWithCurrentItem="True" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="8" AutoGenerateColumns="False" MouseDoubleClick="StaffTableGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Unit, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Подразделение" Width="150"/>
-                <DataGridTextColumn Binding="{Binding Position, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Должность" Width="150"/>
-                <DataGridTextColumn Binding="{Binding PositionCount, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Количество штатных едениц" Width="70"/>
-                <DataGridTextColumn Binding="{Binding Tariff, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Тарифная ставка"/>
-                <DataGridTextColumn Binding="{Binding Perks, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Надбавки" Width="150"/>
-                <DataGridTextColumn Binding="{Binding Note, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Примечание" Width="200"/>
+                <DataGridTextColumn Binding="{Binding Unit}"  ClipboardContentBinding="{x:Null}" Header="Подразделение" Width="150"/>
+                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" Header="Должность" Width="150"/>
+                <DataGridTextColumn Binding="{Binding PositionCount}" ClipboardContentBinding="{x:Null}" Header="Количество штатных едениц" Width="70"/>
+                <DataGridTextColumn Binding="{Binding Tariff}" ClipboardContentBinding="{x:Null}" Header="Тарифная ставка"/>
+                <DataGridTextColumn Binding="{Binding Perks}" ClipboardContentBinding="{x:Null}" Header="Надбавки" Width="150"/>
+                <DataGridTextColumn Binding="{Binding Note}" ClipboardContentBinding="{x:Null}" Header="Примечание" Width="200"/>
             </DataGrid.Columns>
         </DataGrid>
         <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="186" Height="26" Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="4"/>

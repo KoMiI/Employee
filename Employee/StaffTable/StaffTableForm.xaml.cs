@@ -34,9 +34,7 @@ namespace Employee.StaffTable
 
         private void UpdateGrid()
         {
-            //if (AdditingFlag)
             {
-                //StaffTableGrid.Items.Clear();
                 StaffTableGrid.ItemsSource = null;
                 var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
                 var stringStaffTable = stringStaffTableLogic.GetAll(MainStaffTable.PrimaryKey);
@@ -60,18 +58,23 @@ namespace Employee.StaffTable
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            FillComboBox();
-            if (!AdditingFlag)
+            if (MainStaffTable == null)
+                this.Close();
+            else
             {
-                OrderComdoBox.SelectedValue = MainStaffTable.Order;
-                DateCreatePicker.SelectedDate = MainStaffTable.CreateDate;
-                DateStartPicker.SelectedDate = MainStaffTable.StartDate;
-                DateEndPicker.SelectedDate = MainStaffTable.EndDate;
-                OKYDTextBox.Text = MainStaffTable.CodeOKYD.ToString();
-                NumberTextBox.Text = MainStaffTable.NumDoc.ToString();
-            }
+                FillComboBox();
+                if (!AdditingFlag)
+                {
+                    OrderComdoBox.SelectedIndex = MainStaffTable.Order.PrimaryKey;
+                    DateCreatePicker.SelectedDate = MainStaffTable.CreateDate;
+                    DateStartPicker.SelectedDate = MainStaffTable.StartDate;
+                    DateEndPicker.SelectedDate = MainStaffTable.EndDate;
+                    OKYDTextBox.Text = MainStaffTable.CodeOKYD.ToString();
+                    NumberTextBox.Text = MainStaffTable.NumDoc.ToString();
+                }
 
-            UpdateGrid();
+                UpdateGrid();
+            }
         }
 
         private void AddLineButton_Click(object sender, RoutedEventArgs e)
@@ -89,29 +92,19 @@ namespace Employee.StaffTable
             AddStaffTableItem addStaffTableItem = new AddStaffTableItem();
             addStaffTableItem.Owner = this;
             addStaffTableItem.StaffTableID = MainStaffTable.PrimaryKey;
+            addStaffTableItem.isAdding = true;
             addStaffTableItem.ShowDialog();
+            MainStaffTable.StaffLines.Add(addStaffTableItem.MainStringStaffTable);
             UpdateGrid();
 
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            //if (AdditingFlag)
             {
                 StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
                 var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
                 stringStaffTableLogic.DeleteObject(path.PrimaryKey);
-            }
-            UpdateGrid();
-        }
-
-        private void StaffTableGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            //if (MainStaffTable != null)
-            {
-                StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
-                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
-                stringStaffTableLogic.UpdateObject(path);
             }
             UpdateGrid();
         }
@@ -151,6 +144,33 @@ namespace Employee.StaffTable
         private void OrderComdoBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainStaffTable.Order = (OrderViewModel)OrderComdoBox.SelectedItem;
+        }
+
+
+        private void StaffTableGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
+            if (path != null)
+            {
+                AddStaffTableItem addStaffTableItem = new AddStaffTableItem();
+                addStaffTableItem.Owner = this;
+                addStaffTableItem.StaffTableID = MainStaffTable.PrimaryKey;
+
+                addStaffTableItem.isAdding = false;
+                addStaffTableItem.MainStringStaffTable = path;
+
+                addStaffTableItem.SubdivisionComboBox.SelectedIndex = path.Unit.PrimaryKey-1;
+                addStaffTableItem.PositionComboBox.SelectedIndex = path.Position.PrimaryKey-1;
+
+                addStaffTableItem.CountTextBox.Text = path.PositionCount.ToString();
+                addStaffTableItem.TariffTextBox.Text = path.Tariff.ToString();
+                addStaffTableItem.Perks1TextBox.Text = path.Perks.ToString();
+                addStaffTableItem.NoteTextBox.Text = path.Note;
+
+                addStaffTableItem.ShowDialog();
+                if(addStaffTableItem.DialogResult == true)
+                    UpdateGrid();
+            }
         }
     }
 }

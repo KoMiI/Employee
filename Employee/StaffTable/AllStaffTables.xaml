@@ -25,7 +25,7 @@
             <ColumnDefinition Width="96*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Name ="AllStaffTablesDataGrid" HorizontalAlignment="Left" Height="343" VerticalAlignment="Top" Width="770" SelectionChanged="AllStaffTablesDataGrid_SelectionChanged" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="8" Grid.Row="3">
+        <DataGrid Name ="AllStaffTablesDataGrid" HorizontalAlignment="Left" Height="343" VerticalAlignment="Top" Width="770" AutoGenerateColumns="False" Grid.Column="1" Grid.ColumnSpan="8" Grid.Row="3" MouseDoubleClick="AllStaffTablesDataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding NumDoc}" ClipboardContentBinding="{x:Null}" Header="Номер"/>
                 <DataGridTextColumn x:Name="OrderComboBox" Binding="{Binding Order}" ClipboardContentBinding="{x:Null}" Header="Приказ" Width="130" />

@@ -26,13 +26,15 @@ namespace Employee.StaffTable
     {
         private Unit _unit = null;
         private Position _position = null;
-        public StafTable main;
+
+        public StringStaffTableViewModel MainStringStaffTable = null;
         public int StaffTableID;
+        public bool isAdding;
         public AddStaffTableItem()
         {
-            main = Owner as StafTable;
             InitializeComponent();
             FillComboBox();
+            MainStringStaffTable = new StringStaffTableViewModel();
         }
         public void FillComboBox()
         {
@@ -67,32 +69,34 @@ namespace Employee.StaffTable
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            StringStaffTableViewModel tempStringStaffTable = new StringStaffTableViewModel();
+            MainStringStaffTable.Unit = _unit;
+            MainStringStaffTable.Position = _position;
+            MainStringStaffTable.PositionCount = Convert.ToInt32(CountTextBox.Text);
+            MainStringStaffTable.Tariff = Convert.ToDouble(TariffTextBox.Text);
+            MainStringStaffTable.Perks = Convert.ToDouble(Perks1TextBox.Text);
+            MainStringStaffTable.Note = NoteTextBox.Text;
+            MainStringStaffTable.StaffingTableKey = StaffTableID;
 
-                tempStringStaffTable.Unit = _unit;
-                tempStringStaffTable.Position = _position;
-                tempStringStaffTable.PositionCount = Convert.ToInt32(CountTextBox.Text);
-                tempStringStaffTable.Tariff = Convert.ToDouble(TariffTextBox.Text);
-                tempStringStaffTable.Perks = Convert.ToDouble(Perks1TextBox.Text) +
-                                             Convert.ToDouble(Perks2TextBox.Text) +
-                                             Convert.ToDouble(Perks3TextBox.Text);
-                tempStringStaffTable.Note = NoteTextBox.Text;
-                tempStringStaffTable.StaffingTableKey = StaffTableID;
-
-                //if (main != null)
-                //    main.MainStaffTable.StaffLines.Add(tempStringStaffTable);
-
-
+            if (isAdding)
+            {
                 var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
-                stringStaffTableLogic.CreateObject(tempStringStaffTable);
-                int pk = stringStaffTableLogic.GetPrimaryKey(tempStringStaffTable);
+                stringStaffTableLogic.CreateObject(MainStringStaffTable);
+
+                int pk = stringStaffTableLogic.GetPrimaryKey(MainStringStaffTable);
                 if (pk > 0)
                 {
-                    tempStringStaffTable.PrimaryKey = pk;
-                    stringStaffTableLogic.UpdateObject(tempStringStaffTable);
+                    MainStringStaffTable.PrimaryKey = pk;
+                    stringStaffTableLogic.UpdateObject(MainStringStaffTable);
+                }
+            }
+            else
+            {
+                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                stringStaffTableLogic.UpdateObject(MainStringStaffTable);
+
             }
 
-                this.DialogResult = true;
+            this.DialogResult = true;
         }
     }
 }

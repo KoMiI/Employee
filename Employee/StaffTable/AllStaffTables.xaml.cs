@@ -47,23 +47,6 @@ namespace Employee.StaffTable
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            /*var OrderLogic = new OrderLogic(LoginFormWindow.connection);
-            var orders = OrderLogic.GetAll();
-            OrderComboBox.ItemsSource = orders;*/
-
-            UpdateGrid();
-        }
-
-        private void AllStaffTablesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            StaffTable.StafTable _StaffTable = new StaffTable.StafTable();
-            StaffTableViewModel path = AllStaffTablesDataGrid.SelectedItem as StaffTableViewModel;
-            _StaffTable.MainStaffTable = path;
-            _StaffTable.ShowDialog();
-
-            var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
-            staffTableLogic.UpdateObject(_StaffTable.MainStaffTable);
-
             UpdateGrid();
         }
 
@@ -81,19 +64,28 @@ namespace Employee.StaffTable
             StaffTable.StafTable _StaffTable = new StaffTable.StafTable();
 
             var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
-            /*int pk = staffTableLogic.GetNextPrimaryKey();
-            if (pk > 0)
-                _StaffTable.MainStaffTable.PrimaryKey = pk;*/
             _StaffTable.AdditingFlag = true;
             _StaffTable.ShowDialog();
-            _staffTables.Add(_StaffTable.MainStaffTable);
-            /*if (_StaffTable.MainStaffTable != null)
+            if (_StaffTable.DialogResult == true)
             {
-                staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
-                staffTableLogic.CreateObject(_StaffTable.MainStaffTable);
-            }*/
+                _staffTables.Add(_StaffTable.MainStaffTable);
+                UpdateGrid();
+            }
+        }
 
-            UpdateGrid();
+        private void AllStaffTablesDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            StaffTable.StafTable _StaffTable = new StaffTable.StafTable();
+            StaffTableViewModel path = AllStaffTablesDataGrid.SelectedItem as StaffTableViewModel;
+            _StaffTable.MainStaffTable = path;
+            _StaffTable.ShowDialog();
+
+            if (_StaffTable.DialogResult == true)
+            {
+                var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+                staffTableLogic.UpdateObject(_StaffTable.MainStaffTable);
+                UpdateGrid();
+            }
         }
     }
 }

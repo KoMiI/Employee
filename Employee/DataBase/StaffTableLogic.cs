@@ -123,7 +123,7 @@ namespace Employee.DataBase
 
                 // Добавить и настроить значение для параметра.
                 cmd.Parameters.Add("@nomer", MySqlDbType.VarChar).Value = model.NumDoc;
-                cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
+                cmd.Parameters.Add("@pk_order", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
                 cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.CreateDate;
                 cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
                 cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.StartDate;
@@ -144,7 +144,7 @@ namespace Employee.DataBase
 
             try
             {
-                string sql = $"DELETE FROM `StaffingTable` WHERE `pk_staffing_table` = {primaryKey}";
+                string sql = $"DELETE FROM `StaffingTable` WHERE `StaffingTable`.`pk_staffing_table` = {primaryKey}";
 
                 MySqlCommand cmd = new MySqlCommand();
 
@@ -175,7 +175,7 @@ namespace Employee.DataBase
 
                 // Добавить и настроить значение для параметра.
                 cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.NumDoc;
-                cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
+                cmd.Parameters.Add("@pk_order", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
                 cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.CreateDate;
                 cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
                 cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.StartDate;
@@ -227,7 +227,7 @@ namespace Employee.DataBase
 
                 // Добавить и настроить значение для параметра.
                 cmd.Parameters.Add("@nomer", MySqlDbType.VarChar).Value = model.NumDoc;
-                cmd.Parameters.Add("@nomer", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
+                cmd.Parameters.Add("@pk_order", MySqlDbType.Int32).Value = model.Order.PrimaryKey;
                 cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = model.CreateDate;
                 cmd.Parameters.Add("@date_to", MySqlDbType.DateTime).Value = model.EndDate;
                 cmd.Parameters.Add("@date_from", MySqlDbType.DateTime).Value = model.StartDate;

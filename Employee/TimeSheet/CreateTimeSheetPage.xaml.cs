@@ -30,6 +30,7 @@ namespace Employee.TimeSheet
         public CreateTimeSheetPage() {
             InitializeComponent();
             this.Loaded += CreateTimeSheetPage_Loaded;
+            GetAllPersonalCard();
         }
 
         private void CreateTimeSheetPage_Loaded(object sender, RoutedEventArgs e) {
@@ -67,6 +68,7 @@ namespace Employee.TimeSheet
             }
 
             DataGrid.ItemsSource = strings;
+
         }
 
         private void saveObject() {
@@ -96,7 +98,8 @@ namespace Employee.TimeSheet
 
             var newTracking = ViewModel.saveChanged();
             timeSheetLogic.UpdateObject(newTracking);
-            foreach (var stringTime in strings) {
+            foreach (var item in DataGrid.Items) {
+                var stringTime = item as StringTimeTrackingViewModel;
                 stringTime.TimeTracking = ViewModel;
                 stringTime.SaveChanged(true);
             }
@@ -114,7 +117,7 @@ namespace Employee.TimeSheet
             cmd.CommandText = "SELECT  `PersonalCard`.`pk_personal_card`, `PersonalCard`.`familiya`, `PersonalCard`.`imya`,`PersonalCard`.`tabel_number`, " +
                               "`PersonalCardPriem`.`position`, `PersonalCard`.`otchestvo` FROM `PersonalCard`, `PersonalCardPriem` " +
                               $"WHERE `PersonalCardPriem`.`pk_personal_card` = `PersonalCard`.`pk_personal_card`";
-
+            personalCard = new List<PersonalCard>();
             using (DbDataReader reader = cmd.ExecuteReader())
             {
                 if (reader.HasRows)
@@ -135,5 +138,46 @@ namespace Employee.TimeSheet
             }
         }
 
+        private void DeleteStringItem_OnClick(object sender, RoutedEventArgs e) {
+            var select = DataGrid.SelectedItem;
+            if (select is StringTimeTrackingViewModel viewModel) {
+                strings.Remove(viewModel);
+                if (IsEdit) {
+                    var timeTrackingLogic = new StringTimeTrackingLogic(MainWindow.connection);
+                    timeTrackingLogic.DeleteObject(viewModel.StringTimeTracking.PrimaryKey);
+                }
+            }
+        }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e) {
+            var select = DataGrid.SelectedItem;
+            if (select is DayViewModel viewModel) {
+                var stringItem = strings.FirstOrDefault(x => x.StringTimeTracking.PrimaryKey == viewModel.StringPrimaryKey);
+                var item = stringItem.Days.FirstOrDefault(x => x.PrimaryKey == viewModel.PrimaryKey);
+                stringItem.Days.Remove(item);
+                if (IsEdit) {
+
+                    var dayLogic = new DayLogic(MainWindow.connection);
+                    dayLogic.DeleteObject(viewModel.PrimaryKey);
+                }
+            }
+        }
+
+        private void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e) {
+            if (sender is ComboBox comboBox) {
+                comboBox.ItemsSource = personalCard;
+            }
+        }
+
+        private void FioComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            try {
+                var item = strings[DataGrid.SelectedIndex];
+                if (item != null)
+                    item.PersonalCard = (sender as ComboBox).SelectedItem as PersonalCard;
+            }
+            catch (Exception exception) {
+                Console.WriteLine(exception.Message);
+            }
+        }
     }
 }

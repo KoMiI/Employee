@@ -50,7 +50,7 @@ namespace Employee.TimeSheet
         public StringTimeTracking SaveChanged(bool isEdit = false) {
             var newObject = new StringTimeTracking();
             newObject.PKFact = Fact.saveChanged(isEdit).PrimaryKey;
-            newObject.PKPersonalCard = PersonalCard.PrimaryKey;
+            newObject.PKPersonalCard = PersonalCard != null ? PersonalCard.PrimaryKey : 0;
             newObject.PKResult = Result.saveChanged(isEdit).PrimaryKey;
             newObject.PKTimeTracking = TimeTracking.TimeTracking.PrimaryKey;
 

@@ -61,19 +61,10 @@ namespace Employee.TimeSheet
             this.NavigationService.Navigate(uri);
         }
 
-        private void FilterMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void PrintMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void DeleteMenuItem_OnClick(object sender, RoutedEventArgs e) {
             var select = DataGrid.SelectedItem;
             if (select is TimeTrackingViewModel viewModel) {
+                timeTrackings.Remove(viewModel);
                 var timeTrackingLogic = new TimeSheetLogic(MainWindow.connection);
                 timeTrackingLogic.DeleteObject(viewModel.TimeTracking.PrimaryKey);
             }
@@ -89,5 +80,28 @@ namespace Employee.TimeSheet
             }
 
         }
+
+        private void UnitComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            find();
+        }
+
+        private void DatePickerFrom_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+            find();
+        }
+
+
+        private void find() {
+            var resultFind = timeTrackings.Where(x => x.Unit.PrimaryKey == ((Unit)UnitComboBox.SelectedItem).PrimaryKey);
+            if (DatePickerFrom.SelectedDate != null) {
+                resultFind = resultFind.Where(x => x.TimeTracking.BeginDate >= DatePickerFrom.SelectedDate);
+            }
+            if (DatePickerTo.SelectedDate != null) {
+                resultFind = resultFind.Where(x => x.TimeTracking.EndDate >= DatePickerTo.SelectedDate);
+            }
+
+            DataGrid.ItemsSource = resultFind;
+        }
+
+
     }
 }

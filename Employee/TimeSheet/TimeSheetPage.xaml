@@ -27,14 +27,11 @@
 
             <Menu Grid.Row="0" Grid.ColumnSpan="4" Height="25" VerticalAlignment="Top">
                 <MenuItem Header="Добавить табель" Click="AddTabelMenuItem_Click"/>
-                <MenuItem Header="Фильтр" Click="FilterMenuItem_OnClick"/>
-                <MenuItem Header="Печать" Click="PrintMenuItem_OnClick"/>
-                <MenuItem Header="Справка" />
             </Menu>
 
             <Label Grid.Row="1" Grid.Column="0" Content="Подразделение" HorizontalAlignment="Center" Margin="5"/>
 
-            <ComboBox  x:Name="UnitComboBox" Grid.Column="1" Grid.Row="1" Width="200" Margin="5">
+            <ComboBox  x:Name="UnitComboBox" Grid.Column="1" Grid.Row="1" Width="200" Margin="5" SelectionChanged="UnitComboBox_OnSelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="local:Unit">
                         <Label Content="{Binding Name}"/>
@@ -45,12 +42,12 @@
             <Label Content="Отчетный период" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="5"/>
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="5">
                 <Label Content="С" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,10,0"/>
-                <DatePicker HorizontalAlignment="Center"/>
+                <DatePicker x:Name="DatePickerFrom" HorizontalAlignment="Center" SelectedDateChanged="DatePickerFrom_OnSelectedDateChanged"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" Margin="5">
                 <Label Content="По" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <DatePicker  HorizontalAlignment="Center" Margin="10,0,10,0" />
+                <DatePicker x:Name="DatePickerTo" HorizontalAlignment="Center" Margin="10,0,10,0" SelectedDateChanged="DatePickerFrom_OnSelectedDateChanged"/>
             </StackPanel>
         </Grid>
         <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Stretch" Margin="10"

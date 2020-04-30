@@ -8,13 +8,6 @@
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
         Title="CreateTimeSheetWindow">
-    <Page.Resources>
-        <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type local:PersonalCard}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type Type="local:PersonalCard"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -39,7 +32,7 @@
                     <ComboBox Grid.Column="1" Grid.Row="1" MinWidth="300" Margin="5" x:Name="UnitComboBox">
                         <ComboBox.ItemTemplate>
                             <DataTemplate DataType="local:Unit">
-                                <Label Content="{Binding Name}"/>
+                                <TextBlock Text="{Binding Name}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -64,42 +57,35 @@
             </TabItem>
             <TabItem Header="Учет рабочего времени">
                 <Grid Background="#FFE5E5E5" MinHeight="400">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="26*"/>
-                        <ColumnDefinition Width="133*"/>
-                    </Grid.ColumnDefinitions>
                     <DataGrid x:Name="DataGrid" 
                               AutoGenerateColumns="False"
                               HorizontalAlignment="Stretch"
                               Margin="10,10,10,20"
-                              VerticalAlignment="Stretch" Grid.ColumnSpan="2"
-                              IsReadOnly="False"
-                              AreRowDetailsFrozen="False">
+                              VerticalAlignment="Stretch">
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="RowMenu" 
+                                         DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Удалить" Click="DeleteStringItem_OnClick"/>
+                            </ContextMenu>
+                        </DataGrid.Resources>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow" >
+                                <Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+                            </Style>
+                        </DataGrid.RowStyle>
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Фамилия, инициалы, должность">
+                            <DataGridTemplateColumn Header="ФИО, Должность, Табельный номер">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox SelectedItem="{Binding Path=PersonalCard.FIO}" ItemsSource="{Binding Source={StaticResource myEnum} }">
+                                        <ComboBox x:Name="FioComboBox" Loaded="FrameworkElement_OnLoaded" SelectionChanged="FioComboBox_OnSelectionChanged">
                                             <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding FIO}"/>
+                                                <DataTemplate DataType="local:PersonalCard">
+                                                    <Grid>
+                                                        <TextBlock Text="{Binding DisplayString}"/>
+                                                    </Grid>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Фамилия, инициалы, должность">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding PersonalCard.FIO}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Табельный номер">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding PersonalCard.TableNumber}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -109,6 +95,17 @@
                                         <DataGrid x:Name="DayDataGrid"
                                                   ItemsSource="{Binding Path=Days}"
                                                   AutoGenerateColumns="False">
+                                            <DataGrid.Resources>
+                                                <ContextMenu x:Key="RowMenu" 
+                                                             DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                                    <MenuItem Header="Удалить" Click="MenuItem_OnClick"/>
+                                                </ContextMenu>
+                                            </DataGrid.Resources>
+                                            <DataGrid.RowStyle>
+                                                <Style TargetType="DataGridRow" >
+                                                    <Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+                                                </Style>
+                                            </DataGrid.RowStyle>
                                             <DataGrid.Columns>
                                                 <DataGridTemplateColumn Header="Дата">
                                                     <DataGridTemplateColumn.CellTemplate>

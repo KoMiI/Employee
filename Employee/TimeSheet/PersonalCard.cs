@@ -12,15 +12,12 @@ namespace Employee.TimeSheet
     public class PersonalCard
     {
         public int PrimaryKey { get; set; }
-        public string FIO { get; set; }
-        public int TableNumber { get; set; }
-        public string Position { get; set; }
+        public string DisplayString { get; set; }
 
         public PersonalCard(int pk, string f, string n, string o, string position, int number)
         {
-            FIO = $"{f} {n} {o}";
-            Position = position;
-            TableNumber = TableNumber;
+            DisplayString = $"{f} {n} {o}, {position}, {number}";
+            PrimaryKey = pk;
         }
 
         public PersonalCard() { }
@@ -46,10 +43,10 @@ namespace Employee.TimeSheet
                     while (reader.Read()) {
                         string familiya = Convert.ToString(reader.GetValue(reader.GetOrdinal("familiya")));
                         string name = Convert.ToString(reader.GetValue(reader.GetOrdinal("imya")));
-                        TableNumber = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("tabel_number")));
+                        int tableNumber = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("tabel_number")));
                         string otchestvo = Convert.ToString(reader.GetValue(reader.GetOrdinal("otchestvo")));
-                        Position = Convert.ToString(reader.GetValue(reader.GetOrdinal("position")));
-                        FIO = $"{familiya} {name} {otchestvo}";
+                        string position = Convert.ToString(reader.GetValue(reader.GetOrdinal("position")));
+                        DisplayString = $"{familiya} {name} {otchestvo}, {position}, {tableNumber}";
                     }
                 }
             }

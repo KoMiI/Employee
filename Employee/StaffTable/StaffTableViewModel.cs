@@ -12,6 +12,7 @@ namespace Employee.StaffTable
     {
         //public StaffingTable _StaffTable;
         public int PrimaryKey { get; set; }
+        public string Organization = "КГБУЗ \"Городская больница №1\"";
         public OrderViewModel Order { get; set; }
 
         public int CodeOKYD = 0301017;

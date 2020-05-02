@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Employee"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Работа с кадрами" Height="450" Width="800">
     <Grid>
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TabItem Header="Штатное расписание">

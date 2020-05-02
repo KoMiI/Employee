@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Employee.DataBase;
 
 namespace Employee.StaffTable
@@ -48,10 +38,16 @@ namespace Employee.StaffTable
         private void DelButton_Click(object sender, RoutedEventArgs e)
         {
             StaffTableViewModel path = AllStaffTablesDataGrid.SelectedItem as StaffTableViewModel;
-            var staffTableLogic = new StaffTableLogic(MainWindow.connection);
-            staffTableLogic.DeleteObject(path.PrimaryKey);
 
-            UpdateGrid();
+            var Result = MessageBox.Show("При удалении штатного расписания " + path.NumDoc + " удаляются все его строки", "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (Result == MessageBoxResult.Yes)
+            {
+                var staffTableLogic = new StaffTableLogic(MainWindow.connection);
+                staffTableLogic.DeleteObject(path.PrimaryKey);
+
+                UpdateGrid();
+            }
+
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

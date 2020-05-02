@@ -2,11 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Employee.StaffTable;
+using System.Windows;
 
 namespace Employee.DataBase
 {
@@ -91,8 +87,7 @@ namespace Employee.DataBase
                 cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = model.Name;
 
                 int rowCount = cmd.ExecuteNonQuery();
-
-                Console.WriteLine("Row Count affected = " + rowCount);
+                MessageBox.Show("Обновлено записей = " + rowCount);
             }
             catch (Exception e)
             {
@@ -115,7 +110,7 @@ namespace Employee.DataBase
 
                 int rowCount = cmd.ExecuteNonQuery();
 
-                Console.WriteLine("Row Count affected = " + rowCount);
+                MessageBox.Show("Удалено записей = " + rowCount);
             }
             catch (Exception e)
             {

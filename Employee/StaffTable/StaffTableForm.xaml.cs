@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MySql.Data.MySqlClient;
-using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using Employee.DataBase;
+using Microsoft.Win32;
 using ExcelObj = Microsoft.Office.Interop.Excel;
 using Path = System.IO.Path;
 
@@ -114,12 +104,14 @@ namespace Employee.StaffTable
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            var Result = MessageBox.Show("Вы действительно хотите удалить эту запись ", "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (Result == MessageBoxResult.Yes)
             {
                 StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
                 var stringStaffTableLogic = new StringStaffTableLogic(MainWindow.connection);
                 stringStaffTableLogic.DeleteObject(path.PrimaryKey);
+                UpdateGrid();
             }
-            UpdateGrid();
         }
 
         private void DateCreatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -236,8 +228,26 @@ namespace Employee.StaffTable
                 NwSheet.Range["T25"].Value = allTariff.ToString();
                 NwSheet.Range["AI25"].Value = allPerks.ToString();
 
-                string savedFileName = "StaffTable.xls";
-                workbook.SaveAs(Path.Combine(Environment.CurrentDirectory, savedFileName));
+                try
+                {
+                    string fileName = String.Empty;
+                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.Filter = "xls files (*.xls)|*.xls|All files (*.*)|*.*";
+                    saveFileDialog1.FilterIndex = 1;
+                    saveFileDialog1.RestoreDirectory = true;
+                    if (saveFileDialog1.ShowDialog() == true)
+                    {
+                        fileName = saveFileDialog1.FileName;
+                        workbook.SaveAs(Path.Combine(Environment.CurrentDirectory, fileName));
+                    }
+
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show("Ошибка при выборе файла");
+                }
+                //string savedFileName = "StaffTable.xls";
+                //workbook.SaveAs(Path.Combine(Environment.CurrentDirectory, savedFileName));
             }
             catch (Exception err)
             {
@@ -274,9 +284,9 @@ namespace Employee.StaffTable
                     Process process = Process.GetProcessById(excelProcessId);
                     process.Kill();
                 }
-                finally
+                catch (Exception err)
                 {
-                    
+                    MessageBox.Show("Ошибка при записи в Excel");
                 }
             }
         }

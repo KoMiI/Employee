@@ -8,10 +8,15 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TabItem Header="TabItem">
+            <TabItem Header="Штатное расписание">
+                <Frame x:Name="StaffTable" Source="StaffTable/AllStaffTables.xaml"/>
+            </TabItem>
+            <TabItem Header="Учет рабочего времени">
                 <Frame x:Name="TimeSheet" Source="TimeSheet/TimeSheetPage.xaml"/>
             </TabItem>
+            
         </TabControl>
 
     </Grid>
 </Window>
+

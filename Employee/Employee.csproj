@@ -101,11 +101,24 @@
     </Compile>
     <Compile Include="TimeSheet\TimeTracking.cs" />
     <Compile Include="TimeSheet\TimeTrackingViewModel.cs" />
-    <Compile Include="TimeSheet\Unit.cs" />
-    <Page Include="Login\LoginFormWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="DataBase\OrderLogic.cs" />
+    <Compile Include="DataBase\OrderTypeLogic.cs" />
+    <Compile Include="DataBase\PositionLogic.cs" />
+    <Compile Include="DataBase\StaffTableLogic.cs" />
+    <Compile Include="DataBase\StringStaffTableLogic.cs" />
+    <Compile Include="StaffTable\AllStaffTables.xaml.cs">
+      <DependentUpon>AllStaffTables.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataBase\dbConnect.cs" />
+    <Compile Include="StaffTable\AddStaffTableItem.xaml.cs" />
+    <Compile Include="OrderViewModel.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="StaffTable\StaffTableForm.xaml.cs">
+      <DependentUpon>StaffTableForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StaffTable\StaffTableViewModel.cs" />
+    <Compile Include="StaffTable\StringStaffTableViewModel.cs" />
+    <Compile Include="Unit.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -114,14 +127,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Database\dbConnect.cs" />
-    <Compile Include="Login\LoginFormWindow.xaml.cs">
-      <DependentUpon>LoginFormWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="StaffTable\AddStaffTableItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StaffTable\AllStaffTables.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StaffTable\StaffTableForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="TimeSheet\CreateTimeSheetPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,7 +179,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="StaffTableIcon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\contactsIcon32.png" />
     <Resource Include="Assets\lockIcon32.png" />

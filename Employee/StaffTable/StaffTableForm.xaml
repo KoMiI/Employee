@@ -32,9 +32,8 @@
         </Grid.ColumnDefinitions>
         <Label Content="Дата" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="44" Grid.Column="1" Grid.Row="1"/>
         <DatePicker Name="DateCreatePicker" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="190" Grid.Column="2" Grid.Row="1" SelectedDateChanged="DateCreatePicker_SelectedDateChanged"/>
-        <Button Name="AddLineButton" Content="Добавить позицию" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="26" Click="AddLineButton_Click" Grid.Column="3" Grid.Row="3"/>
-        <Button Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Height="26" Click="DeleteButton_Click" Grid.Column="4" Grid.Row="3" />
-        <Label Content="Фильтр" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="49" Grid.Column="5" Grid.Row="5"/>
+        <Button Name="AddLineButton" Content="Добавить позицию" HorizontalAlignment="Left" VerticalAlignment="Top" Width="181" Height="26" Click="AddLineButton_Click" Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="3"/>
+        <Button Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Height="26" Click="DeleteButton_Click" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Margin="114,0,0,0" />
         <DataGrid Name ="StaffTableGrid" HorizontalAlignment="Left" Width="796" SelectionMode="Single" IsSynchronizedWithCurrentItem="True" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="8" AutoGenerateColumns="False" MouseDoubleClick="StaffTableGrid_MouseDoubleClick" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Unit}"  ClipboardContentBinding="{x:Null}" Header="Подразделение" Width="150"/>
@@ -45,7 +44,6 @@
                 <DataGridTextColumn Binding="{Binding Note}" ClipboardContentBinding="{x:Null}" Header="Примечание" Width="200"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="186" Height="26" Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="4"/>
         <Label Content="Приказ" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="3" Height="26" Width="50" Grid.Row="1"/>
         <ComboBox Name="OrderComdoBox" HorizontalAlignment="Left" Margin="52,0,0,0" VerticalAlignment="Top" Width="138" Grid.Column="3" Height="26" Grid.Row="1" SelectionChanged="OrderComdoBox_SelectionChanged"/>
         <Label Content="с" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="25" Grid.Column="2" Grid.Row="5"/>
@@ -56,8 +54,9 @@
         <Label Content="ОКУД" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="49" Grid.Column="7" Grid.Row="1" Margin="0,1,0,0" Grid.RowSpan="2"/>
         <TextBox Name="OKYDTextBox" Text ="0301017" Grid.Column="8" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" VerticalAlignment="Top" Width="66" IsReadOnlyCaretVisible="True" Grid.Row="1"/>
         <Label Content="Номер" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Width="83"/>
-        <TextBox x:Name="NumberTextBox" Grid.Column="2" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" VerticalAlignment="Top" Width="66" IsReadOnlyCaretVisible="True" Grid.Row="3" TextChanged="NumberTextBox_TextChanged" />
-        <Button IsDefault="True" Grid.ColumnSpan="2" Name="SaveButton" Content="Сохранить" Grid.Column="5" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="99" Height="26" Click="SaveButton_Click"/>
+        <TextBox x:Name="NumberTextBox" Grid.Column="2" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" IsReadOnlyCaretVisible="True" Grid.Row="3" TextChanged="NumberTextBox_TextChanged" />
+        <Button IsDefault="True" Name="SaveButton" Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="99" Height="26" Click="SaveButton_Click"/>
+        <Button Name="ExportToExcelButton" Grid.ColumnSpan="3" Content="Экспорт в Excel" Grid.Column="6" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="181" Height="26" Click="ExportToExcelButton_Click"/>
 
     </Grid>
 </Window>

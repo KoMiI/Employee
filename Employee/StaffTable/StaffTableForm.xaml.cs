@@ -14,7 +14,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using System.Data.Common;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Employee.DataBase;
+using ExcelObj = Microsoft.Office.Interop.Excel;
+using Path = System.IO.Path;
 
 namespace Employee.StaffTable
 {
@@ -24,7 +28,11 @@ namespace Employee.StaffTable
     public partial class StafTable : Window
     {
         public StaffTableViewModel MainStaffTable = null;
-        public bool AdditingFlag = false;
+        public bool AdditingFlag;
+
+        ExcelObj.Application app = new ExcelObj.Application();
+        ExcelObj.Workbook workbook;
+        ExcelObj.Worksheet NwSheet;
         public StafTable()
         {
             InitializeComponent();
@@ -58,6 +66,13 @@ namespace Employee.StaffTable
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (AdditingFlag)
+                SaveButton.Content = "Добавить";
+            else
+            {
+                SaveButton.Content = "Сохранить";
+            }
+
             if (MainStaffTable == null)
                 this.Close();
             else
@@ -89,9 +104,8 @@ namespace Employee.StaffTable
             }
 
             AddStaffTableItem addStaffTableItem = new AddStaffTableItem();
-            addStaffTableItem.Owner = this;
             addStaffTableItem.StaffTableID = MainStaffTable.PrimaryKey;
-            addStaffTableItem.isAdding = true;
+            addStaffTableItem.AdditingFlag = true;
             addStaffTableItem.ShowDialog();
             MainStaffTable.StaffLines.Add(addStaffTableItem.MainStringStaffTable);
             UpdateGrid();
@@ -152,10 +166,8 @@ namespace Employee.StaffTable
             if (path != null)
             {
                 AddStaffTableItem addStaffTableItem = new AddStaffTableItem();
-                addStaffTableItem.Owner = this;
                 addStaffTableItem.StaffTableID = MainStaffTable.PrimaryKey;
-
-                addStaffTableItem.isAdding = false;
+                addStaffTableItem.AdditingFlag = false;
                 addStaffTableItem.MainStringStaffTable = path;
 
                 addStaffTableItem.SubdivisionComboBox.SelectedIndex = path.Unit.PrimaryKey-1;
@@ -169,6 +181,103 @@ namespace Employee.StaffTable
                 addStaffTableItem.ShowDialog();
                 if(addStaffTableItem.DialogResult == true)
                     UpdateGrid();
+            }
+        }
+
+        private void ExportToExcelButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Файл шаблона
+                const string template = "T-3.xls";
+
+                // Открываем книгу
+                workbook = app.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, template));
+                // Получаем активную таблицу
+                NwSheet = workbook.ActiveSheet as ExcelObj.Worksheet;
+
+                // Шапка документа
+                NwSheet.Range["A4"].Value = MainStaffTable.Organization;
+                NwSheet.Range["J8"].Value = MainStaffTable.NumDoc.ToString();
+                NwSheet.Range["R8"].Value = MainStaffTable.CreateDate.ToString();
+                NwSheet.Range["I12"].Value = MainStaffTable.StartDate.Day.ToString();
+                NwSheet.Range["M12"].Value = MainStaffTable.StartDate.Month.ToString();
+                NwSheet.Range["S12"].Value = MainStaffTable.StartDate.Year.ToString();
+
+                NwSheet.Range["AH10"].Value = MainStaffTable.Order.DocDate.Day.ToString();
+                NwSheet.Range["AK10"].Value = MainStaffTable.Order.DocDate.Month.ToString();
+                NwSheet.Range["AT10"].Value = MainStaffTable.Order.DocDate.Year.ToString();
+                NwSheet.Range["AX10"].Value = MainStaffTable.Order.NumDoc;
+
+                int allCount = 0;
+                double allTariff = 0, allPerks = 0;
+                foreach (var staffLine in MainStaffTable.StaffLines)
+                {
+                    allCount += staffLine.PositionCount;
+                    allTariff += staffLine.Tariff;
+                    allPerks += staffLine.Perks;
+                }
+
+                NwSheet.Range["AE12"].Value = allCount.ToString();
+
+                // Строки таблицы
+                for (int i = 0; i < MainStaffTable.StaffLines.Count; i++)
+                {
+                    NwSheet.Cells[17 + i, "A"].Value = MainStaffTable.StaffLines[i].Unit.Name;
+                    NwSheet.Cells[17 + i, "D"].Value = MainStaffTable.StaffLines[i].Unit.PrimaryKey.ToString();
+                    NwSheet.Cells[17 + i, "F"].Value = MainStaffTable.StaffLines[i].Position.Name;
+                    NwSheet.Cells[17 + i, "P"].Value = MainStaffTable.StaffLines[i].PositionCount.ToString();
+                    NwSheet.Cells[17 + i, "T"].Value = MainStaffTable.StaffLines[i].Tariff.ToString();
+                    NwSheet.Cells[17 + i, "AI"].Value = MainStaffTable.StaffLines[i].Perks.ToString();
+                    NwSheet.Cells[17 + i, "AM"].Value = MainStaffTable.StaffLines[i].Note;
+                }
+
+                NwSheet.Range["P25"].Value = allCount.ToString();
+                NwSheet.Range["T25"].Value = allTariff.ToString();
+                NwSheet.Range["AI25"].Value = allPerks.ToString();
+
+                string savedFileName = "StaffTable.xls";
+                workbook.SaveAs(Path.Combine(Environment.CurrentDirectory, savedFileName));
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Ошибка при записи в Excel");
+            }
+            finally
+            {
+                CloseExcel();
+                MessageBox.Show("Файл экспортирован в Excel");
+            }
+
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern uint GetWindowThreadProcessId(int hWnd, ref int lpdwProcessId);
+
+        public void CloseExcel()
+        {
+            if (app != null)
+            {
+                int excelProcessId = -1;
+                GetWindowThreadProcessId(app.Hwnd, ref excelProcessId);
+
+                Marshal.ReleaseComObject(NwSheet);
+                workbook.Close();
+                Marshal.ReleaseComObject(workbook);
+                app.Quit();
+                Marshal.ReleaseComObject(app);
+
+                app = null;
+                // Прибиваем висящий процесс
+                try
+                {
+                    Process process = Process.GetProcessById(excelProcessId);
+                    process.Kill();
+                }
+                finally
+                {
+                    
+                }
             }
         }
     }

@@ -31,7 +31,7 @@ namespace Employee.StaffTable
 
         public StringStaffTableViewModel MainStringStaffTable = null;
         public int StaffTableID;
-        public bool isAdding;
+        public bool AdditingFlag = false;
         public AddStaffTableItem()
         {
             InitializeComponent();
@@ -51,6 +51,12 @@ namespace Employee.StaffTable
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (AdditingFlag)
+                AddButton.Content = "Добавить";
+            else
+            {
+                AddButton.Content = "Сохранить";
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -79,7 +85,7 @@ namespace Employee.StaffTable
             MainStringStaffTable.Note = NoteTextBox.Text;
             MainStringStaffTable.StaffingTableKey = StaffTableID;
 
-            if (isAdding)
+            if (AdditingFlag)
             {
                 var stringStaffTableLogic = new StringStaffTableLogic(MainWindow.connection);
                 stringStaffTableLogic.CreateObject(MainStringStaffTable);

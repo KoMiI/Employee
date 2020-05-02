@@ -75,6 +75,7 @@ namespace Employee.StaffTable
             StaffTable.StafTable _StaffTable = new StaffTable.StafTable();
             StaffTableViewModel path = AllStaffTablesDataGrid.SelectedItem as StaffTableViewModel;
             _StaffTable.MainStaffTable = path;
+            _StaffTable.AdditingFlag = false;
             _StaffTable.ShowDialog();
 
             if (_StaffTable.DialogResult == true)

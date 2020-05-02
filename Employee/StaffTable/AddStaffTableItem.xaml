@@ -12,7 +12,7 @@
         <ComboBox Name="SubdivisionComboBox" HorizontalAlignment="Left" Margin="144,28,0,0" VerticalAlignment="Top" Width="150" SelectionChanged="SubdivisionComboBox_SelectionChanged"/>
         <ComboBox Name="PositionComboBox"  HorizontalAlignment="Left" Margin="144,70,0,0" VerticalAlignment="Top" Width="150" SelectionChanged="PositionComboBox_SelectionChanged"/>
         <Label Content="Колич. ед." HorizontalAlignment="Left" Margin="318,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.169,0.462"/>
-        <Button IsDefault="True" Name="AddButton" Content="Добавить" HorizontalAlignment="Left" Margin="240,341,0,0" VerticalAlignment="Top" Width="128" Height="30" Click="AddButton_Click"/>
+        <Button IsDefault="True" Name="AddButton" HorizontalAlignment="Left" Margin="240,341,0,0" VerticalAlignment="Top" Width="128" Height="30" Click="AddButton_Click"/>
         <Button IsCancel="True" Name="CancelButton" Content="Отмена" HorizontalAlignment="Left" Margin="417,341,0,0" VerticalAlignment="Top" Width="128" RenderTransformOrigin="-0.013,0.2" Height="30" Click="CancelButton_Click"/>
         <Label Content="Оклад (тариф)" HorizontalAlignment="Left" Margin="22,113,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.554,1.933"/>
         <TextBox Name="TariffTextBox" HorizontalAlignment="Left" Height="23" Margin="144,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>

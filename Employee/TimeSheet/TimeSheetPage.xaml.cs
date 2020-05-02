@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Employee.Database;
+using Employee.DataBase;
 
 using MySql.Data.MySqlClient;
 

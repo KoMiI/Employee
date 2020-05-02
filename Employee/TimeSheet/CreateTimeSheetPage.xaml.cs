@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 
 using Employee.Database;
+using Employee.DataBase;
 
 using MySql.Data.MySqlClient;
 

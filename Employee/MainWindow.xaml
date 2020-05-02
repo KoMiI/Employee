@@ -11,6 +11,9 @@
             <TabItem Header="Штатное расписание">
                 <Frame x:Name="StaffTable" Source="StaffTable/AllStaffTables.xaml"/>
             </TabItem>
+            <TabItem Header="Личные карточки работников">
+                <Frame x:Name="PerosnalCard"/>
+            </TabItem>
             <TabItem Header="Учет рабочего времени">
                 <Frame x:Name="TimeSheet" Source="TimeSheet/TimeSheetPage.xaml"/>
             </TabItem>

@@ -28,6 +28,8 @@ namespace Employee.StaffTable
         {
             InitializeComponent();
             FillComboBox();
+            if (AdditingFlag)
+                SaveButton.Content = "Добавить";
             MainStaffTable = new StaffTableViewModel();
         }
 

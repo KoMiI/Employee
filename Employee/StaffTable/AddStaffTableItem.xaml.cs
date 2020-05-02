@@ -35,6 +35,10 @@ namespace Employee.StaffTable
             InitializeComponent();
             FillComboBox();
             MainStringStaffTable = new StringStaffTableViewModel();
+            if (!isAdding)
+            {
+                AddButton.Content = "Сохранить";
+            }
         }
         public void FillComboBox()
         {

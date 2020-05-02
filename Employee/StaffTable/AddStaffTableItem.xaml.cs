@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using System.Data.Common;
 using Employee.DataBase;
-using Employee.Login;
+
 
 namespace Employee.StaffTable
 {
@@ -38,11 +38,11 @@ namespace Employee.StaffTable
         }
         public void FillComboBox()
         {
-            var unitLogic = new UnitLogic(LoginFormWindow.connection);
+            var unitLogic = new UnitLogic(MainWindow.connection);
             var units = unitLogic.GetAll();
             SubdivisionComboBox.ItemsSource = units;
 
-            var positionLogic = new PositionLogic(LoginFormWindow.connection);
+            var positionLogic = new PositionLogic(MainWindow.connection);
             var positions = positionLogic.GetAll();
             PositionComboBox.ItemsSource = positions;
         }
@@ -79,7 +79,7 @@ namespace Employee.StaffTable
 
             if (isAdding)
             {
-                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                var stringStaffTableLogic = new StringStaffTableLogic(MainWindow.connection);
                 stringStaffTableLogic.CreateObject(MainStringStaffTable);
 
                 int pk = stringStaffTableLogic.GetPrimaryKey(MainStringStaffTable);
@@ -91,7 +91,7 @@ namespace Employee.StaffTable
             }
             else
             {
-                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                var stringStaffTableLogic = new StringStaffTableLogic(MainWindow.connection);
                 stringStaffTableLogic.UpdateObject(MainStringStaffTable);
 
             }

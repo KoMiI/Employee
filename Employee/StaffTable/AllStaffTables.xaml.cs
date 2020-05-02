@@ -13,14 +13,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Employee.DataBase;
-using Employee.Login;
 
 namespace Employee.StaffTable
 {
     /// <summary>
     /// Логика взаимодействия для AllStaffTables.xaml
     /// </summary>
-    public partial class AllStaffTables : Window
+    public partial class AllStaffTables : Page
     {
         private ObservableCollection<StaffTableViewModel> _staffTables = new ObservableCollection<StaffTableViewModel>();
 
@@ -32,7 +31,7 @@ namespace Employee.StaffTable
         private void UpdateGrid()
         {
             AllStaffTablesDataGrid.ItemsSource = null;
-            var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+            var staffTableLogic = new StaffTableLogic(MainWindow.connection);
             var staffTableist = staffTableLogic.GetAll();
 
             _staffTables.Clear();
@@ -45,15 +44,11 @@ namespace Employee.StaffTable
             AllStaffTablesDataGrid.ItemsSource = _staffTables;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            UpdateGrid();
-        }
 
         private void DelButton_Click(object sender, RoutedEventArgs e)
         {
             StaffTableViewModel path = AllStaffTablesDataGrid.SelectedItem as StaffTableViewModel;
-            var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+            var staffTableLogic = new StaffTableLogic(MainWindow.connection);
             staffTableLogic.DeleteObject(path.PrimaryKey);
 
             UpdateGrid();
@@ -63,12 +58,14 @@ namespace Employee.StaffTable
         {
             StaffTable.StafTable _StaffTable = new StaffTable.StafTable();
 
-            var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+            var staffTableLogic = new StaffTableLogic(MainWindow.connection);
+
             _StaffTable.AdditingFlag = true;
             _StaffTable.ShowDialog();
             if (_StaffTable.DialogResult == true)
             {
                 _staffTables.Add(_StaffTable.MainStaffTable);
+                staffTableLogic.CreateObject(_StaffTable.MainStaffTable);
                 UpdateGrid();
             }
         }
@@ -82,10 +79,15 @@ namespace Employee.StaffTable
 
             if (_StaffTable.DialogResult == true)
             {
-                var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+                var staffTableLogic = new StaffTableLogic(MainWindow.connection);
                 staffTableLogic.UpdateObject(_StaffTable.MainStaffTable);
                 UpdateGrid();
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateGrid();
         }
     }
 }

@@ -78,10 +78,6 @@
     <Compile Include="StaffTable\StaffTableViewModel.cs" />
     <Compile Include="StaffTable\StringStaffTableViewModel.cs" />
     <Compile Include="Unit.cs" />
-    <Page Include="Login\LoginFormWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -89,9 +85,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Login\LoginFormWindow.xaml.cs">
-      <DependentUpon>LoginFormWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -136,7 +129,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="StaffTableIcon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\contactsIcon32.png" />
     <Resource Include="Assets\lockIcon32.png" />

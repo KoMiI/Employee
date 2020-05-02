@@ -4,7 +4,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Employee.Login;
 using MySql.Data.MySqlClient;
 using Employee;
 using Employee.StaffTable;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Employee.Login;
+
 
 namespace Employee.StaffTable
 {
@@ -53,7 +53,7 @@ namespace Employee.StaffTable
         }
         public void loadData()
         {
-            var logic = new StringStaffTableLogic(LoginFormWindow.connection);
+            var logic = new StringStaffTableLogic(MainWindow.connection);
             StaffLines = logic.GetAll(PrimaryKey);
         }
 

@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using System.Data.Common;
 using Employee.DataBase;
-using Employee.Login;
 
 namespace Employee.StaffTable
 {
@@ -29,6 +28,7 @@ namespace Employee.StaffTable
         public StafTable()
         {
             InitializeComponent();
+            FillComboBox();
             MainStaffTable = new StaffTableViewModel();
         }
 
@@ -36,7 +36,7 @@ namespace Employee.StaffTable
         {
             {
                 StaffTableGrid.ItemsSource = null;
-                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                var stringStaffTableLogic = new StringStaffTableLogic(MainWindow.connection);
                 var stringStaffTable = stringStaffTableLogic.GetAll(MainStaffTable.PrimaryKey);
 
                 MainStaffTable.StaffLines.Clear();
@@ -51,7 +51,7 @@ namespace Employee.StaffTable
         }
         public void FillComboBox()
         {
-            var orderLogic = new OrderLogic(LoginFormWindow.connection);
+            var orderLogic = new OrderLogic(MainWindow.connection);
             var orders = orderLogic.GetAll();
             OrderComdoBox.ItemsSource = orders;
 
@@ -62,10 +62,9 @@ namespace Employee.StaffTable
                 this.Close();
             else
             {
-                FillComboBox();
                 if (!AdditingFlag)
                 {
-                    OrderComdoBox.SelectedIndex = MainStaffTable.Order.PrimaryKey;
+                    OrderComdoBox.SelectedIndex = MainStaffTable.Order.PrimaryKey-1;
                     DateCreatePicker.SelectedDate = MainStaffTable.CreateDate;
                     DateStartPicker.SelectedDate = MainStaffTable.StartDate;
                     DateEndPicker.SelectedDate = MainStaffTable.EndDate;
@@ -81,7 +80,7 @@ namespace Employee.StaffTable
         {
             if (AdditingFlag)
             {
-                var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+                var staffTableLogic = new StaffTableLogic(MainWindow.connection);
                 staffTableLogic.CreateObject(MainStaffTable);
 
                 int pk = staffTableLogic.GetPrimaryKey(MainStaffTable);
@@ -103,7 +102,7 @@ namespace Employee.StaffTable
         {
             {
                 StringStaffTableViewModel path = StaffTableGrid.SelectedItem as StringStaffTableViewModel;
-                var stringStaffTableLogic = new StringStaffTableLogic(LoginFormWindow.connection);
+                var stringStaffTableLogic = new StringStaffTableLogic(MainWindow.connection);
                 stringStaffTableLogic.DeleteObject(path.PrimaryKey);
             }
             UpdateGrid();
@@ -131,7 +130,7 @@ namespace Employee.StaffTable
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var staffTableLogic = new StaffTableLogic(LoginFormWindow.connection);
+            var staffTableLogic = new StaffTableLogic(MainWindow.connection);
             staffTableLogic.UpdateObject(MainStaffTable);
             this.DialogResult = true;
         }

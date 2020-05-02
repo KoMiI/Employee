@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Employee.Login;
 using MySql.Data.MySqlClient;
 using Employee.StaffTable;
 
@@ -98,10 +97,10 @@ namespace Employee.DataBase
                         double _perks = Convert.ToDouble(reader.GetValue(reader.GetOrdinal("nadbavka")));
                         string _note = reader.GetValue(reader.GetOrdinal("note")).ToString();
 
-                        var _unitLog = new UnitLogic(LoginFormWindow.connection);
+                        var _unitLog = new UnitLogic(MainWindow.connection);
                         Unit _subdivision = _unitLog.GetObject(Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_unit"))));
 
-                        var _PositionLog = new PositionLogic(LoginFormWindow.connection);
+                        var _PositionLog = new PositionLogic(MainWindow.connection);
                         Position _position = _PositionLog.GetObject(Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_position"))));
 
                         int _staffingTableKey = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("pk_staffing_table")));

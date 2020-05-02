@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem Header="Штатное расписание">
+                <Frame x:Name="StaffTable" Source="StaffTable/AllStaffTables.xaml"/>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </Window>
+
